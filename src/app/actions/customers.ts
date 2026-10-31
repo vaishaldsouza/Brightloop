@@ -1,3 +1,4 @@
+/// <reference path="../../types/next-auth.d.ts" />
 "use server";
 
 import prisma from "@/lib/prisma";
@@ -5,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { customerSchema, CustomerFormValues } from "@/lib/validations/customer";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import { revalidatePath } from "next/cache";
 
 export interface ActionResult {
@@ -12,6 +14,7 @@ export interface ActionResult {
   error?: string;
   fieldErrors?: Record<string, string>;
   customerId?: string;
+  onboardingToken?: string;
 }
 
 export async function createCustomerAction(
@@ -79,7 +82,9 @@ export async function createCustomerAction(
   }
 
   try {
-    const defaultPasswordHash = await bcrypt.hash("Customer@123", 10);
+    const defaultPasswordHash = await bcrypt.hash("Customer@123", 12);
+    const onboardingToken = crypto.randomBytes(32).toString("hex");
+    const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours valid for initial setup
 
     const newCustomer = await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
@@ -88,6 +93,15 @@ export async function createCustomerAction(
           email,
           password: defaultPasswordHash,
           role: Role.CUSTOMER,
+        },
+      });
+
+      // Generate initial onboarding password-reset token for immediate account setup
+      await tx.passwordResetToken.create({
+        data: {
+          userId: user.id,
+          token: onboardingToken,
+          expiresAt: tokenExpiry,
         },
       });
 
@@ -112,6 +126,7 @@ export async function createCustomerAction(
     return {
       success: true,
       customerId: newCustomer.id,
+      onboardingToken,
     };
   } catch (err: unknown) {
     console.error("Error creating customer:", err);
@@ -255,7 +270,18 @@ export async function deleteCustomerAction(id: string): Promise<ActionResult> {
   const customer = await prisma.customer.findUnique({
     where: { id },
     include: {
-      subscriptions: { select: { id: true } },
+      subscriptions: {
+        select: {
+          id: true,
+          status: true,
+          invoices: {
+            select: {
+              id: true,
+              payments: { select: { id: true } },
+            },
+          },
+        },
+      },
     },
   });
 
@@ -266,11 +292,17 @@ export async function deleteCustomerAction(id: string): Promise<ActionResult> {
     };
   }
 
-  // Referential integrity check: Cannot delete customer with subscriptions
-  if (customer.subscriptions.length > 0) {
+  // Referential integrity check: Cannot delete customer with subscriptions, invoices, or payments
+  const totalSubs = customer.subscriptions.length;
+  const totalInvoices = customer.subscriptions.flatMap((s) => s.invoices).length;
+  const totalPayments = customer.subscriptions
+    .flatMap((s) => s.invoices)
+    .flatMap((i) => i.payments).length;
+
+  if (totalSubs > 0 || totalInvoices > 0 || totalPayments > 0) {
     return {
       success: false,
-      error: `Cannot delete customer: ${customer.subscriptions.length} active or historical subscription contracts exist. Delete or close subscriptions first.`,
+      error: `Cannot delete customer: ${totalSubs} subscription(s), ${totalInvoices} invoice(s), and ${totalPayments} payment record(s) exist. Financial and contract history must be permanently preserved.`,
     };
   }
 
