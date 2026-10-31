@@ -357,9 +357,8 @@ export default function SubscriptionDetailClient({
               </>
             )}
 
-            {/* DRAFT / QUOTATION GENERAL CLOSE */}
-            {(sub.status === SubscriptionStatus.DRAFT ||
-              sub.status === SubscriptionStatus.QUOTATION) &&
+            {/* QUOTATION GENERAL CLOSE */}
+            {sub.status === SubscriptionStatus.QUOTATION &&
               (isAdmin || isStaff) && (
                 <button
                   type="button"
@@ -367,7 +366,7 @@ export default function SubscriptionDetailClient({
                   onClick={() => {
                     if (
                       window.confirm(
-                        "Are you sure you want to close this draft quotation?"
+                        "Are you sure you want to close this quotation?"
                       )
                     ) {
                       handleAction(() => closeSubscriptionAction(sub.id));
@@ -378,7 +377,7 @@ export default function SubscriptionDetailClient({
                   <span className="material-symbols-outlined text-[18px]">
                     close
                   </span>
-                  <span>Close</span>
+                  <span>Close Quotation</span>
                 </button>
               )}
           </div>

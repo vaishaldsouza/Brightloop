@@ -20,7 +20,7 @@ async function executeJobOnce(): Promise<boolean> {
       return false;
     }
 
-    return true;
+    return res.success;
   } catch (error) {
     console.error(`[${new Date().toISOString()}] Job encountered an unhandled error:`, error);
     return false;
@@ -42,13 +42,17 @@ async function main() {
     await executeJobOnce();
 
     const intervalHandle = setInterval(async () => {
-      await executeJobOnce();
+      try {
+        await executeJobOnce();
+      } catch (err) {
+        console.error("[Lifecycle Automation Daemon] Cycle error:", err);
+      }
     }, intervalSeconds * 1000);
 
     const shutdown = async () => {
-      console.log("\n[Lifecycle Automation Daemon] Shutting down...");
+      console.log("\n[Lifecycle Automation Daemon] Shutting down cleanly...");
       clearInterval(intervalHandle);
-      await prisma.$disconnect();
+      await prisma.$disconnect().catch(() => {});
       process.exit(0);
     };
 
@@ -57,4 +61,8 @@ async function main() {
   }
 }
 
-main();
+main().catch(async (err) => {
+  console.error("Fatal error in lifecycle job runner:", err);
+  await prisma.$disconnect().catch(() => {});
+  process.exit(1);
+});

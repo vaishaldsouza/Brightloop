@@ -765,6 +765,15 @@ export async function closeSubscriptionAction(
     };
   }
 
+  // PRD §4.5: Forward-only lifecycle Draft → Quotation → Confirmed → Active → Closed (no stage skipping).
+  // Unquoted drafts cannot skip directly to Closed.
+  if (sub.status === SubscriptionStatus.DRAFT) {
+    return {
+      success: false,
+      error: "Cannot close a subscription in DRAFT status. PRD §4.5 lifecycle requires Draft → Quotation → Confirmed → Active → Closed. Unquoted drafts cannot skip directly to Closed.",
+    };
+  }
+
   // Early close check for ACTIVE contracts
   if (sub.status === SubscriptionStatus.ACTIVE) {
     const isPastEnd = sub.endDate && new Date(sub.endDate).getTime() <= Date.now();
@@ -955,6 +964,21 @@ export async function renewSubscriptionAction(
     };
   }
 
+  // Accidental duplicate renewal guard: reject if renewed within the last 60 seconds
+  const recentRenewal = await prisma.auditLog.findFirst({
+    where: {
+      entityId: id,
+      action: "subscription.renewed",
+      createdAt: { gte: new Date(Date.now() - 60000) },
+    },
+  });
+  if (recentRenewal) {
+    return {
+      success: false,
+      error: "This subscription was already renewed recently. Accidental duplicate renewal prevented.",
+    };
+  }
+
   const now = new Date();
   const baseDate = sub.endDate && new Date(sub.endDate) > now ? new Date(sub.endDate) : now;
   const newEndDate = new Date(baseDate);
@@ -969,13 +993,16 @@ export async function renewSubscriptionAction(
     newEndDate.setFullYear(newEndDate.getFullYear() + 1);
   }
 
+  // Invoicing for the renewal cycle begins at the start of the renewal term (baseDate)
+  const renewalBillingDate = baseDate;
+
   try {
     await prisma.$transaction(async (tx) => {
       await tx.subscription.update({
         where: { id },
         data: {
           endDate: newEndDate,
-          nextBillingDate: newEndDate,
+          nextBillingDate: renewalBillingDate,
         },
       });
 

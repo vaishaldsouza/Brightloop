@@ -15,24 +15,24 @@ export interface LifecycleAutomationResult {
  * 1. Closes expired unconfirmed quotations.
  * 2. Auto-closes active subscriptions reaching their end date when autoClose === true.
  *
+ * Security: Does not accept an arbitrary actor user ID from callers.
+ * Resolves a trusted administrative system identity directly from the database.
+ *
  * Uses conditional atomic updates (`updateMany` with exact status predicates)
  * to guarantee that concurrent executions cannot create duplicate transitions or duplicate audit entries.
  */
-export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string): Promise<LifecycleAutomationResult> {
+export async function evaluateAutomatedLifecycleTransitions(): Promise<LifecycleAutomationResult> {
   const now = new Date();
   let expiredQuotationsClosed = 0;
   let autoClosedSubscriptions = 0;
   const errors: string[] = [];
 
-  // Resolve a valid administrative actor ID for foreign-key-compliant audit logging
-  let resolvedActorId = actorUserId;
-  if (!resolvedActorId) {
-    const admin = await prisma.user.findFirst({
-      where: { role: Role.ADMIN },
-      select: { id: true },
-    });
-    resolvedActorId = admin?.id;
-  }
+  // Resolve a valid administrative actor ID internally for foreign-key-compliant audit logging
+  const admin = await prisma.user.findFirst({
+    where: { role: Role.ADMIN },
+    select: { id: true },
+  });
+  const resolvedActorId = admin?.id;
 
   if (!resolvedActorId) {
     const err = "No valid administrative user found for audit logging in lifecycle automation.";
@@ -76,7 +76,7 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
         if (updated.count === 1) {
           await tx.auditLog.create({
             data: {
-              userId: resolvedActorId!,
+              userId: resolvedActorId,
               action: "quotation.expired_closed",
               entityType: "Subscription",
               entityId: q.id,
@@ -130,7 +130,7 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
         if (updated.count === 1) {
           await tx.auditLog.create({
             data: {
-              userId: resolvedActorId!,
+              userId: resolvedActorId,
               action: "subscription.auto_closed",
               entityType: "Subscription",
               entityId: sub.id,
