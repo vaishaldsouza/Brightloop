@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - Invoice Detail</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#3525cd",
+            "secondary-fixed": "#dae2fd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#85f8c4",
+            "on-primary-fixed": "#0f0069",
+            "surface": "#f8f9ff",
+            "on-surface-variant": "#464555",
+            "on-tertiary-fixed-variant": "#005137",
+            "surface-container-high": "#dce9ff",
+            "inverse-primary": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "tertiary": "#005338",
+            "outline": "#777587",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-background": "#0b1c30",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-on-surface": "#eaf1ff",
+            "background": "#f8f9ff",
+            "secondary": "#565e74",
+            "on-secondary-container": "#5c647a",
+            "primary-container": "#4f46e5",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-surface": "#0b1c30",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "primary-fixed": "#e2dfff",
+            "outline-variant": "#c7c4d8",
+            "surface-bright": "#f8f9ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "tertiary-container": "#006e4c",
+            "inverse-surface": "#213145",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#bec6e0",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#7df1bd",
+            "on-primary-container": "#dad7ff",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-container": "#dae2fd",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#e5eeff",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "space-md": "0.75rem",
+            "margin": "2rem",
+            "margin-tablet": "1.25rem",
+            "space-sm": "0.5rem",
+            "gutter-tablet": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "currency-table": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"]
+          },
+          "fontSize": {
+            "currency-table": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-xl": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "currency-display": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+            "headline-xl-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+            "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-secondary-container">
+<!-- Top App Bar (Mobile Viewport) -->
+<header class="sticky top-0 z-40 bg-surface-container-lowest shadow-sm">
+<div class="flex justify-between items-center w-full px-space-md py-space-sm max-w-lg mx-auto">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Back" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors duration-150 active:scale-95 text-secondary" type="button">
+<span class="material-symbols-outlined text-[22px]">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md text-on-surface tracking-tight">Invoice Detail</h1>
+</div>
+<button aria-label="Download Invoice PDF" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors duration-150 active:scale-95 text-secondary hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[22px]">download</span>
+</button>
+</div>
+</header>
+<!-- Main Scrollable Content Container -->
+<main class="flex-1 w-full max-w-lg mx-auto px-margin-mobile pt-space-md pb-24 space-y-space-md">
+<!-- Invoice Header Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30">
+<div class="flex items-start justify-between"><div>
+<span class="text-label-sm font-label-sm text-secondary">TAX INVOICE</span>
+<h2 class="text-headline-xl-mobile font-headline-xl-mobile text-on-surface mt-space-xs tracking-tight">INV-00456</h2>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-secondary-container text-primary border border-outline-variant/30">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="text-label-sm font-label-sm font-semibold">Confirmed (Partially paid)</span>
+</div></div>
+<div class="mt-space-md pt-space-md border-t border-outline-variant/20 flex flex-col gap-space-sm">
+<button class="w-full flex items-center justify-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary py-2.5 px-space-md rounded-lg font-title-sm text-title-sm shadow-sm transition-colors duration-150 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+<span class="">Download PDF</span>
+</button>
+</div>
+</section>
+<!-- Summary Details Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30 space-y-space-md"><div>
+<span class="text-label-sm font-label-sm text-secondary">BILLED TO</span>
+<p class="text-title-sm font-title-sm text-on-surface mt-0.5">Techcraft Solutions Pvt Ltd</p>
+<p class="text-body-sm font-body-sm text-secondary mt-0.5">GSTIN: 27AAACR1234M1Z2</p>
+</div>
+<div class="grid grid-cols-2 gap-space-md pt-space-sm border-t border-outline-variant/20">
+<div>
+<span class="text-label-sm font-label-sm text-secondary">SUBSCRIPTION</span>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary">autorenew</span>
+<span class="text-body-sm font-body-sm text-primary font-semibold">SUB-00128</span>
+</div>
+</div>
+<div>
+<span class="text-label-sm font-label-sm text-secondary">PAYMENT TERMS</span>
+<p class="text-body-sm font-body-sm text-on-surface mt-0.5">Net 30 Days</p>
+</div>
+<div>
+<span class="text-label-sm font-label-sm text-secondary">INVOICE DATE</span>
+<p class="text-body-sm font-body-sm text-on-surface mt-0.5">01 Oct 2026</p>
+</div>
+<div>
+<span class="text-label-sm font-label-sm text-secondary">DUE DATE</span>
+<p class="text-body-sm font-body-sm text-on-surface mt-0.5">31 Oct 2026</p>
+</div>
+</div></section>
+<!-- Invoice Line Items (Card Stack for Mobile) -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30">
+<div class="flex items-center justify-between pb-space-sm border-b border-outline-variant/20">
+<h3 class="text-title-sm font-title-sm text-on-surface">Line Items</h3>
+<span class="text-label-sm font-label-sm text-secondary">3 ITEMS</span>
+</div>
+<div class="divide-y divide-outline-variant/20"><!-- Item 1 -->
+<article class="py-space-md space-y-space-xs">
+<div class="flex justify-between items-start">
+<h4 class="text-title-sm font-title-sm text-on-surface leading-tight">Core Enterprise Cloud License</h4>
+<span class="text-currency-table font-currency-table text-on-surface font-semibold shrink-0 ml-2">₹ 12,00,000.00</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm text-secondary">
+<span class="">Qty 100 × ₹ 12,000.00</span>
+<span class="text-label-sm font-label-sm text-secondary">GST 18% (Intra-state)</span>
+</div>
+</article>
+<!-- Item 2 -->
+<article class="py-space-md space-y-space-xs">
+<div class="flex justify-between items-start">
+<h4 class="text-title-sm font-title-sm text-on-surface leading-tight">24/7 Dedicated TAM &amp; SLA</h4>
+<span class="text-currency-table font-currency-table text-on-surface font-semibold shrink-0 ml-2">₹ 1,50,000.00</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm text-secondary">
+<span class="">Qty 1 × ₹ 1,50,000.00</span>
+<span class="text-label-sm font-label-sm text-secondary">GST 18% (Intra-state)</span>
+</div>
+</article>
+<!-- Item 3 -->
+<article class="pt-space-md space-y-space-xs">
+<div class="flex justify-between items-start">
+<h4 class="text-title-sm font-title-sm text-on-surface leading-tight">Dedicated Database Shard</h4>
+<span class="text-currency-table font-currency-table text-on-surface font-semibold shrink-0 ml-2">₹ 1,00,000.00</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm text-secondary">
+<span class="">Qty 2 × ₹ 50,000.00</span>
+<span class="text-label-sm font-label-sm text-secondary">GST 18% (Intra-state)</span>
+</div>
+</article></div>
+</section>
+<!-- Financial Totals Breakdown -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30 space-y-space-sm"><h3 class="text-title-sm font-title-sm text-on-surface pb-space-xs border-b border-outline-variant/20">Summary &amp; Tax</h3>
+<div class="space-y-space-xs text-body-sm font-body-sm">
+<div class="flex justify-between py-0.5">
+<span class="text-secondary">Subtotal</span>
+<span class="text-currency-table font-currency-table text-on-surface">₹ 14,50,000.00</span>
+</div>
+<div class="flex justify-between py-0.5">
+<span class="text-secondary">CGST (9%)</span>
+<span class="text-currency-table font-currency-table text-on-surface">₹ 1,30,500.00</span>
+</div>
+<div class="flex justify-between py-0.5">
+<span class="text-secondary">SGST (9%)</span>
+<span class="text-currency-table font-currency-table text-on-surface">₹ 1,30,500.00</span>
+</div>
+</div>
+<div class="pt-space-sm border-t border-outline-variant/30 space-y-space-xs">
+<div class="flex justify-between items-center text-title-sm font-title-sm">
+<span class="text-on-surface font-semibold">Total Amount</span>
+<span class="text-headline-md font-headline-md text-on-surface">₹ 17,11,000.00</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-tertiary font-medium">Amount Paid</span>
+<span class="text-currency-table font-currency-table text-tertiary font-bold">₹ 10,00,000.00</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-error font-medium">Amount Due</span>
+<span class="text-currency-table font-currency-table text-error font-semibold">₹ 7,11,000.00</span>
+</div>
+</div></section>
+<!-- Payment History Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm border border-outline-variant/30"><div class="flex items-center justify-between pb-space-sm border-b border-outline-variant/20">
+<h3 class="text-title-sm font-title-sm text-on-surface">Payment Recorded</h3>
+<span class="text-label-sm font-label-sm text-tertiary bg-tertiary-container/10 px-2 py-0.5 rounded border border-tertiary-container/30 font-semibold">Settled</span>
+</div>
+<div class="mt-space-sm space-y-space-xs">
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-secondary">Date:</span>
+<span class="text-on-surface font-medium">12 Oct 2026</span>
+</div>
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-secondary">Method:</span>
+<span class="text-on-surface font-medium">Bank Transfer</span>
+</div>
+<div class="flex justify-between text-body-sm font-body-sm">
+<span class="text-secondary">Note:</span>
+<span class="text-on-surface font-mono text-[12px]">Advance RTGS Ref CMS-RTGS-982140</span>
+</div>
+<div class="flex justify-between text-body-sm font-body-sm pt-space-xs border-t border-outline-variant/10">
+<span class="text-secondary">Transferred:</span>
+<span class="text-currency-table font-currency-table text-on-surface font-bold">₹ 10,00,000.00</span>
+</div>
+</div></section>
+</main>
+<!-- Bottom Navigation Bar (Mandatory Shared Component: Invoices Active) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-sm py-space-xs pb-safe bg-surface-container-lowest shadow-[0_-1px_3px_0_rgba(0,0,0,0.05)] border-t border-outline-variant/30">
+<!-- Subscriptions: Inactive -->
+<a class="flex flex-col items-center justify-center text-secondary px-space-md py-space-xs hover:text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[24px]">autorenew</span>
+<span class="text-label-sm font-label-sm mt-0.5">Subscriptions</span>
+</a>
+<!-- Invoices: ACTIVE -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-primary rounded-lg px-space-md py-space-xs font-semibold hover:text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="text-label-sm font-label-sm mt-0.5">Invoices</span>
+</a>
+<!-- Account: Inactive -->
+<a class="flex flex-col items-center justify-center text-secondary px-space-md py-space-xs hover:text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="text-label-sm font-label-sm mt-0.5">Account</span>
+</a>
+</nav>
+
+
+</body></html>

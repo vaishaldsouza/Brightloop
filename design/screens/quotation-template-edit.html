@@ -1,0 +1,455 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - Edit Quotation Template</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS CDN with Forms & Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-surface": "#0b1c30",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary-container": "#7df1bd",
+            "primary-fixed": "#e2dfff",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-primary-fixed": "#0f0069",
+            "surface-container-highest": "#d3e4fe",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-secondary-fixed": "#131b2e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary-container": "#006e4c",
+            "secondary": "#565e74",
+            "error": "#ba1a1a",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "surface-container": "#e5eeff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-fixed": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c3c0ff",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-bright": "#f8f9ff",
+            "tertiary": "#005338",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#dce9ff",
+            "on-background": "#0b1c30",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-container": "#5c647a",
+            "on-primary-container": "#dad7ff",
+            "primary": "#3525cd",
+            "background": "#f8f9ff",
+            "outline-variant": "#c7c4d8",
+            "on-surface-variant": "#464555",
+            "outline": "#777587"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "margin-tablet": "1.25rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "currency-display": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-table": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- Shared Component: SideNavBar -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none">
+<!-- Brand Header -->
+<div class="p-4 flex items-center gap-3 border-b border-outline-variant/30">
+<div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold text-headline-md font-headline-md tracking-tight shadow-sm">
+        B
+      </div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight">Brightloop</span>
+<span class="font-label-sm text-label-sm text-secondary">Billing &amp; Revenue Ops</span>
+</div>
+</div>
+<!-- Navigation Scrollable Area -->
+<div class="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+<!-- Primary Core Tabs -->
+<nav class="space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Customers -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-body-md text-body-md">Customers</span>
+</a>
+<!-- Products -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<!-- Plans -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">layers</span>
+<span class="font-body-md text-body-md">Plans</span>
+</a>
+<!-- Quotation Templates (ACTIVE) -->
+<a aria-current="page" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low dark:bg-surface-container text-primary-container dark:text-inverse-primary font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-body-md text-body-md font-semibold">Quotation Templates</span>
+</a>
+<!-- Subscriptions -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">autorenew</span>
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<!-- Invoices -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span class="font-body-md text-body-md">Invoices</span>
+</a>
+<!-- Payments -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">bar_chart</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+<!-- Auxiliary / System Navigation Section -->
+<div class="pt-4 border-t border-outline-variant/30 space-y-1">
+<div class="px-3 pb-1 font-label-sm text-label-sm text-secondary uppercase tracking-wider">Admin only</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">percent</span>
+<span class="font-body-md text-body-md">Discounts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+<span class="font-body-md text-body-md">Taxes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+<span class="font-body-md text-body-md">Staff</span>
+</a>
+
+</div>
+</div>
+<!-- CTA Section -->
+<div class="p-4 border-t border-outline-variant/30">
+<button class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-primary-container hover:bg-primary text-on-primary font-medium rounded-lg text-body-md font-body-md transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="">New Subscription</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Shell Wrapper -->
+<div class="pl-64 flex flex-col min-h-screen">
+<!-- Shared Component: TopNavBar -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-6 h-16 w-full bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+<!-- Search on Left -->
+<div class="flex items-center gap-3 w-96">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full pl-9 pr-4 py-1.5 bg-surface-bright dark:bg-inverse-surface border border-outline-variant/60 rounded-lg text-body-md font-body-md text-on-surface placeholder:text-secondary/70 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Search quotations, customers, plans..." type="text">
+</div>
+</div>
+<!-- Trailing Actions & User Identity -->
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" title="Notifications">
+<span class="material-symbols-outlined text-[22px]">notifications</span>
+</button>
+<button class="p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" title="Help &amp; Documentation">
+<span class="material-symbols-outlined text-[22px]">help_outline</span>
+</button>
+<div class="h-6 w-px bg-outline-variant/40 mx-1"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="flex flex-col text-right">
+<span class="font-title-sm text-title-sm text-on-surface">Rajesh Sharma</span>
+<span class="font-label-sm text-label-sm text-secondary">Admin</span>
+</div>
+<div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-label-md font-label-md ring-2 ring-surface">
+            RS
+          </div>
+</div>
+</div>
+</header>
+<!-- Main Workspace Content -->
+<main class="flex-1 p-8 bg-surface space-y-6 max-w-7xl w-full mx-auto pb-24">
+<!-- Breadcrumb Navigation -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-secondary font-label-md text-label-md">
+<a class="hover:text-on-surface transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-on-surface transition-colors" href="#">Quotation Templates</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Edit Template (QT-ENT-2026)</span>
+</nav>
+<!-- Page Header: Title & Direct Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-outline-variant/30">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Edit Quotation Template: Enterprise SaaS Standard</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">Configure preset pricing tiers, bundled SKU items, and commercial terms for fiscal year 2026 sales pipeline.</p>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-bright rounded-lg font-title-sm text-title-sm transition-colors shadow-sm" type="button">
+            Cancel
+          </button>
+<button class="px-5 py-2 bg-primary-container text-on-primary hover:bg-primary font-medium rounded-lg font-title-sm text-title-sm shadow-sm transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span class="">Save Template</span>
+</button>
+</div>
+</div>
+<!-- Card 1: Template Overview -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm p-6 space-y-6">
+<div class="flex items-center justify-between border-b border-outline-variant/30 pb-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Template Overview</h2>
+<p class="font-body-sm text-body-sm text-secondary">General meta-parameters governing expiration timelines and master plan alignment.</p>
+</div>
+<span class="px-2.5 py-1 rounded bg-secondary-container/50 text-on-secondary-container font-label-sm text-label-sm border border-outline-variant/30">
+            ID: QT-ENT-2026
+          </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Template Name -->
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5" for="template-name">Template Name</label>
+<input class="w-full h-[38px] px-3 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" id="template-name" type="text" value="Enterprise SaaS Standard">
+</div>
+<!-- Validity in Days -->
+<div>
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5" for="validity-days">Validity in Days</label>
+<div class="relative">
+<input class="w-full h-[38px] px-3 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" id="validity-days" type="number" value="30">
+<span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none font-label-sm text-label-sm text-secondary">days</span>
+</div>
+<p class="mt-1 font-body-sm text-body-sm text-secondary">Proposals generated from this template will expire 30 days after dispatch.</p>
+</div>
+<!-- Associated Plan Selector -->
+<div class="md:col-span-2">
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5" for="associated-plan">Associated Plan</label>
+<select class="w-full h-[38px] px-3 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20" id="associated-plan">
+<option selected="">Enterprise Scale Annual v3 (₹ 14,50,000 / yr)</option>
+<option>Growth Tier Annual (₹ 8,20,000 / yr)</option>
+<option>Standard Corporate Monthly (₹ 75,000 / mo)</option>
+<option>Custom Strategic Agreement</option>
+</select>
+</div>
+<!-- Description -->
+<div class="md:col-span-2">
+<label class="block font-title-sm text-title-sm text-on-surface mb-1.5" for="description">Description</label>
+<textarea class="w-full p-3 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 resize-none" id="description" rows="3">Standard enterprise software agreement bundle including core compute nodes, dedicated TAM, and 99.99% uptime guarantee.</textarea>
+</div>
+</div>
+</section>
+<!-- Card 2: Pre-configured Product Lines -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/40 shadow-sm overflow-hidden space-y-6 p-6">
+<!-- Section Header with Subtitle and + Add Line button -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-outline-variant/30 pb-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Pre-configured Product Lines</h2>
+<p class="font-body-sm text-body-sm text-secondary">Individual items, licensed seats, or managed services automatically added into quotes.</p>
+</div>
+<button class="px-3.5 py-1.5 bg-surface-container-lowest border border-outline-variant hover:bg-surface-bright text-on-surface rounded-lg font-title-sm text-title-sm flex items-center gap-1.5 transition-colors self-start sm:self-auto" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="">Add Line</span>
+</button>
+</div>
+<!-- Editable Product Lines Table -->
+<div class="overflow-x-auto border border-outline-variant/40 rounded-lg">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-bright border-b border-outline-variant/40">
+<th class="py-3 px-4 font-label-md text-label-md text-secondary uppercase tracking-wider">Product / Service</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary uppercase tracking-wider w-24">Quantity</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary uppercase tracking-wider w-48 text-right">Unit Price (₹ INR)</th>
+
+<th class="py-3 px-4 font-label-md text-label-md text-secondary uppercase tracking-wider w-48 text-right">Estimated Line Total (₹)</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary uppercase tracking-wider w-16 text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-bright/50 transition-colors">
+<td class="py-3 px-4">
+<select class="w-full h-[38px] px-3 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+<option selected="">Cloud Core Platform v2 (Recurring Service)</option>
+<option>Dedicated SLA &amp; 24/7 TAM (Recurring Service)</option>
+<option>Database Shard Cluster (Digital License)</option>
+</select>
+</td>
+<td class="py-3 px-4">
+<input class="w-full h-[38px] px-2 text-center bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="number" value="1">
+</td>
+<td class="py-3 px-4 text-right">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary font-currency-table text-currency-table">₹</span>
+<input class="w-full h-[38px] pl-7 pr-3 text-right bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md font-currency-table text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="text" value="1,20,000.00">
+</div>
+</td>
+
+<td class="py-3 px-4 text-right font-currency-table text-currency-table font-semibold text-on-surface">
+                  ₹ 1,20,000.00
+                </td>
+<td class="py-3 px-4 text-center">
+<button class="p-1.5 text-secondary hover:text-error hover:bg-error-container/20 rounded-md transition-colors" title="Delete Line" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-bright/50 transition-colors">
+<td class="py-3 px-4">
+<select class="w-full h-[38px] px-3 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+<option>Cloud Core Platform v2 (Recurring Service)</option>
+<option selected="">Dedicated SLA &amp; 24/7 TAM (Recurring Service)</option>
+<option>Database Shard Cluster (Digital License)</option>
+</select>
+</td>
+<td class="py-3 px-4">
+<input class="w-full h-[38px] px-2 text-center bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="number" value="1">
+</td>
+<td class="py-3 px-4 text-right">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary font-currency-table text-currency-table">₹</span>
+<input class="w-full h-[38px] pl-7 pr-3 text-right bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md font-currency-table text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="text" value="45,000.00">
+</div>
+</td>
+
+<td class="py-3 px-4 text-right font-currency-table text-currency-table font-semibold text-on-surface">
+                  ₹ 45,000.00
+                </td>
+<td class="py-3 px-4 text-center">
+<button class="p-1.5 text-secondary hover:text-error hover:bg-error-container/20 rounded-md transition-colors" title="Delete Line" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-bright/50 transition-colors">
+<td class="py-3 px-4">
+<select class="w-full h-[38px] px-3 bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container">
+<option>Cloud Core Platform v2 (Recurring Service)</option>
+<option>Dedicated SLA &amp; 24/7 TAM (Recurring Service)</option>
+<option selected="">Database Shard Cluster (Digital License)</option>
+</select>
+</td>
+<td class="py-3 px-4">
+<input class="w-full h-[38px] px-2 text-center bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="number" value="2">
+</td>
+<td class="py-3 px-4 text-right">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary font-currency-table text-currency-table">₹</span>
+<input class="w-full h-[38px] pl-7 pr-3 text-right bg-surface-container-lowest border border-outline-variant/80 rounded-lg text-body-md font-body-md font-currency-table text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container" type="text" value="50,000.00">
+</div>
+</td>
+
+<td class="py-3 px-4 text-right font-currency-table text-currency-table font-semibold text-on-surface">
+                  ₹ 1,00,000.00
+                </td>
+<td class="py-3 px-4 text-center">
+<button class="p-1.5 text-secondary hover:text-error hover:bg-error-container/20 rounded-md transition-colors" title="Delete Line" type="button">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Summary Calculation Panel -->
+<div class="flex flex-col sm:flex-row justify-end pt-4">
+<div class="w-full sm:w-80 bg-surface-bright rounded-lg border border-outline-variant/40 p-4 space-y-3"><div class="flex items-center justify-between text-body-sm font-body-sm text-secondary"><span class="">Subtotal</span><span class="font-currency-table text-currency-table font-medium text-on-surface">₹ 2,65,000.00</span></div><div class="h-px bg-outline-variant/40 pt-0"></div><div class="flex items-center justify-between pt-1"><span class="font-title-sm text-title-sm text-on-surface">Total Estimated Contract</span><span class="font-headline-md text-headline-md font-bold text-primary-container">₹ 2,65,000.00</span></div></div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom Bar -->
+<footer class="sticky bottom-0 z-20 flex items-center justify-between px-8 py-3.5 bg-surface-container-lowest border-t border-outline-variant dark:border-outline shadow-sm">
+<div class="flex items-center gap-2 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="">All modifications will automatically stage for upcoming proposal generation cycles in 2026.</span>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-bright rounded-lg font-title-sm text-title-sm transition-colors shadow-sm" type="button">
+          Cancel
+        </button>
+<button class="px-5 py-2 bg-primary-container text-on-primary hover:bg-primary font-medium rounded-lg font-title-sm text-title-sm shadow-sm transition-all flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span class="">Save Template</span>
+</button>
+</div>
+</footer>
+</div>
+
+
+</body></html>

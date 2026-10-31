@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Account Settings - Brightloop</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#3525cd",
+            "secondary-fixed": "#dae2fd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#85f8c4",
+            "on-primary-fixed": "#0f0069",
+            "surface": "#f8f9ff",
+            "on-surface-variant": "#464555",
+            "on-tertiary-fixed-variant": "#005137",
+            "surface-container-high": "#dce9ff",
+            "inverse-primary": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "tertiary": "#005338",
+            "outline": "#777587",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-background": "#0b1c30",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-on-surface": "#eaf1ff",
+            "background": "#f8f9ff",
+            "secondary": "#565e74",
+            "on-secondary-container": "#5c647a",
+            "primary-container": "#4f46e5",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-surface": "#0b1c30",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "primary-fixed": "#e2dfff",
+            "outline-variant": "#c7c4d8",
+            "surface-bright": "#f8f9ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "tertiary-container": "#006e4c",
+            "inverse-surface": "#213145",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#bec6e0",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#7df1bd",
+            "on-primary-container": "#dad7ff",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-container": "#dae2fd",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#e5eeff",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "space-md": "0.75rem",
+            "margin": "2rem",
+            "margin-tablet": "1.25rem",
+            "space-sm": "0.5rem",
+            "gutter-tablet": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "currency-table": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"]
+          },
+          "fontSize": {
+            "currency-table": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-xl": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "currency-display": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+            "headline-xl-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+            "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased font-body-md text-body-md min-h-screen flex flex-col justify-between selection:bg-secondary-container">
+<!-- TopAppBar from Shared Components JSON -->
+<header class="bg-surface-container-lowest text-primary shadow-sm docked full-width top-0 z-40 sticky">
+<div class="flex justify-between items-center w-full px-space-md py-space-sm max-w-lg mx-auto">
+<div class="flex items-center gap-space-sm">
+<button aria-label="Menu" class="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-surface-container active:scale-95 transition-all text-secondary" type="button">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<span class="text-headline-md font-headline-md tracking-tight font-bold text-primary">Brightloop</span>
+</div>
+<div class="flex items-center">
+<button aria-label="Customer Profile Avatar" class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-surface-container active:scale-95 transition-all text-primary" type="button">
+<span class="material-symbols-outlined text-[32px]" data-icon="account_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Scrollable Mobile Content Canvas -->
+<main class="flex-1 w-full max-w-lg mx-auto px-space-md pt-space-lg pb-32">
+<!-- Page Header -->
+<section class="mb-space-lg">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary">Portal Settings</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="text-label-sm font-label-sm text-tertiary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
+          Enterprise
+        </span>
+</div>
+<h1 class="text-headline-xl-mobile font-headline-xl-mobile text-on-surface">Account Settings</h1>
+<p class="text-body-md font-body-md text-secondary mt-1">Profile & security credentials</p>
+</section>
+<!-- Content Sections Wrapper -->
+<div class="space-y-space-lg">
+<!-- Card 1: Customer Profile -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] overflow-hidden">
+<!-- Card Header -->
+<div class="px-space-md py-space-md border-b border-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="badge">badge</span>
+</span>
+<div>
+<h2 class="text-title-sm font-title-sm text-on-surface">Customer Profile</h2>
+<p class="text-label-sm font-label-sm text-secondary">Organization billing contact details</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-label-sm font-label-sm bg-surface-container text-secondary">
+            Editable
+          </span>
+</div>
+<!-- Form Body -->
+<form class="p-space-md space-y-space-md" id="profileForm" onsubmit="event.preventDefault();">
+<!-- Full Name (Editable) -->
+<div class="space-y-1.5">
+<label class="block text-label-md font-label-md text-on-surface-variant" for="fullNameInput">Full Name</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" id="fullNameInput" placeholder="Enter full name" type="text" value="Aarav Sharma"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</span>
+</div>
+</div>
+<!-- Work Email (Read-Only) -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block text-label-md font-label-md text-on-surface-variant" for="workEmailInput">Work Email</label>
+<span class="inline-flex items-center gap-1 text-label-sm font-label-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]" data-icon="lock">lock</span>
+                Locked
+              </span>
+</div>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pr-10 bg-surface-container-low border border-outline-variant/40 rounded-lg text-body-md font-body-md text-secondary cursor-not-allowed select-all" id="workEmailInput" readonly="" tabindex="-1" type="email" value="aarav.sharma@techcraft.in"/>
+<span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-outline flex items-center">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock">lock</span>
+</span>
+</div>
+<p class="text-label-sm font-label-sm text-secondary flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[14px] text-outline" data-icon="info">info</span>
+              Tied to organization account
+            </p>
+</div>
+<!-- Company Name (Read-Only) -->
+<div class="space-y-1.5">
+<label class="block text-label-md font-label-md text-on-surface-variant" for="companyNameInput">Company Name</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 bg-surface-container-low border border-outline-variant/40 rounded-lg text-body-md font-body-md text-secondary cursor-not-allowed" id="companyNameInput" readonly="" tabindex="-1" type="text" value="Techcraft Solutions Pvt Ltd"/>
+<span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-outline flex items-center">
+<span class="material-symbols-outlined text-[18px]" data-icon="domain">domain</span>
+</span>
+</div>
+</div>
+<!-- GSTIN (Read-Only with Verified Badge) -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block text-label-md font-label-md text-on-surface-variant" for="gstinInput">GSTIN Identification</label>
+<!-- Verified Badge -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                Verified
+              </span>
+</div>
+<div class="flex items-stretch rounded-lg border border-outline-variant/40 overflow-hidden bg-surface-container-low">
+<span class="inline-flex items-center px-3 bg-surface-container text-secondary text-label-md font-label-md tracking-wider border-r border-outline-variant/40 select-none">
+                GST
+              </span>
+<input class="flex-1 h-11 px-3.5 bg-transparent border-0 text-body-md font-body-md text-on-surface tracking-wide uppercase cursor-not-allowed focus:ring-0" id="gstinInput" readonly="" tabindex="-1" type="text" value="27AAACR1234M1Z2"/>
+<div class="flex items-center pr-3 text-tertiary">
+<span class="material-symbols-outlined text-[20px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Save Changes Button -->
+<div class="pt-space-xs">
+<button class="w-full h-11 bg-primary text-on-primary rounded-lg text-body-md font-label-md font-semibold hover:bg-primary-container active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="saveProfileBtn" type="submit">
+<span class="material-symbols-outlined text-[18px]" data-icon="check">check</span>
+              Save Changes
+            </button>
+</div>
+</form>
+</section>
+<!-- Card 2: Security & Change Password -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] overflow-hidden">
+<!-- Card Header -->
+<div class="px-space-md py-space-md border-b border-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="security">security</span>
+</span>
+<div>
+<h2 class="text-title-sm font-title-sm text-on-surface">Security & Password</h2>
+<p class="text-label-sm font-label-sm text-secondary">Manage your authentication credentials</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px]" data-icon="shield">shield</span>
+</div>
+<!-- Security Form Body -->
+<form class="p-space-md space-y-space-md" id="passwordForm" onsubmit="event.preventDefault();">
+<!-- Current Password -->
+<div class="space-y-1.5">
+<label class="block text-label-md font-label-md text-on-surface-variant" for="currentPassword">Current Password</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pr-11 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" id="currentPassword" placeholder="Enter current password" required="" type="password"/>
+<button aria-label="Toggle Current Password Visibility" class="w-11 h-11 absolute right-0 top-0 flex items-center justify-center text-secondary hover:text-on-surface focus:outline-none" onclick="togglePasswordVisibility('currentPassword', this)" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- New Password -->
+<div class="space-y-1.5">
+<label class="block text-label-md font-label-md text-on-surface-variant" for="newPassword">New Password</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pr-11 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" id="newPassword" oninput="validatePasswordStrength(this.value)" placeholder="Create secure new password" required="" type="password"/>
+<button aria-label="Toggle New Password Visibility" class="w-11 h-11 absolute right-0 top-0 flex items-center justify-center text-secondary hover:text-on-surface focus:outline-none" onclick="togglePasswordVisibility('newPassword', this)" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<!-- Live Password Checklist (Micro-interaction) -->
+<div class="p-3 bg-surface-container-low rounded-lg border border-outline-variant/30 space-y-2">
+<div class="flex items-center justify-between pb-1 border-b border-surface-container">
+<span class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Password Requirements</span>
+<span class="text-label-sm font-label-sm text-secondary font-medium" id="strengthBadge">0 / 4 Met</span>
+</div>
+<div class="grid grid-cols-1 gap-1.5 pt-0.5">
+<!-- Requirement 1: 9+ chars -->
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-secondary transition-colors duration-150" id="rule-length">
+<span class="material-symbols-outlined text-[16px] text-outline rule-icon" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<span>9+ characters</span>
+</div>
+<!-- Requirement 2: Uppercase letter -->
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-secondary transition-colors duration-150" id="rule-upper">
+<span class="material-symbols-outlined text-[16px] text-outline rule-icon" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<span>One uppercase letter</span>
+</div>
+<!-- Requirement 3: Lowercase letter -->
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-secondary transition-colors duration-150" id="rule-lower">
+<span class="material-symbols-outlined text-[16px] text-outline rule-icon" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<span>One lowercase letter</span>
+</div>
+<!-- Requirement 4: Special character -->
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-secondary transition-colors duration-150" id="rule-special">
+<span class="material-symbols-outlined text-[16px] text-outline rule-icon" data-icon="radio_button_unchecked">radio_button_unchecked</span>
+<span>One special character (!@#$%^&*)</span>
+</div>
+</div>
+</div>
+<!-- Confirm New Password -->
+<div class="space-y-1.5">
+<label class="block text-label-md font-label-md text-on-surface-variant" for="confirmPassword">Confirm New Password</label>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pr-11 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" id="confirmPassword" oninput="checkPasswordMatch()" placeholder="Re-enter new password" required="" type="password"/>
+<button aria-label="Toggle Confirm Password Visibility" class="w-11 h-11 absolute right-0 top-0 flex items-center justify-center text-secondary hover:text-on-surface focus:outline-none" onclick="togglePasswordVisibility('confirmPassword', this)" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+<p class="text-label-sm font-label-sm text-secondary hidden flex items-center gap-1 mt-1" id="matchHelper">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+              Passwords match
+            </p>
+</div>
+<!-- Update Password Button -->
+<div class="pt-space-xs">
+<button class="w-full h-11 bg-primary text-on-primary rounded-lg text-body-md font-label-md font-semibold hover:bg-primary-container active:scale-95 transition-all flex items-center justify-center gap-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" id="updatePasswordBtn" type="submit">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock_reset">lock_reset</span>
+              Update Password
+            </button>
+</div>
+</form>
+</section>
+<!-- Account Security Status Inset Panel -->
+<div class="p-space-md bg-surface-container-low rounded-xl border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]" data-icon="two_factor_auth">chevron_left</span>
+</div>
+<div>
+<p class="text-title-sm font-title-sm text-on-surface">Two-Factor Authentication</p>
+<p class="text-label-sm font-label-sm text-secondary">Enforced by organization admin</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed-variant font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+          Active
+        </span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar from Shared Components JSON -->
+<!-- Contextual Active: Account (Primary tab on this screen) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-sm py-space-xs pb-safe bg-surface-container-lowest shadow-[0_-1px_3px_0_rgba(0,0,0,0.05)] border-none">
+<div class="flex justify-around items-center w-full max-w-lg mx-auto py-1">
+<!-- Subscriptions Tab (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary px-space-md py-space-xs hover:text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-95 transition-transform min-w-[72px] min-h-[44px]" href="#subscriptions">
+<span class="material-symbols-outlined text-[24px]" data-icon="autorenew">autorenew</span>
+<span class="text-label-sm font-label-sm mt-0.5">Subscriptions</span>
+</a>
+<!-- Invoices Tab (Inactive) -->
+<a class="flex flex-col items-center justify-center text-secondary px-space-md py-space-xs hover:text-primary hover:bg-surface-container-low transition-colors duration-150 active:scale-95 transition-transform min-w-[72px] min-h-[44px]" href="#invoices">
+<span class="material-symbols-outlined text-[24px]" data-icon="receipt_long">receipt_long</span>
+<span class="text-label-sm font-label-sm mt-0.5">Invoices</span>
+</a>
+<!-- Account Tab (Active Indigo: style_active_navigation applied verbatim) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-primary rounded-lg px-space-md py-space-xs font-semibold active:scale-95 transition-transform duration-100 min-w-[72px] min-h-[44px]" href="#account">
+<span class="material-symbols-outlined text-[24px]" data-icon="person" data-weight="fill" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="text-label-sm font-label-sm mt-0.5">Account</span>
+</a>
+</div>
+</nav>
+<!-- Interactive Logic for Password Checklist & Visibility Toggles -->
+<script>
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerText = 'visibility_off';
+      } else {
+        input.type = 'password';
+        icon.innerText = 'visibility';
+      }
+    }
+
+    function validatePasswordStrength(val) {
+      const lengthRule = val.length >= 9;
+      const upperRule = /[A-Z]/.test(val);
+      const lowerRule = /[a-z]/.test(val);
+      const specialRule = /[!@#$%^&*]/.test(val);
+
+      updateRuleUI('rule-length', lengthRule);
+      updateRuleUI('rule-upper', upperRule);
+      updateRuleUI('rule-lower', lowerRule);
+      updateRuleUI('rule-special', specialRule);
+
+      const metCount = [lengthRule, upperRule, lowerRule, specialRule].filter(Boolean).length;
+      const badge = document.getElementById('strengthBadge');
+      badge.textContent = `${metCount} / 4 Met`;
+      
+      if (metCount === 4) {
+        badge.className = 'text-label-sm font-label-sm text-tertiary font-bold';
+      } else {
+        badge.className = 'text-label-sm font-label-sm text-secondary font-medium';
+      }
+
+      checkPasswordMatch();
+    }
+
+    function updateRuleUI(ruleId, isMet) {
+      const el = document.getElementById(ruleId);
+      const icon = el.querySelector('.rule-icon');
+      if (isMet) {
+        el.classList.remove('text-secondary');
+        el.classList.add('text-tertiary', 'font-medium');
+        icon.classList.remove('text-outline');
+        icon.classList.add('text-tertiary');
+        icon.innerText = 'check_circle';
+        icon.style.fontVariationSettings = "'FILL' 1";
+      } else {
+        el.classList.remove('text-tertiary', 'font-medium');
+        el.classList.add('text-secondary');
+        icon.classList.remove('text-tertiary');
+        icon.classList.add('text-outline');
+        icon.innerText = 'radio_button_unchecked';
+        icon.style.fontVariationSettings = "'FILL' 0";
+      }
+    }
+
+    function checkPasswordMatch() {
+      const newPass = document.getElementById('newPassword').value;
+      const confirmPass = document.getElementById('confirmPassword').value;
+      const helper = document.getElementById('matchHelper');
+
+      if (confirmPass.length > 0 && newPass === confirmPass) {
+        helper.classList.remove('hidden', 'text-error');
+        helper.classList.add('flex', 'text-tertiary');
+        helper.innerHTML = '<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span> Passwords match';
+      } else if (confirmPass.length > 0 && newPass !== confirmPass) {
+        helper.classList.remove('hidden', 'text-tertiary');
+        helper.classList.add('flex', 'text-error');
+        helper.innerHTML = '<span class="material-symbols-outlined text-[14px]" data-icon="cancel">cancel</span> Passwords do not match';
+      } else {
+        helper.classList.add('hidden');
+        helper.classList.remove('flex');
+      }
+    }
+  </script>
+</body></html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - My Subscriptions</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#3525cd",
+            "secondary-fixed": "#dae2fd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#85f8c4",
+            "on-primary-fixed": "#0f0069",
+            "surface": "#f8f9ff",
+            "on-surface-variant": "#464555",
+            "on-tertiary-fixed-variant": "#005137",
+            "surface-container-high": "#dce9ff",
+            "inverse-primary": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "tertiary": "#005338",
+            "outline": "#777587",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-background": "#0b1c30",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-on-surface": "#eaf1ff",
+            "background": "#f8f9ff",
+            "secondary": "#565e74",
+            "on-secondary-container": "#5c647a",
+            "primary-container": "#4f46e5",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-surface": "#0b1c30",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "primary-fixed": "#e2dfff",
+            "outline-variant": "#c7c4d8",
+            "surface-bright": "#f8f9ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "tertiary-container": "#006e4c",
+            "inverse-surface": "#213145",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#bec6e0",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#7df1bd",
+            "on-primary-container": "#dad7ff",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-container": "#dae2fd",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#e5eeff",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "space-md": "0.75rem",
+            "margin": "2rem",
+            "margin-tablet": "1.25rem",
+            "space-sm": "0.5rem",
+            "gutter-tablet": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "currency-table": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"]
+          },
+          "fontSize": {
+            "currency-table": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-xl": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "currency-display": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+            "headline-xl-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+            "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased font-body-md text-body-md min-h-screen pb-28">
+<!-- TopAppBar Component (from JSON anchor) -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none docked full-width top-0 sticky z-40">
+<div class="flex justify-between items-center w-full px-space-md py-space-sm">
+<div class="flex items-center gap-2">
+<button aria-label="Menu" class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors duration-150 active:scale-95 transition-transform duration-100 text-secondary">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<span class="text-headline-md font-headline-md tracking-tight font-bold text-primary dark:text-primary-fixed">Brightloop</span>
+</div>
+<!-- Trailing Customer Avatar with Shortcut -->
+<div class="relative" id="userMenuContainer">
+<button aria-label="Account Menu" class="flex items-center gap-2 p-1 pl-2 rounded-full hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors duration-150 active:scale-95 transition-transform duration-100 focus:outline-none" id="avatarTrigger">
+<span class="text-label-md font-label-md text-on-surface font-semibold hidden sm:inline">Acme Corp</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container text-primary flex items-center justify-center font-bold text-label-md border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle" style="font-size: 26px;">account_circle</span>
+</div>
+</button>
+<!-- Dropdown Shortcut -->
+<div class="hidden absolute right-0 mt-2 w-48 bg-surface-container-lowest rounded-xl shadow-lg border border-outline-variant/30 py-1.5 z-50" id="userDropdown">
+<div class="px-3 py-2 border-b border-outline-variant/20">
+<p class="text-label-sm font-label-sm text-secondary">Signed in as</p>
+<p class="text-title-sm font-title-sm text-on-surface truncate">finance@acme.in</p>
+</div>
+<a class="flex items-center gap-2 px-3 py-2 text-body-sm font-body-sm text-on-surface hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined text-secondary" data-icon="manage_accounts">manage_accounts</span>
+            Billing Profile
+          </a>
+<button class="w-full flex items-center gap-2 px-3 py-2 text-body-sm font-body-sm text-error hover:bg-error-container/30 transition-colors text-left">
+<span class="material-symbols-outlined text-error" data-icon="logout">logout</span>
+            Sign Out
+          </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Container -->
+<main class="max-w-md mx-auto px-4 pt-5 pb-6">
+<!-- Page Header -->
+<section class="mb-5">
+<div class="flex items-center justify-between">
+<div>
+<h1 class="text-headline-xl-mobile font-headline-xl-mobile text-on-surface tracking-tight">My Subscriptions</h1>
+<p class="text-body-sm font-body-sm text-secondary mt-1">View and manage your active subscriptions.</p>
+</div>
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+</span>
+</div>
+</section>
+<!-- Search Bar & Filters -->
+<section class="space-y-3 mb-5">
+<!-- Search Input -->
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-secondary">
+<span class="material-symbols-outlined" data-icon="search" style="font-size: 20px;">search</span>
+</span>
+<input class="w-full h-11 pl-10 pr-4 bg-surface-container-lowest border border-outline-variant/50 rounded-lg text-body-md font-body-md text-on-surface placeholder:text-secondary focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all outline-none" id="searchInput" placeholder="Search by subscription ID, plan..." type="text">
+</div>
+<!-- Filter Chips Horizontally Scrollable -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-label-md font-label-md">
+<button class="filter-chip active flex-shrink-0 min-h-[38px] px-3.5 py-1.5 rounded-full bg-primary text-on-primary font-semibold shadow-sm transition-all" data-status="all">
+          All (2)
+        </button>
+<button class="filter-chip flex-shrink-0 min-h-[38px] px-3.5 py-1.5 rounded-full bg-surface-container-lowest text-secondary border border-outline-variant/40 hover:bg-surface-container transition-all" data-status="active">
+          Active (2)
+        </button>
+
+
+</div>
+</section>
+<!-- Subscription Cards Stack -->
+<section class="space-y-4" id="cardsStack">
+<!-- Subscription Card 1 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 shadow-sm relative overflow-hidden transition-all duration-200">
+<!-- Accent indicator bar -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-primary"></div>
+<!-- Header row -->
+<div class="flex items-center justify-between pt-1 pb-3 border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="deployed_code">deployed_code</span>
+<span class="text-title-sm font-title-sm text-on-surface font-semibold tracking-tight">SUB-00128</span>
+</div>
+<!-- Status Badge: Active / Paid (Emerald) -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed-variant border border-tertiary-fixed-dim/40">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+            Active
+          </span>
+</div>
+<!-- Plan Identity -->
+<div class="mt-3">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary">Plan Identifier</span>
+<h2 class="text-headline-md font-headline-md text-on-surface mt-0.5">Enterprise Scale Annual v3</h2>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-title-sm font-title-sm font-bold text-primary">₹ 14,50,000.00</span>
+<span class="text-label-md font-label-md text-secondary">/ yr</span>
+</div>
+</div>
+<!-- 3-Column Schedule Grid -->
+<div class="mt-4 grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 text-center"><div class="flex flex-col"><span class="text-label-sm font-label-sm text-secondary">Start</span><span class="text-currency-table font-currency-table text-on-surface font-semibold mt-0.5">01 Nov 2025</span></div><div class="flex flex-col border-x border-outline-variant/30"><span class="text-label-sm font-label-sm text-secondary">Next Billing</span><span class="text-currency-table font-currency-table text-primary font-semibold mt-0.5">31 Oct 2026</span></div><div class="flex flex-col"><span class="text-label-sm font-label-sm text-secondary">Expiry</span><span class="text-currency-table font-currency-table text-on-surface font-semibold mt-0.5">31 Oct 2026</span></div></div>
+<!-- Action Bar: 44px+ Touch Targets -->
+<div class="mt-4 pt-3 border-t border-outline-variant/20 grid grid-cols-3 gap-2">
+<!-- Pause: Disabled with Tooltip Trigger -->
+<div class="relative group">
+<button aria-describedby="tooltip-sub-128" class="w-full min-h-[44px] flex items-center justify-center gap-1 px-2 rounded-lg bg-surface-container text-outline opacity-60 cursor-not-allowed text-label-md font-label-md" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="pause_circle">pause_circle</span>
+              Pause
+            </button>
+<!-- Native Tooltip on Click/Hover -->
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block group-focus:block bg-inverse-surface text-surface text-label-sm font-label-sm py-1 px-2.5 rounded shadow-lg whitespace-nowrap z-30 pointer-events-none" id="tooltip-sub-128">
+              This plan can't be paused
+              <div class="w-2 h-2 bg-inverse-surface rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2"></div>
+</div>
+</div>
+<!-- Renew: Active Secondary Outline -->
+<button class="min-h-[44px] flex items-center justify-center gap-1 px-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container hover:border-outline active:scale-95 transition-all text-label-md font-label-md font-semibold" onclick="triggerRenew('SUB-00128')" type="button">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="sync">sync</span>
+            Renew
+          </button>
+<!-- Close: Destructive Confirmation Trigger -->
+<button class="min-h-[44px] flex items-center justify-center gap-1 px-2 rounded-lg bg-surface-container-lowest border border-error/30 text-error hover:bg-error-container/30 active:scale-95 transition-all text-label-md font-label-md font-semibold" onclick="triggerClose('SUB-00128', 'Enterprise Scale Annual v3')" type="button">
+<span class="material-symbols-outlined text-error text-[18px]" data-icon="cancel">cancel</span>
+            Close
+          </button>
+</div>
+</article>
+<!-- Subscription Card 2 -->
+<article class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 shadow-sm relative overflow-hidden transition-all duration-200">
+<!-- Accent indicator bar -->
+<div class="absolute top-0 left-0 right-0 h-1 bg-secondary"></div>
+<!-- Header row -->
+<div class="flex items-center justify-between pt-1 pb-3 border-b border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="cloud">cloud</span>
+<span class="text-title-sm font-title-sm text-on-surface font-semibold tracking-tight">SUB-00129</span>
+</div>
+<!-- Status Badge: Active / Paid -->
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed-variant border border-tertiary-fixed-dim/40">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+            Active
+          </span>
+</div>
+<!-- Plan Identity -->
+<div class="mt-3">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary">Plan Identifier</span>
+<h2 class="text-headline-md font-headline-md text-on-surface mt-0.5">Growth Dedicated Cloud</h2>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-title-sm font-title-sm font-bold text-primary">₹ 95,000.00</span>
+<span class="text-label-md font-label-md text-secondary">/ mo</span>
+</div>
+</div>
+<!-- 3-Column Schedule Grid -->
+<div class="mt-4 grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-surface-container-low border border-outline-variant/20 text-center">
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-secondary">Start</span>
+<span class="text-currency-table font-currency-table text-on-surface font-semibold mt-0.5">01 Jan 2026</span>
+</div>
+<div class="flex flex-col border-x border-outline-variant/30">
+<span class="text-label-sm font-label-sm text-secondary">Next Billing</span>
+<span class="text-currency-table font-currency-table text-primary font-semibold mt-0.5">01 Apr 2026</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-secondary">Expiry</span>
+<span class="text-currency-table font-currency-table text-on-surface font-semibold mt-0.5">31 Dec 2026</span>
+</div>
+</div>
+<!-- Action Bar: 44px+ Touch Targets -->
+<div class="mt-4 pt-3 border-t border-outline-variant/20 grid grid-cols-3 gap-2">
+<!-- Pause: Active on this plan -->
+<button class="min-h-[44px] flex items-center justify-center gap-1 px-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container active:scale-95 transition-all text-label-md font-label-md font-semibold" onclick="triggerPause('SUB-00129')" type="button">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="pause_circle">pause_circle</span>
+            Pause
+          </button>
+<!-- Renew: Active Secondary Outline -->
+<button class="min-h-[44px] flex items-center justify-center gap-1 px-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container active:scale-95 transition-all text-label-md font-label-md font-semibold" onclick="triggerRenew('SUB-00129')" type="button">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="sync">sync</span>
+            Renew
+          </button>
+<!-- Close: Destructive Trigger -->
+<button class="min-h-[44px] flex items-center justify-center gap-1 px-2 rounded-lg bg-surface-container-lowest border border-error/30 text-error hover:bg-error-container/30 active:scale-95 transition-all text-label-md font-label-md font-semibold" onclick="triggerClose('SUB-00129', 'Growth Dedicated Cloud')" type="button">
+<span class="material-symbols-outlined text-error text-[18px]" data-icon="cancel">cancel</span>
+            Close
+          </button>
+</div>
+</article>
+<!-- Empty State Reference Block (Toggleable via filter demo) -->
+<div class="hidden bg-surface-container-lowest border border-dashed border-outline-variant rounded-xl p-8 text-center my-4" id="emptyStateBlock">
+<div class="w-14 h-14 mx-auto rounded-full bg-surface-container flex items-center justify-center text-secondary mb-3">
+<span class="material-symbols-outlined text-[30px]" data-icon="inbox">inbox</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">You have no subscriptions yet.</h3>
+<p class="text-body-sm font-body-sm text-secondary mt-1 max-w-xs mx-auto">
+          Explore recurring service agreements or contact revenue support to activate your new plan.
+        </p>
+<button class="mt-4 min-h-[44px] px-5 py-2 rounded-lg bg-primary text-on-primary font-semibold text-label-md hover:bg-primary/90 active:scale-95 transition-all inline-flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_circle">add_circle</span>
+          Browse Service Catalog
+        </button>
+</div>
+</section>
+<!-- Quick Support Micro-Card -->
+<aside class="mt-6 bg-surface-container-low rounded-xl p-4 border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-xs">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+</div>
+<div>
+<h4 class="text-label-md font-label-md text-on-surface font-semibold">Need custom billing cycles?</h4>
+<p class="text-label-sm font-label-sm text-secondary">Contact your designated controller.</p>
+</div>
+</div>
+<a aria-label="Contact Support" class="min-h-[44px] min-w-[44px] flex items-center justify-center text-primary hover:bg-surface-container rounded-lg transition-colors" href="mailto:support@brightloop.io">
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</aside>
+</main>
+<!-- Alert Confirmation Dialog (Modal - Level 3 Depth) -->
+<div class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-[2px]" id="closeModal">
+<div class="bg-surface-container-lowest rounded-xl max-w-sm w-full p-5 border border-outline-variant/40 shadow-2xl">
+<div class="w-12 h-12 rounded-full bg-error-container/50 text-error flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-[26px]" data-icon="warning">warning</span>
+</div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Terminate Subscription?</h3>
+<p class="text-body-sm font-body-sm text-secondary mt-1" id="closeModalDesc">
+        Are you sure you want to request cancellation for this contract? A confirmation ticket will be sent to the billing desk.
+      </p>
+<div class="mt-5 grid grid-cols-2 gap-2">
+<button class="min-h-[44px] rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface text-label-md font-semibold hover:bg-surface-container" onclick="dismissModal()" type="button">
+          Keep Active
+        </button>
+<button class="min-h-[44px] rounded-lg bg-error text-on-error text-label-md font-semibold hover:bg-error/90" onclick="confirmClose()" type="button">
+          Confirm Close
+        </button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar Component (from JSON anchor, exact destination texts & icons) -->
+<nav aria-label="Main Navigation" class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-space-sm py-space-xs pb-safe bg-surface-container-lowest dark:bg-inverse-surface shadow-[0_-1px_3px_0_rgba(0,0,0,0.05)] dark:shadow-none docked full-width bottom-0">
+<!-- Tab 1: Subscriptions (Active Intent Priority) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-primary dark:text-on-secondary rounded-lg px-space-md py-space-xs font-semibold active:scale-95 transition-transform duration-100 min-h-[44px]" href="#subscriptions">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span class="text-label-sm font-label-sm mt-0.5">Subscriptions</span>
+</a>
+<!-- Tab 2: Invoices -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-space-md py-space-xs hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-low transition-colors duration-150 active:scale-95 transition-transform duration-100 min-h-[44px]" href="#invoices">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-label-sm font-label-sm mt-0.5">Invoices</span>
+</a>
+<!-- Tab 3: Account -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-space-md py-space-xs hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-low transition-colors duration-150 active:scale-95 transition-transform duration-100 min-h-[44px]" href="#account">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-label-sm font-label-sm mt-0.5">Account</span>
+</a>
+</nav>
+<!-- Vanilla JS for Micro-Interactions -->
+<script>
+    // Avatar Menu Toggle
+    const avatarTrigger = document.getElementById('avatarTrigger');
+    const userDropdown = document.getElementById('userDropdown');
+    avatarTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', () => {
+      userDropdown.classList.add('hidden');
+    });
+
+    // Filter Chips Interactive State
+    const chips = document.querySelectorAll('.filter-chip');
+    const cardsStack = document.getElementById('cardsStack');
+    const emptyState = document.getElementById('emptyStateBlock');
+    const articles = cardsStack.querySelectorAll('article');
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => {
+          c.classList.remove('bg-primary', 'text-on-primary', 'font-semibold');
+          c.classList.add('bg-surface-container-lowest', 'text-secondary', 'border-outline-variant/40');
+        });
+        chip.classList.add('bg-primary', 'text-on-primary', 'font-semibold');
+        chip.classList.remove('bg-surface-container-lowest', 'text-secondary', 'border-outline-variant/40');
+
+        const status = chip.getAttribute('data-status');
+        if (status === 'quotation' || status === 'closed') {
+          articles.forEach(a => a.classList.add('hidden'));
+          emptyState.classList.remove('hidden');
+        } else {
+          articles.forEach(a => a.classList.remove('hidden'));
+          emptyState.classList.add('hidden');
+        }
+      });
+    });
+
+    // Close Confirmation Modal
+    let pendingSubId = '';
+    function triggerClose(subId, planName) {
+      pendingSubId = subId;
+      document.getElementById('closeModalDesc').textContent = 
+        `Are you sure you want to close ${planName} (${subId})? Termination notice will apply.`;
+      document.getElementById('closeModal').classList.remove('hidden');
+    }
+
+    function dismissModal() {
+      document.getElementById('closeModal').classList.add('hidden');
+      pendingSubId = '';
+    }
+
+    function confirmClose() {
+      alert(`Request submitted for subscription ${pendingSubId}. Support ticket #TKT-8841 generated.`);
+      dismissModal();
+    }
+
+    function triggerRenew(subId) {
+      alert(`Renewal flow initiated for ${subId}. Current term will roll into standard cycle starting April 2026.`);
+    }
+
+    function triggerPause(subId) {
+      alert(`Pause requested for ${subId}. Operational grace period is 30 calendar days.`);
+    }
+
+    // Live search filter
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const term = e.target.value.toLowerCase();
+      let matchCount = 0;
+      articles.forEach(article => {
+        const text = article.innerText.toLowerCase();
+        if (text.includes(term)) {
+          article.classList.remove('hidden');
+          matchCount++;
+        } else {
+          article.classList.add('hidden');
+        }
+      });
+      if (matchCount === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+    });
+  </script>
+
+
+</body></html>

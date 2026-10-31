@@ -1,0 +1,492 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - Taxes &amp; Compliance</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-surface": "#0b1c30",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary-container": "#7df1bd",
+            "primary-fixed": "#e2dfff",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-primary-fixed": "#0f0069",
+            "surface-container-highest": "#d3e4fe",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-secondary-fixed": "#131b2e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary-container": "#006e4c",
+            "secondary": "#565e74",
+            "error": "#ba1a1a",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "surface-container": "#e5eeff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-fixed": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c3c0ff",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-bright": "#f8f9ff",
+            "tertiary": "#005338",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#dce9ff",
+            "on-background": "#0b1c30",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-container": "#5c647a",
+            "on-primary-container": "#dad7ff",
+            "primary": "#3525cd",
+            "background": "#f8f9ff",
+            "outline-variant": "#c7c4d8",
+            "on-surface-variant": "#464555",
+            "outline": "#777587"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "margin-tablet": "1.25rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "currency-display": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-table": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased min-h-screen flex">
+<!-- SideNavBar Component -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant bg-surface-container-lowest shadow-sm shrink-0">
+<!-- Brand Header -->
+<div class="h-16 flex items-center gap-3 px-6 border-b border-outline-variant">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight leading-tight">Brightloop</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">Billing &amp; Revenue Ops</span>
+</div>
+</div>
+<!-- CTA Area -->
+<div class="px-4 pt-4 pb-2">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-primary-container text-on-primary font-title-sm text-title-sm font-medium hover:bg-primary transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="">New Subscription</span>
+</button>
+</div>
+<!-- Navigation Scroll Region -->
+<div class="flex-1 overflow-y-auto px-3 py-2 space-y-6">
+<!-- Main Core Tabs -->
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="font-body-md text-body-md">Plans</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-body-md text-body-md">Quotation Templates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-md text-body-md">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+<!-- Admin Specific Section -->
+<div>
+<p class="px-3 pb-2 font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Admin</p>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="percent">percent</span>
+<span class="font-body-md text-body-md">Discounts</span>
+</a>
+<!-- Active Taxes Item -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low text-primary-container font-medium cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="font-body-md text-body-md font-semibold">Taxes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="font-body-md text-body-md">Staff</span>
+</a>
+
+</div>
+</div>
+</div>
+<!-- Sidebar Bottom Profile / System Meta -->
+<div class="p-3 border-t border-outline-variant">
+<div class="flex items-center gap-3 p-2 rounded-lg bg-surface-container-low">
+<span class="material-symbols-outlined text-secondary" data-icon="verified_user">verified_user</span>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md text-on-surface">GSTIN Registered</span>
+<span class="font-label-sm text-label-sm text-secondary">27AABCU9603R1ZM</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas Wrapper -->
+<div class="flex-1 flex flex-col pl-64 min-w-0">
+<!-- TopNavBar Component -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-6 h-16 w-full bg-surface-container-lowest border-b border-outline-variant">
+<!-- Search Bar on Left -->
+<div class="flex items-center w-96">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 h-[38px] bg-surface rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface placeholder:text-secondary focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none transition" placeholder="Search subscriptions, tax rules, SAC/HSN codes..." type="text">
+</div>
+</div>
+<!-- Trailing Action Icons and Current User -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors duration-150 relative" type="button">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span>
+</button>
+<button aria-label="Help and Support" class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors duration-150" type="button">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-1"></div>
+<!-- Current User Profile Item -->
+<div class="flex items-center gap-3 pl-2">
+<div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-fixed flex items-center justify-center font-title-sm text-title-sm font-semibold border border-outline-variant">
+            RS
+          </div>
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Rajesh Sharma</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">Admin</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 p-8 space-y-6">
+<!-- Breadcrumb & Header Section -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2">
+<div class="space-y-1">
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-1.5 font-label-md text-label-md text-secondary">
+<a class="hover:text-on-surface transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-semibold">Taxes</span>
+</nav>
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">Taxes</h1>
+<p class="font-body-md text-body-md text-secondary">
+            Statutory GST rules, tax categories, and HSN/SAC rate configurations for Indian compliance.
+          </p>
+</div>
+<!-- Header Primary Action -->
+<div class="flex items-center shrink-0">
+<button class="inline-flex items-center gap-2 px-4 py-2 h-[38px] bg-primary-container text-on-primary font-title-sm text-title-sm font-medium rounded-lg hover:bg-primary transition shadow-sm focus:ring-2 focus:ring-primary-container/20" type="button">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="">+ Add Tax Rule</span>
+</button>
+</div>
+</div>
+<!-- Filters & Search Toolbar -->
+<div class="bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+<!-- Search within Table -->
+<div class="relative w-full sm:w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]" data-icon="search">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 h-[38px] bg-surface rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface placeholder:text-secondary focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none" placeholder="Search by rule name or HSN/SAC..." type="text">
+</div>
+<!-- Filter by Rate Type Dropdown -->
+<div class="relative w-full sm:w-56">
+<select aria-label="Filter by Rate Type" class="w-full pl-3 pr-8 py-1.5 h-[38px] bg-surface rounded-lg border border-outline-variant text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none appearance-none cursor-pointer">
+<option value="">Filter by Rate Type: All</option>
+<option value="cgst">CGST (Central Tax)</option>
+<option value="sgst">SGST (State Tax)</option>
+<option value="igst">IGST (Integrated Tax)</option>
+<option value="zero">Zero Rated / Exempt</option>
+<option value="custom">Physical Goods (HSN)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[18px]" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end md:self-auto text-secondary font-label-md text-label-md">
+<span class="text-on-surface font-semibold">5</span> rules configured
+          <span class="text-outline-variant">|</span>
+<span class="text-tertiary font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span> 
+            FY 2025-2026 Synchronized
+          </span>
+</div>
+</div>
+<!-- Taxes Table Section -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full border-collapse text-left">
+<thead>
+<tr class="bg-surface border-b border-outline-variant font-label-md text-label-md text-secondary uppercase tracking-wider h-11"><th class="w-12 px-4 py-3 text-center" scope="col">
+<input aria-label="Select all rules" class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox">
+</th>
+<th class="px-4 py-3 font-semibold text-on-surface" scope="col">Tax Name</th>
+<th class="px-4 py-3 font-semibold text-on-surface text-right" scope="col">Percentage</th>
+<th class="px-4 py-3 font-semibold text-on-surface" scope="col">Applicable Products</th>
+<th class="px-4 py-3 font-semibold text-on-surface text-right pr-6" scope="col">Row Actions</th></tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Rule 1: CGST 9% -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 h-12"><td class="px-4 py-3 text-center">
+<input aria-label="Select CGST 9% rule" class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox">
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">CGST 9%</span>
+<span class="font-body-sm text-body-sm text-secondary">Central GST (Intra-State)</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="font-currency-table text-currency-table text-on-surface font-semibold">9.00%</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-wrap items-center gap-1.5 max-w-md">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium border border-outline-variant/50">
+All Cloud Products
+</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium border border-outline-variant/50">
+Recurring Services
+</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right pr-6 whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button aria-label="Edit CGST 9% rule" class="p-1 text-secondary hover:text-primary-container hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Delete CGST 9% rule" class="p-1 text-secondary hover:text-error hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Rule 2: SGST 9% -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 h-12"><td class="px-4 py-3 text-center">
+<input aria-label="Select SGST 9% rule" class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox">
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">SGST 9%</span>
+<span class="font-body-sm text-body-sm text-secondary">State GST (Intra-State)</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="font-currency-table text-currency-table text-on-surface font-semibold">9.00%</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-wrap items-center gap-1.5 max-w-md">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium border border-outline-variant/50">
+All Cloud Products
+</span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium border border-outline-variant/50">
+Recurring Services
+</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right pr-6 whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button aria-label="Edit SGST 9% rule" class="p-1 text-secondary hover:text-primary-container hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Delete SGST 9% rule" class="p-1 text-secondary hover:text-error hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Rule 3: IGST 18% -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 h-12"><td class="px-4 py-3 text-center">
+<input aria-label="Select IGST 18% rule" class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox">
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">IGST 18%</span>
+<span class="font-body-sm text-body-sm text-secondary">Integrated GST (Inter-State &amp; Exports)</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="font-currency-table text-currency-table text-on-surface font-semibold">18.00%</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-wrap items-center gap-1.5 max-w-md">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium border border-outline-variant/50">
+All Cloud &amp; SaaS Products
+</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right pr-6 whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button aria-label="Edit IGST 18% rule" class="p-1 text-secondary hover:text-primary-container hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Delete IGST 18% rule" class="p-1 text-secondary hover:text-error hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Rule 4: Hardware GST 18% -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 h-12"><td class="px-4 py-3 text-center">
+<input aria-label="Select Hardware GST 18% rule" class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox">
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Hardware GST 18%</span>
+<span class="font-body-sm text-body-sm text-secondary">Physical Goods &amp; Hardware</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="font-currency-table text-currency-table text-on-surface font-semibold">18.00%</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-wrap items-center gap-1.5 max-w-md">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium border border-outline-variant/50">
+Physical Goods &amp; Security Keys
+</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right pr-6 whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button aria-label="Edit Hardware GST 18% rule" class="p-1 text-secondary hover:text-primary-container hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Delete Hardware GST 18% rule" class="p-1 text-secondary hover:text-error hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Rule 5: Zero-Rated SEZ / Overseas Supply -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150 h-12"><td class="px-4 py-3 text-center">
+<input aria-label="Select Zero-Rated SEZ rule" class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox">
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Zero-Rated SEZ / Export</span>
+<span class="font-body-sm text-body-sm text-secondary">Export &amp; Specified SEZ Supplies</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="font-currency-table text-currency-table text-on-surface font-semibold">0.00%</span>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-wrap items-center gap-1.5 max-w-md">
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface font-medium border border-outline-variant/50">
+SEZ Developers &amp; Overseas Contracts
+</span>
+</div>
+</td>
+<td class="px-4 py-3 text-right pr-6 whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button aria-label="Edit Zero-Rated rule" class="p-1 text-secondary hover:text-primary-container hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button aria-label="Delete Zero-Rated rule" class="p-1 text-secondary hover:text-error hover:bg-surface-container rounded transition" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between px-6 py-3.5 border-t border-outline-variant bg-surface">
+<div class="font-body-sm text-body-sm text-secondary mb-2 sm:mb-0">
+            Showing <span class="font-semibold text-on-surface">1</span> to <span class="font-semibold text-on-surface">5</span> of <span class="font-semibold text-on-surface">5</span> rules
+          </div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-outline-variant font-label-md text-label-md text-secondary opacity-50 cursor-not-allowed bg-surface-container-lowest" disabled="" type="button">
+              Previous
+            </button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md font-medium" type="button">1</button>
+</div>
+<button class="px-3 py-1.5 rounded-lg border border-outline-variant font-label-md text-label-md text-secondary opacity-50 cursor-not-allowed bg-surface-container-lowest" disabled="" type="button">
+              Next
+            </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+</body></html>

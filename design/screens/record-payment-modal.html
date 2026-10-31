@@ -1,0 +1,402 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - Record Payment</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface-variant": "#464555",
+            "surface-bright": "#f8f9ff",
+            "surface-container-high": "#dce9ff",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#4f46e5",
+            "secondary-fixed-dim": "#bec6e0",
+            "on-primary-container": "#dad7ff",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary": "#3525cd",
+            "inverse-primary": "#c3c0ff",
+            "secondary-container": "#dae2fd",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-secondary-fixed-variant": "#3f465c",
+            "inverse-on-surface": "#eaf1ff",
+            "secondary-fixed": "#dae2fd",
+            "surface-container-highest": "#d3e4fe",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#131b2e",
+            "tertiary-fixed": "#85f8c4",
+            "surface-tint": "#4d44e3",
+            "on-surface": "#0b1c30",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#002114",
+            "inverse-surface": "#213145",
+            "surface-container": "#e5eeff",
+            "surface-dim": "#cbdbf5",
+            "on-background": "#0b1c30",
+            "tertiary": "#005338",
+            "on-secondary-container": "#5c647a",
+            "surface": "#f8f9ff",
+            "error": "#ba1a1a",
+            "outline-variant": "#c7c4d8",
+            "surface-variant": "#d3e4fe",
+            "tertiary-container": "#006e4c",
+            "primary-fixed": "#e2dfff",
+            "on-tertiary": "#ffffff",
+            "background": "#f8f9ff",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "outline": "#777587",
+            "surface-container-low": "#eff4ff",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#7df1bd",
+            "secondary": "#565e74",
+            "on-primary-fixed": "#0f0069"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "margin-tablet": "1.25rem",
+            "margin-mobile": "1rem",
+            "gutter-tablet": "1rem",
+            "space-lg": "1.25rem",
+            "gutter": "1.5rem",
+            "margin": "2rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-md": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-lg": ["Inter"],
+            "currency-table": ["Inter"],
+            "title-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-md": ["Inter"]
+          },
+          "fontSize": {
+            "headline-xl": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "body-sm": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "headline-xl-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "currency-display": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600"}],
+            "currency-table": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500"}],
+            "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+            "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased overflow-hidden">
+<!-- BACKGROUND APPLICATION SHELL -->
+<div class="flex h-screen w-full select-none opacity-85 blur-[1px]">
+<!-- SideNavBar Blueprint Executed -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant bg-surface-container-lowest shadow-sm">
+<div class="p-6 border-b border-outline-variant flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold text-headline-md font-headline-md shadow-sm">
+          B
+        </div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight leading-tight">Brightloop</h1>
+<p class="font-label-sm text-label-sm text-secondary">Billing &amp; Revenue Ops</p>
+</div>
+</div>
+<!-- Primary Nav Items -->
+<nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+<div class="px-3 py-1.5 font-label-sm text-label-sm text-secondary uppercase tracking-wider">Workspace</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="">Products</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="">Plans</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="">Quotation Templates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span class="">Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="">Invoices</span>
+</a>
+<!-- Payments Active Tab (Exact semantic target for Record Payment modal) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low text-primary-container font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="">Reports</span>
+</a>
+</nav>
+<!-- Action Button inside Nav -->
+<div class="px-4 py-2">
+<button class="w-full flex items-center justify-center gap-2 bg-primary-container text-on-primary font-medium py-2 px-3 rounded-lg shadow-sm hover:opacity-95 transition-opacity text-body-md font-body-md">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="">New Subscription</span>
+</button>
+</div>
+<!-- Footer Nav Items -->
+<div class="p-3 border-t border-outline-variant space-y-1"><div class="px-3 py-1 font-label-sm text-label-sm text-secondary uppercase tracking-wider">Admin only</div>
+<a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 text-body-sm font-body-sm" href="#">
+<span class="material-symbols-outlined text-body-md" data-icon="percent">percent</span>
+<span class="">Discounts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 text-body-sm font-body-sm" href="#">
+<span class="material-symbols-outlined text-body-md" data-icon="account_balance">account_balance</span>
+<span class="">Taxes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-secondary hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 text-body-sm font-body-sm" href="#">
+<span class="material-symbols-outlined text-body-md" data-icon="badge">badge</span>
+<span class="">Staff</span>
+</a></div>
+</aside>
+<!-- Main Workspace Container -->
+<div class="pl-64 flex flex-col flex-1 min-w-0">
+<!-- TopNavBar Blueprint Executed -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-6 h-16 w-full bg-surface-container-lowest border-b border-outline-variant shadow-sm">
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-secondary text-body-md" data-icon="search">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm font-body-sm text-on-surface focus:outline-none" disabled="" placeholder="Search invoices, customers, UTR numbers..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-secondary hover:text-on-surface p-1.5 rounded-lg hover:bg-surface-container-low">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary hover:text-on-surface p-1.5 rounded-lg hover:bg-surface-container-low">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-on-primary-fixed text-label-md font-label-md">
+              AD
+            </div>
+<div class="text-left">
+<div class="font-title-sm text-title-sm text-on-surface leading-tight">Admin User</div>
+<div class="font-label-sm text-label-sm text-secondary">Super Admin</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Background Content Simulation -->
+<main class="p-8 flex-1 bg-surface space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Payment Entries</h2>
+<p class="font-body-sm text-body-sm text-secondary">Reconcile, audit, and log incoming subscription transactions</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-lowest border border-outline-variant text-on-surface px-4 py-2 rounded-lg text-body-md font-body-md font-medium">Export Ledger</button>
+<button class="bg-primary-container text-on-primary px-4 py-2 rounded-lg text-body-md font-body-md font-medium">Record Payment</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-6">
+<div class="h-64 flex items-center justify-center border-2 border-dashed border-outline-variant rounded-lg text-secondary">
+            Invoice Table Placeholder (View blocked by active modal flow)
+          </div>
+</div>
+</main>
+</div>
+</div>
+<!-- MODAL BACKDROP VEIL & CENTERED MODAL DIALOG CARD -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm transition-all duration-200">
+<!-- Modal Card (max-w-xl) -->
+<div class="w-full max-w-xl bg-surface-container-lowest rounded-xl shadow-2xl border border-outline-variant flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+<!-- 1. Header -->
+<div class="px-6 py-5 border-b border-outline-variant flex items-start justify-between bg-surface-container-lowest">
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">Record Payment</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Log a payment transaction against an outstanding customer invoice.</p>
+</div>
+<button aria-label="Close dialog" class="text-secondary hover:text-on-surface hover:bg-surface-container-low p-1.5 rounded-lg transition-colors duration-150 -mr-1" type="button">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<!-- Modal Body (Scrollable if compact viewport) -->
+<div class="px-6 py-5 overflow-y-auto max-h-[calc(85vh-130px)] space-y-5">
+<!-- Context Summary Box -->
+<div class="bg-surface-container-low border border-secondary-container rounded-lg p-4"><div class="flex items-center justify-between pb-3 border-b border-secondary-container/60">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-headline-md" data-icon="receipt_long">receipt_long</span>
+<div>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">INV-00456</span>
+<span class="text-secondary mx-1.5">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">Techcraft Solutions Pvt Ltd</span>
+</div>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-surface-container text-primary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              Partially Paid
+            </span>
+</div>
+<div class="grid grid-cols-3 gap-3 pt-3 text-left">
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Invoice Total</div>
+<div class="font-currency-table text-currency-table text-on-surface mt-0.5 font-medium">₹ 17,11,000.00</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Already Paid</div>
+<div class="font-currency-table text-currency-table text-tertiary-container mt-0.5 font-medium">₹ 10,00,000.00</div>
+</div>
+<div class="border-l border-secondary-container/80 pl-3">
+<div class="font-label-sm text-label-sm text-primary-container font-semibold uppercase tracking-wider">Amount Due</div>
+<div class="font-title-sm text-title-sm font-bold text-primary mt-0.5">₹ 7,11,000.00</div>
+</div>
+</div></div>
+<!-- Form Elements -->
+<form class="space-y-4">
+<!-- Field 1: Invoice (Read-only / Locked) -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5">Linked Invoice Reference</label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-3.5 py-2 text-body-md font-body-md text-secondary cursor-not-allowed select-all pr-24" disabled="" readonly="" type="text" value="INV-00456 — Techcraft Solutions Pvt Ltd">
+<span class="absolute right-2.5 px-2 py-0.5 rounded bg-surface-container-highest text-secondary text-label-sm font-label-sm">
+                Locked
+              </span>
+</div>
+</div>
+<!-- Field 2: Payment Method (Segmented Pills) -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5">Payment Method</label>
+<div class="grid grid-cols-4 gap-2">
+<!-- Card -->
+<label class="flex items-center justify-center gap-1.5 py-2 px-2.5 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors duration-150">
+<input class="sr-only" name="payment_method" type="radio" value="card">
+<span class="material-symbols-outlined text-body-md text-secondary" data-icon="credit_card">credit_card</span>
+<span class="font-label-md text-label-md text-secondary">Card</span>
+</label>
+<!-- Bank Transfer (Selected) -->
+<label class="flex items-center justify-center gap-1.5 py-2 px-2.5 border-2 border-primary-container bg-surface-container-low rounded-lg cursor-pointer transition-colors duration-150 shadow-sm">
+<input checked="" class="sr-only" name="payment_method" type="radio" value="bank_transfer">
+<span class="material-symbols-outlined text-body-md text-primary-container" data-icon="account_balance">account_balance</span>
+<span class="font-label-md text-label-md text-primary-container font-semibold">Bank Transfer</span>
+</label>
+<!-- Cash -->
+<label class="flex items-center justify-center gap-1.5 py-2 px-2.5 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors duration-150">
+<input class="sr-only" name="payment_method" type="radio" value="cash">
+<span class="material-symbols-outlined text-body-md text-secondary" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md text-secondary">Cash</span>
+</label>
+<!-- UPI -->
+<label class="flex items-center justify-center gap-1.5 py-2 px-2.5 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors duration-150">
+<input class="sr-only" name="payment_method" type="radio" value="upi">
+<span class="material-symbols-outlined text-body-md text-secondary" data-icon="qr_code_2">qr_code_2</span>
+<span class="font-label-md text-label-md text-secondary">UPI</span>
+</label>
+</div>
+</div>
+<!-- Field 3 & 4: Payment Amount & Date Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Payment Amount -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="payment-amount">Amount Received (₹)</label>
+<button class="text-primary-container hover:underline font-label-sm text-label-sm font-semibold" type="button">Fill Balance</button>
+</div>
+<div class="relative flex rounded-lg shadow-sm">
+<span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-outline-variant bg-surface-container-low text-secondary font-label-md text-label-md">
+                  ₹
+                </span>
+<input class="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-lg border border-outline-variant text-on-surface font-title-sm text-title-sm font-semibold focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none" id="payment-amount" type="text" value="7,11,000.00">
+</div>
+<p class="font-label-sm text-label-sm text-secondary mt-1">Full or partial payment allowed.</p>
+</div>
+<!-- Payment Date -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="payment-date">Payment Date</label>
+<div class="relative flex items-center">
+<input class="w-full border border-outline-variant rounded-lg px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none" id="payment-date" type="text" value="31 Oct 2026">
+<span class="material-symbols-outlined absolute right-3 text-secondary pointer-events-none text-body-md" data-icon="calendar_today">calendar_today</span>
+</div>
+<p class="font-label-sm text-label-sm text-secondary mt-1">Transaction value realization date.</p>
+</div>
+</div>
+<!-- Field 5: Reference / Transaction ID -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="reference-id">Reference / Transaction ID</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-body-md" data-icon="tag">tag</span>
+<input class="w-full pl-9 pr-3 py-2 border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface placeholder-secondary focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none font-mono" id="reference-id" placeholder="UTR / Cheque / Transaction No. (e.g. CMS981726451)" type="text" value="CMS981726451">
+</div>
+</div>
+<!-- Field 6: Internal Note / Remarks -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1.5" for="payment-remarks">Note (Transaction Reference / Remarks)</label>
+<textarea class="w-full border border-outline-variant rounded-lg px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none resize-none" id="payment-remarks" rows="2">Full clearance of balance for Q3 agreement (Ref: CMS981726451).</textarea>
+</div>
+<!-- Real-time Balance Calculation preview card -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-3 space-y-2"><div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-secondary">Amount Due before payment</span>
+<span class="font-currency-table text-currency-table text-on-surface font-medium">₹ 7,11,000.00</span>
+</div>
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-secondary">Payment being recorded</span>
+<span class="font-currency-table text-currency-table text-primary-container font-semibold">- ₹ 7,11,000.00</span>
+</div>
+<div class="pt-2 border-t border-outline-variant flex items-center justify-between">
+<div>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface">Remaining balance</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-tertiary-container text-body-sm" data-icon="check_circle">check_circle</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-semibold">Invoice will be marked as Fully Paid</span>
+</div>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-tertiary-container">₹ 0.00</span>
+</div></div>
+</form>
+</div>
+<!-- Modal Actions Footer -->
+<div class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex items-center justify-end gap-3">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant hover:bg-surface text-on-surface font-body-md text-body-md font-medium rounded-lg transition-colors duration-150" type="button">
+          Cancel
+        </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary-container hover:bg-primary text-on-primary font-body-md text-body-md font-medium rounded-lg shadow-sm transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-body-md" data-icon="check">check</span>
+<span class="">Record Payment &amp; Mark Paid</span>
+</button>
+</div>
+</div>
+</div>
+
+
+</body></html>

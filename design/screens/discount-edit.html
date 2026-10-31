@@ -1,0 +1,502 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Edit Discount - Brightloop</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-surface": "#0b1c30",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary-container": "#7df1bd",
+            "primary-fixed": "#e2dfff",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-primary-fixed": "#0f0069",
+            "surface-container-highest": "#d3e4fe",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-secondary-fixed": "#131b2e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary-container": "#006e4c",
+            "secondary": "#565e74",
+            "error": "#ba1a1a",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "surface-container": "#e5eeff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-fixed": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c3c0ff",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-bright": "#f8f9ff",
+            "tertiary": "#005338",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#dce9ff",
+            "on-background": "#0b1c30",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-container": "#5c647a",
+            "on-primary-container": "#dad7ff",
+            "primary": "#3525cd",
+            "background": "#f8f9ff",
+            "outline-variant": "#c7c4d8",
+            "on-surface-variant": "#464555",
+            "outline": "#777587"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "margin-tablet": "1.25rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "currency-display": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-table": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen flex">
+<!-- SideNavBar Component -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none">
+<!-- Brand / Workspace Header -->
+<div class="p-4 border-b border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-bold">
+<span class="material-symbols-outlined text-lg" data-icon="autorenew">autorenew</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight">Brightloop</h1>
+<p class="font-label-sm text-label-sm text-secondary font-medium">Billing &amp; Revenue Ops</p>
+</div>
+</div>
+</div>
+<!-- Navigation Scrollable Area -->
+<div class="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+<!-- Main Core Navigation Tabs -->
+<nav class="space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- Customers -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Customers</span>
+</a>
+<!-- Products -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<!-- Plans -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="layers">layers</span>
+<span class="font-body-md text-body-md">Plans</span>
+</a>
+<!-- Quotation Templates -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="description">description</span>
+<span class="font-body-md text-body-md">Quotation Templates</span>
+</a>
+<!-- Subscriptions -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="autorenew">autorenew</span>
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<!-- Invoices -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-md text-body-md">Invoices</span>
+</a>
+<!-- Payments -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="payments">payments</span>
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="bar_chart">bar_chart</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</nav>
+<!-- Admin / Ops Collateral Sub-section -->
+<div>
+<div class="px-3 pb-2">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider font-semibold">Admin only</span>
+</div>
+<nav class="space-y-1">
+<!-- Discounts (Active Navigation Item) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low dark:bg-surface-container text-primary-container dark:text-inverse-primary font-medium" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="percent" data-weight="fill" style="font-variation-settings: 'FILL' 1;">percent</span>
+<span class="font-body-md text-body-md">Discounts</span>
+</a>
+<!-- Taxes -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="account_balance">account_balance</span>
+<span class="font-body-md text-body-md">Taxes</span>
+</a>
+<!-- Staff -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="badge">badge</span>
+<span class="font-body-md text-body-md">Staff</span>
+</a>
+<!-- Settings -->
+
+</nav>
+</div>
+</div>
+<!-- Sidebar Footer Action -->
+<div class="p-3 border-t border-outline-variant">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary-container font-label-md text-label-md transition-colors duration-150" type="button">
+<span class="material-symbols-outlined text-base" data-icon="add">add</span>
+<span class="">New Subscription</span>
+</button>
+</div>
+</aside>
+<!-- Main Viewport Canvas Container -->
+<div class="pl-64 flex-1 flex flex-col min-h-screen">
+<!-- TopNavBar Component -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-6 h-16 w-full bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+<!-- Search on Left -->
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-lg" data-icon="search">search</span>
+<input class="w-full h-9 pl-9 pr-3 text-body-sm font-body-sm rounded-lg border border-outline-variant bg-surface placeholder:text-secondary focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" placeholder="Search discounts, invoices, accounts..." type="text">
+</div>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 relative" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary-container"></span>
+</button>
+<button aria-label="Help and Documentation" class="p-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-6 w-px bg-outline-variant"></div>
+<!-- User Identity Block -->
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="Close-up professional studio portrait of an experienced Indian male revenue controller and system administrator named Rajesh Sharma, dressed in crisp business attire against a bright minimalist modern corporate workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBpmtZYm9dgRZ6lESu_6unbtyWUU8t-Oiq4SgU8fCwZhl-dCNB6I5ZD8j9wJjoB0Yl2XNOuDtdpDVRo1O7iZeRR7yp21hp4wGJPQEojZ_1gZIuR6S1msOMLtWOohQhM8nDcdltQKWx37BHAcgA2QgWh2MR-OR4rX4V79KaY83eGg5kArUfMC0AFXXifUD4J2ojJ_7WQwpEulWM0Z8IMDKZt1JOIT0OgIsGstQoGUM">
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm font-semibold text-on-surface leading-tight">Rajesh Sharma</span>
+<span class="font-label-sm text-label-sm text-primary-container font-medium">Admin</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<main class="flex-1 p-8 max-w-7xl w-full mx-auto space-y-6">
+<!-- Breadcrumbs Navigation -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 font-label-md text-label-md text-secondary">
+<a class="hover:text-on-surface transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+<a class="hover:text-on-surface transition-colors" href="#">Discounts</a>
+<span class="material-symbols-outlined text-xs" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-semibold">Edit Discount (DISC-ENT-2026)</span>
+</nav>
+<!-- Page Header & Action Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-outline-variant/60">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">Edit Discount: Enterprise Rebate 2026</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-tertiary-fixed text-tertiary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Active
+            </span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Configure valuation parameters, targeting scopes, and duration validity for recurring contract billing.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md text-body-md hover:bg-surface-container-low hover:border-outline transition-colors duration-150" type="button">
+            Cancel
+          </button>
+<button class="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-body-md text-body-md hover:bg-primary transition-colors duration-150 flex items-center gap-2" form="discount-edit-form" type="submit">
+<span class="material-symbols-outlined text-base" data-icon="check">check</span>
+<span class="">Save Discount</span>
+</button>
+</div>
+</div>
+<!-- Main Form Structured Grid -->
+<form class="space-y-6" id="discount-edit-form">
+<!-- Card 1: Discount Details & Valuation -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-surface-container">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-md bg-surface-container-low text-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="tune">tune</span>
+</div>
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Discount Details &amp; Valuation</h2>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">DISC-ENT-2026</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Name Input -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="discount_name">Discount Name</label>
+<input class="w-full h-[38px] px-3 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" id="discount_name" name="discount_name" type="text" value="Enterprise Rebate 2026">
+<p class="font-body-sm text-body-sm text-secondary">Internal name displayed in quotation engines and customer ledger statements.</p>
+</div>
+<!-- Discount Code / Slug -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="discount_code">Discount Code / Slug</label>
+<div class="relative">
+<input class="w-full h-[38px] px-3 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none uppercase font-mono" id="discount_code" name="discount_code" type="text" value="ENT-Q1-10">
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Unique alphanumeric coupon reference used by billing webhooks.</p>
+</div>
+<!-- Discount Type Toggle & Valuation -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface">Discount Type</label>
+<div class="grid grid-cols-2 p-1 bg-surface-container-low rounded-lg border border-outline-variant/60 h-[38px]">
+<label class="flex items-center justify-center gap-1.5 rounded-md bg-surface-container-lowest text-primary-container font-label-md text-label-md shadow-xs cursor-pointer">
+<input checked="" class="hidden" name="discount_type" type="radio" value="percentage">
+<span class="material-symbols-outlined text-sm" data-icon="percent">percent</span>
+<span class="">Percentage (%)</span>
+</label>
+<label class="flex items-center justify-center gap-1.5 rounded-md text-secondary hover:text-on-surface font-label-md text-label-md cursor-pointer transition-colors">
+<input class="hidden" name="discount_type" type="radio" value="fixed">
+<span class="font-mono text-sm">₹</span>
+<span class="">Fixed Amount (₹)</span>
+</label>
+</div>
+</div>
+<!-- Discount Value Input -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="discount_value">Discount Value</label>
+<div class="relative flex rounded-lg">
+<input class="w-full h-[38px] pl-3 pr-10 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none tabular-nums" id="discount_value" name="discount_value" step="0.01" type="number" value="10">
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-secondary font-label-md text-label-md">
+                  %
+                </div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Applied dynamically across recurring subscription line items.</p>
+</div>
+</div>
+<!-- Helper Text Banner / Callout -->
+<div class="mt-5 p-3.5 rounded-lg bg-surface-container-low border border-primary-container/20 flex items-start gap-3">
+<span class="material-symbols-outlined text-primary-container text-xl shrink-0 mt-0.5" data-icon="info">info</span>
+<div class="text-body-sm font-body-sm text-on-surface leading-snug"><span class="font-semibold text-primary-container">Automation rule:</span> Applied automatically on the next invoice while valid.</div>
+</div>
+</section>
+<!-- Card 2: Scope & Applicability -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-surface-container">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-md bg-surface-container-low text-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="checklist">checklist</span>
+</div>
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Scope &amp; Applicability</h2>
+</div>
+</div>
+<div class="space-y-6">
+<!-- "Applies to" radio selector -->
+<div class="space-y-2.5">
+<label class="block font-label-md text-label-md text-on-surface">Applies to</label>
+<div class="flex flex-col sm:flex-row gap-4">
+<label class="flex items-center gap-3 p-3.5 rounded-lg border border-outline-variant hover:border-outline bg-surface-container-lowest cursor-pointer flex-1 transition-colors">
+<input class="h-4 w-4 text-primary-container border-outline-variant focus:ring-primary-container" name="discount_scope" type="radio" value="whole">
+<div>
+<span class="block font-title-sm text-title-sm font-semibold text-on-surface">Whole subscriptions</span>
+<span class="block font-body-sm text-body-sm text-secondary">Deducts aggregate invoice totals across all line entries</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-3.5 rounded-lg border-2 border-primary-container bg-surface-container-low/40 cursor-pointer flex-1">
+<input checked="" class="h-4 w-4 text-primary-container border-outline-variant focus:ring-primary-container" name="discount_scope" type="radio" value="specific">
+<div>
+<span class="block font-title-sm text-title-sm font-semibold text-on-surface">Specific products</span>
+<span class="block font-body-sm text-body-sm text-secondary">Restrict rebates exclusively to selected plan modules</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Product multi-select chip input with selected chips -->
+<div class="space-y-2 p-4 rounded-lg bg-surface border border-outline-variant/80">
+<label class="block font-label-md text-label-md text-on-surface">Target Products (Selected)</label>
+<div class="flex flex-wrap items-center gap-2">
+<!-- Chip 1 -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface font-body-sm text-body-sm shadow-xs">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="cloud">cloud</span>
+<span class="">Cloud Core Platform v2</span>
+<button aria-label="Remove Cloud Core Platform v2" class="text-secondary hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+<!-- Chip 2 -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface font-body-sm text-body-sm shadow-xs">
+<span class="material-symbols-outlined text-base text-secondary" data-icon="database">database</span>
+<span class="">Database Shard Cluster</span>
+<button aria-label="Remove Database Shard Cluster" class="text-secondary hover:text-error transition-colors" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+<!-- Add Product Selector / Trigger -->
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-dashed border-primary-container text-primary-container bg-surface-container-lowest hover:bg-surface-container font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+<span class="">+ Add Product</span>
+</button>
+</div>
+</div>
+<!-- Minimum Purchase Amount & Minimum Quantity -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Minimum Purchase Amount (₹ INR) -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="min_amount">Minimum Purchase Amount (₹ INR)</label>
+<div class="relative flex rounded-lg">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary font-mono text-sm">
+                    ₹
+                  </div>
+<input class="w-full h-[38px] pl-8 pr-3 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none tabular-nums font-medium" id="min_amount" name="min_amount" type="text" value="₹ 10,00,000.00">
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Minimum contracted recurring run-rate required before discount triggers.</p>
+</div>
+<!-- Minimum Quantity -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="min_quantity">Minimum Quantity</label>
+<input class="w-full h-[38px] px-3 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none tabular-nums" id="min_quantity" min="1" name="min_quantity" type="number" value="1">
+<p class="font-body-sm text-body-sm text-secondary">Optional minimum aggregate seats or resource units.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Card 3: Validity Window & Usage Limits -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-surface-container">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-md bg-surface-container-low text-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-base" data-icon="calendar_month">calendar_month</span>
+</div>
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface">Validity Window &amp; Usage Limits</h2>
+</div>
+</div>
+<div class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Start Date -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="start_date">Start Date</label>
+<div class="relative">
+<input class="w-full h-[38px] pl-3 pr-10 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" id="start_date" name="start_date" type="text" value="01/01/2026">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary text-base pointer-events-none" data-icon="event">event</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Effective ledger start (DD/MM/YYYY)</p>
+</div>
+<!-- End Date -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="end_date">End Date</label>
+<div class="relative">
+<input class="w-full h-[38px] pl-3 pr-10 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" id="end_date" name="end_date" type="text" value="31/03/2026">
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary text-base pointer-events-none" data-icon="event">event</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Expiry at 23:59:59 IST</p>
+</div>
+<!-- Total Usage Limit -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-label-md text-label-md text-on-surface" for="usage_limit">Total Usage Limit</label>
+<span class="font-label-sm text-label-sm text-primary-container bg-surface-container-low px-2 py-0.5 rounded font-medium">
+                    12 claimed so far (38 remaining)
+                  </span>
+</div>
+<input class="w-full h-[38px] px-3 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none tabular-nums" id="usage_limit" name="usage_limit" type="number" value="50">
+<p class="font-body-sm text-body-sm text-secondary">Maximum enterprise customers eligible for quota redemption.</p>
+</div>
+</div>
+<!-- Automatic Renewal Deduction Checkbox -->
+<div class="pt-4 border-t border-surface-container">
+<label class="flex items-start gap-3 cursor-pointer">
+<input checked="" class="mt-1 h-4 w-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20" id="auto_renewal" name="auto_renewal" type="checkbox">
+<div>
+<span class="font-title-sm text-title-sm font-semibold text-on-surface block">
+                    Auto-apply across recurring contract billing cycles while validity date active
+                  </span>
+<span class="font-body-sm text-body-sm text-secondary block mt-0.5">
+                    When active, customers will not need manual re-approval for automated quarterly or monthly billing cycles through 31/03/2026.
+                  </span>
+</div>
+</label>
+</div>
+</div>
+</section>
+<!-- Bottom Action Bar -->
+<div class="flex items-center justify-end gap-3 pt-4 pb-12 border-t border-outline-variant/60">
+<button class="px-5 py-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md text-body-md hover:bg-surface-container-low hover:border-outline transition-colors duration-150" type="button">
+            Cancel
+          </button>
+<button class="px-6 py-2.5 rounded-lg bg-primary-container text-on-primary font-body-md text-body-md font-medium hover:bg-primary transition-colors duration-150 flex items-center gap-2 shadow-sm" type="submit">
+<span class="material-symbols-outlined text-lg" data-icon="save">save</span>
+<span class="">Save Discount</span>
+</button>
+</div>
+</form>
+</main>
+</div>
+
+
+</body></html>

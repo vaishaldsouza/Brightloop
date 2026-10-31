@@ -1,0 +1,385 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - Billing &amp; Revenue Ops</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-surface": "#0b1c30",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary-container": "#7df1bd",
+            "primary-fixed": "#e2dfff",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-primary-fixed": "#0f0069",
+            "surface-container-highest": "#d3e4fe",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-secondary-fixed": "#131b2e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary-container": "#006e4c",
+            "secondary": "#565e74",
+            "error": "#ba1a1a",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "surface-container": "#e5eeff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-fixed": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c3c0ff",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-bright": "#f8f9ff",
+            "tertiary": "#005338",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#dce9ff",
+            "on-background": "#0b1c30",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-container": "#5c647a",
+            "on-primary-container": "#dad7ff",
+            "primary": "#3525cd",
+            "background": "#f8f9ff",
+            "outline-variant": "#c7c4d8",
+            "on-surface-variant": "#464555",
+            "outline": "#777587"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "margin-tablet": "1.25rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "currency-display": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-table": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.05em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased overflow-hidden min-h-screen">
+<!-- ==================== BACKGROUND APP SHELL ==================== -->
+<div class="flex h-screen w-full select-none pointer-events-none filter blur-[0.5px]">
+<!-- SHARED COMPONENT: SideNavBar -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant bg-surface-container-lowest">
+<!-- Rail Header -->
+<div class="p-4 border-b border-outline-variant/60 flex items-center gap-3">
+<div class="h-9 w-9 rounded-lg bg-primary-container flex items-center justify-center text-white font-headline-md text-headline-md shadow-sm">
+<span class="material-symbols-outlined text-white" data-icon="autorenew">autorenew</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">Brightloop</span>
+<span class="font-label-sm text-label-sm text-secondary">Billing &amp; Revenue Ops</span>
+</div>
+</div>
+<!-- Action Button -->
+<div class="p-3">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-primary-container text-white font-label-md text-label-md shadow-sm" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+          New Subscription
+        </button>
+</div>
+<!-- Primary Tabs -->
+<div class="flex-1 overflow-y-auto px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="font-body-md text-body-md">Plans</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-body-md text-body-md">Quotation Templates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-md text-body-md">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</div>
+<!-- Footer Sub-Navigation: Staff Active -->
+<div class="p-3 border-t border-outline-variant/60 space-y-1"><div class="px-3 pt-1 pb-1"><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Admin only</span></div><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#"><span class="material-symbols-outlined" data-icon="percent">percent</span><span class="font-body-md text-body-md">Discounts</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#"><span class="material-symbols-outlined" data-icon="account_balance">account_balance</span><span class="font-body-md text-body-md">Taxes</span></a><a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low text-primary-container font-medium" href="#"><span class="material-symbols-outlined" data-icon="badge">badge</span><span class="font-body-md text-body-md">Staff</span></a></div>
+</aside>
+<!-- Main Content Canvas (Shell Background) -->
+<div class="flex-1 ml-64 flex flex-col min-w-0">
+<!-- SHARED COMPONENT: TopNavBar -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-6 h-16 w-full bg-surface-container-lowest border-b border-outline-variant">
+<div class="flex items-center gap-4 flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-secondary text-base" data-icon="search">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 text-body-md font-body-md border border-outline-variant rounded-lg bg-surface-bright focus:outline-none" disabled="" placeholder="Search orders, invoices, staff members..." type="text" value="Search staff...">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary hover:text-on-surface p-2 rounded-full cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-secondary hover:text-on-surface p-2 rounded-full cursor-pointer" data-icon="help_outline">help_outline</span>
+</div>
+<div class="h-6 w-px bg-outline-variant/60"></div>
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center font-label-md text-label-md text-on-surface font-semibold">
+              AD
+            </div>
+<div class="flex flex-col text-left">
+<span class="font-label-md text-label-md text-on-surface">Admin</span>
+<span class="font-label-sm text-label-sm text-secondary">ops-admin@brightloop.in</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Staff Directory Background Content -->
+<main class="flex-1 p-8 bg-surface overflow-auto">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Staff Management</h1>
+<p class="font-body-md text-body-md text-secondary">Manage administrative team privileges, operational access, and roles.</p>
+</div>
+<button class="px-4 py-2 bg-primary-container text-white rounded-lg font-label-md text-label-md flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="person_add">person_add</span>
+            Add Staff Member
+          </button>
+</div>
+<!-- Background Staff Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-secondary font-label-md text-label-md uppercase">
+<th class="py-3 px-4">Member Name</th>
+<th class="py-3 px-4">Email</th>
+<th class="py-3 px-4">Department</th>
+<th class="py-3 px-4">Role</th>
+<th class="py-3 px-4">Status</th>
+<th class="py-3 px-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high font-body-md text-body-md text-on-surface">
+<tr class="h-12 bg-surface-container-lowest">
+<td class="px-4 py-2 font-medium">Rajesh Sundaram</td>
+<td class="px-4 py-2 text-secondary">rajesh.s@brightloop.in</td>
+<td class="px-4 py-2">Billing &amp; Revenue Operations</td>
+<td class="px-4 py-2"><span class="px-2 py-0.5 rounded text-xs bg-surface-container font-semibold text-primary-container">Owner Admin</span></td>
+<td class="px-4 py-2"><span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-tertiary font-medium"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Active</span></td>
+<td class="px-4 py-2 text-right"><span class="material-symbols-outlined text-secondary" data-icon="more_horiz">more_horiz</span></td>
+</tr>
+<tr class="h-12 bg-surface-container-lowest">
+<td class="px-4 py-2 font-medium">Ananya Sharma</td>
+<td class="px-4 py-2 text-secondary">ananya.s@brightloop.in</td>
+<td class="px-4 py-2">Financial Accounting</td>
+<td class="px-4 py-2"><span class="px-2 py-0.5 rounded text-xs bg-surface-container font-semibold text-primary-container">Billing Lead</span></td>
+<td class="px-4 py-2"><span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-tertiary font-medium"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Active</span></td>
+<td class="px-4 py-2 text-right"><span class="material-symbols-outlined text-secondary" data-icon="more_horiz">more_horiz</span></td>
+</tr>
+<tr class="h-12 bg-surface-container-lowest">
+<td class="px-4 py-2 font-medium">Venkatesh Rao</td>
+<td class="px-4 py-2 text-secondary">venkat.r@brightloop.in</td>
+<td class="px-4 py-2">Customer Success</td>
+<td class="px-4 py-2"><span class="px-2 py-0.5 rounded text-xs bg-surface-container font-semibold text-secondary">Staff Member</span></td>
+<td class="px-4 py-2"><span class="inline-flex items-center gap-1.5 font-label-sm text-label-sm text-tertiary font-medium"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Active</span></td>
+<td class="px-4 py-2 text-right"><span class="material-symbols-outlined text-secondary" data-icon="more_horiz">more_horiz</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</main>
+</div>
+</div>
+<!-- ==================== MODAL OVERLAY & DIALOG ==================== -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-[2px]">
+<!-- Modal Card (Max width 580px for dense financial layout) -->
+<div class="relative w-full max-w-[560px] bg-surface-container-lowest rounded-xl border border-outline-variant shadow-2xl overflow-hidden flex flex-col">
+<!-- Modal Header -->
+<div class="flex items-start justify-between px-6 pt-5 pb-4 border-b border-outline-variant/50">
+<div>
+<h2 class="font-headline-md text-headline-md font-semibold text-on-surface tracking-tight">Add Staff Member</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Invite an operational team member with Staff read/write privileges.</p>
+</div>
+<button aria-label="Close dialog" class="text-secondary hover:text-on-surface transition-colors p-1 rounded-lg hover:bg-surface-container-low" type="button">
+<span class="material-symbols-outlined text-xl" data-icon="close">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="px-6 py-5 space-y-4 max-h-[calc(85vh-130px)] overflow-y-auto">
+<!-- Full Name & Work Email in 2 Column Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Full Name -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="full_name">
+              Full Name <span class="text-error">*</span>
+</label>
+<input class="w-full h-[38px] px-3 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none transition-all" id="full_name" name="full_name" placeholder="e.g. Kavita Deshmukh" type="text" value="Kavita Deshmukh">
+</div>
+<!-- Work Email Address -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1" for="work_email">
+              Work Email Address <span class="text-error">*</span>
+</label>
+<input class="w-full h-[38px] px-3 font-body-md text-body-md rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none transition-all" id="work_email" name="work_email" placeholder="e.g. kavita.d@brightloop.in" type="email" value="kavita.d@brightloop.in">
+</div>
+</div>
+<!-- Role Selection / Display -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-1">
+            Access Role &amp; Permissions
+          </label>
+<div class="p-3 rounded-lg border border-outline-variant bg-surface-container-low flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Staff (Operational Read/Write - Admin Controls Restricted)</span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="lock" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs" data-icon="info">info</span>
+<span class="">Can create, revise quotations, issue invoices, and manage client subscriptions. Master tenant billing and security policies remain restricted.</span>
+</div>
+</div>
+</div>
+<!-- Department / Team Dropdown -->
+
+<!-- Temporary Password Field -->
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="block font-label-md text-label-md text-on-surface" for="temp_password">
+              Temporary Password <span class="text-error">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-secondary">System-generated</span>
+</div>
+<div class="relative">
+<input class="w-full h-[38px] pl-3 pr-10 font-body-md text-body-md font-mono rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none tracking-wide" id="temp_password" name="temp_password" type="text" value="TempSecure#2026">
+<button class="absolute right-2 top-2 text-secondary hover:text-on-surface p-0.5 rounded transition-colors" id="toggle-password-btn" title="Toggle visibility" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="visibility" id="password-visibility-icon">visibility</span>
+</button>
+</div>
+<!-- Live Password Requirements Checklist -->
+<div class="mt-2.5 p-3 rounded-lg bg-surface-container-low border border-outline-variant/60"><span class="block font-label-sm text-label-sm text-secondary uppercase font-semibold mb-2 tracking-wider">Password Requirements</span><div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base text-tertiary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span><span class="font-body-sm text-body-sm text-on-surface">9 or more characters</span></div><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base text-tertiary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span><span class="font-body-sm text-body-sm text-on-surface">one uppercase</span></div><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base text-tertiary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span><span class="font-body-sm text-body-sm text-on-surface">one lowercase</span></div><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base text-tertiary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span><span class="font-body-sm text-body-sm text-on-surface">one special character</span></div></div></div>
+</div>
+<!-- Onboarding and Security Checkboxes -->
+<div class="pt-1 space-y-2.5">
+<label class="flex items-start gap-2.5 cursor-pointer select-none">
+<input checked="" class="mt-0.5 h-4 w-4 rounded border-outline text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+<span class="font-body-sm text-body-sm text-on-surface leading-snug">Require user to change password upon first login</span>
+</label>
+<label class="flex items-start gap-2.5 cursor-pointer select-none">
+<input checked="" class="mt-0.5 h-4 w-4 rounded border-outline text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+<span class="font-body-sm text-body-sm text-on-surface leading-snug">Send onboarding invitation email with login credentials</span>
+</label>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="flex items-center justify-end gap-3 px-6 py-4 bg-surface-bright border-t border-outline-variant/60">
+<button class="px-4 py-2 h-[38px] rounded-lg border border-outline-variant bg-surface-container-lowest font-label-md text-label-md text-on-surface hover:bg-surface-container-low hover:border-outline transition-colors shadow-sm" type="button">
+          Cancel
+        </button>
+<button class="px-4 py-2 h-[38px] rounded-lg bg-primary-container font-label-md text-label-md text-white hover:bg-primary active:bg-[#3730a3] transition-colors shadow-sm flex items-center gap-1.5 font-medium" type="button">
+<span class="material-symbols-outlined text-base" data-icon="person_add">person_add</span>
+          Add Staff Member
+        </button>
+</div>
+</div>
+</div>
+<script>
+    // Micro-interaction for toggle temporary password
+    const toggleBtn = document.getElementById('toggle-password-btn');
+    const passwordInput = document.getElementById('temp_password');
+    const visibilityIcon = document.getElementById('password-visibility-icon');
+
+    if (toggleBtn && passwordInput && visibilityIcon) {
+      toggleBtn.addEventListener('click', () => {
+        if (passwordInput.type === 'text') {
+          passwordInput.type = 'password';
+          visibilityIcon.textContent = 'visibility_off';
+        } else {
+          passwordInput.type = 'text';
+          visibilityIcon.textContent = 'visibility';
+        }
+      });
+    }
+  </script>
+
+
+</body></html>

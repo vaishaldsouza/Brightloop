@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Brightloop Subscriptions - Sign Up</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed": "#dae2fd",
+            "inverse-on-surface": "#eaf1ff",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "primary-fixed-dim": "#c3c0ff",
+            "inverse-primary": "#c3c0ff",
+            "on-background": "#0b1c30",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary": "#ffffff",
+            "surface": "#f8f9ff",
+            "surface-tint": "#4d44e3",
+            "outline": "#777587",
+            "background": "#f8f9ff",
+            "tertiary-container": "#006e4c",
+            "tertiary-fixed-dim": "#68dba9",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary-container": "#7df1bd",
+            "primary": "#3525cd",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-surface": "#0b1c30",
+            "inverse-surface": "#213145",
+            "surface-bright": "#f8f9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-error-container": "#93000a",
+            "surface-dim": "#cbdbf5",
+            "outline-variant": "#c7c4d8",
+            "primary-fixed": "#e2dfff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-container": "#dae2fd",
+            "on-secondary-container": "#5c647a",
+            "surface-container-high": "#dce9ff",
+            "surface-container": "#e5eeff",
+            "tertiary": "#005338",
+            "on-surface-variant": "#464555",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#0f0069",
+            "surface-variant": "#d3e4fe",
+            "on-secondary-fixed": "#131b2e",
+            "on-primary": "#ffffff",
+            "secondary": "#565e74",
+            "surface-container-low": "#eff4ff",
+            "on-primary-container": "#dad7ff",
+            "on-primary-fixed-variant": "#3323cc"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1.5rem",
+            "margin-tablet": "1.25rem",
+            "space-md": "0.75rem",
+            "margin": "2rem",
+            "space-xl": "2rem",
+            "gutter-tablet": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "currency-display": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "currency-table": ["Inter"],
+            "title-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"]
+          },
+          "fontSize": {
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased flex flex-col justify-start items-center min-h-screen">
+<div class="w-full max-w-[390px] min-h-screen bg-surface flex flex-col">
+<header class="bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container border-b border-primary-fixed-dim/20 shadow-sm flex justify-between items-center w-full px-4 h-14">
+<button aria-label="Go back" class="w-10 h-10 -ml-1 flex items-center justify-center rounded-lg hover:bg-primary-container/20 dark:hover:bg-primary/20 transition-colors active:opacity-80" type="button">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<span class="font-title-sm text-title-sm text-on-primary dark:text-on-primary-container tracking-tight">Brightloop</span>
+<button aria-label="Support Help" class="w-10 h-10 -mr-1 flex items-center justify-center rounded-lg hover:bg-primary-container/20 dark:hover:bg-primary/20 transition-colors active:opacity-80" type="button">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</header>
+<div class="bg-primary-container text-on-primary px-6 pt-5 pb-7 flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-xl bg-surface-container-lowest/15 backdrop-blur-sm border border-on-primary/20 flex items-center justify-center mb-3 shadow-inner">
+<span class="material-symbols-outlined text-[28px] text-on-primary" data-icon="all_inclusive" style="font-variation-settings: 'FILL' 1;">all_inclusive</span>
+</div>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-primary tracking-tight">Brightloop</h1>
+<p class="font-label-md text-label-md text-on-primary-container font-normal mt-0.5 tracking-normal">Enterprise B2B Subscriptions</p>
+</div>
+<main class="flex-1 px-4 -mt-3 pb-8">
+<div class="bg-surface-container-lowest rounded-xl border border-[#E2E8F0] shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] p-5">
+<div class="flex flex-col gap-2 pb-4 border-b border-[#F1F5F9]">
+<h2 class="font-headline-md text-headline-md text-on-surface">Create account</h2>
+<div class="flex items-center gap-2 bg-surface-container-low border border-secondary-fixed/50 px-3 py-2 rounded-lg">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="info">info</span>
+<p class="font-label-sm text-label-sm text-on-secondary-container">New accounts are created as customers.</p>
+</div>
+</div>
+<form class="mt-4 flex flex-col gap-4" onsubmit="event.preventDefault();">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="email">Work email</label>
+<div class="relative">
+<input aria-describedby="email-error" aria-invalid="true" class="w-full h-[44px] px-3 rounded-lg bg-surface-container-lowest border border-error text-on-surface font-body-md text-body-md focus:outline-none focus:border-error focus:ring-2 focus:ring-error/20" id="email" type="email" value="marcus.vance@acme-cloud.io"/>
+<span class="material-symbols-outlined absolute right-3 top-[12px] text-error text-[20px]" data-icon="error">error</span>
+</div>
+<p class="font-label-sm text-label-sm text-error flex items-center gap-1" id="email-error">
+              An account with this email already exists.
+            </p>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<div class="relative">
+<input class="w-full h-[44px] pl-3 pr-11 rounded-lg bg-surface-container-lowest border border-[#CBD5E1] text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 focus:outline-none" id="password" type="password" value="Starlight@2024"/>
+<button aria-label="Toggle password visibility" class="absolute right-0 top-0 h-[44px] w-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility_off" id="toggle-icon">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-low/70 border border-[#E2E8F0] rounded-lg p-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-2 block tracking-wider">PASSWORD REQUIREMENTS</span>
+<ul class="flex flex-col gap-1.5">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm text-tertiary font-medium">9+ characters</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm text-tertiary font-medium">At least one uppercase letter</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm text-tertiary font-medium">At least one lowercase letter</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm text-body-sm text-tertiary font-medium">At least one special character</span>
+</li>
+</ul>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="confirm-password">Confirm password</label>
+<input class="w-full h-[44px] px-3 rounded-lg bg-surface-container-lowest border border-[#CBD5E1] text-on-surface font-body-md text-body-md placeholder:text-outline focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 focus:outline-none" id="confirm-password" placeholder="Re-enter password" type="password"/>
+</div>
+<button class="w-full h-[44px] mt-2 bg-primary-container hover:bg-primary active:opacity-90 text-on-primary font-title-sm text-title-sm rounded-lg flex items-center justify-center transition-colors shadow-sm" type="submit">
+            Create account
+          </button>
+</form>
+<div class="mt-5 text-center">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary-container transition-colors inline-block py-2" href="#">
+            Already have an account? <span class="text-primary font-semibold underline underline-offset-2">Log in</span>
+</a>
+</div>
+</div>
+<div class="mt-6 text-center px-4">
+<p class="font-label-sm text-label-sm text-outline">
+          By signing up, you agree to Brightloop’s Master Subscription Agreement and Privacy Policy.
+        </p>
+</div>
+</main>
+</div>
+<script>
+    const toggleBtn = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggle-icon');
+
+    if (toggleBtn && passwordInput && toggleIcon) {
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        toggleIcon.textContent = isPassword ? 'visibility' : 'visibility_off';
+      });
+    }
+  </script>
+</body></html>

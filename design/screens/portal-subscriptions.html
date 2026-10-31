@@ -1,0 +1,539 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>My Subscriptions - Brightloop</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Inter Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#3525cd",
+            "secondary-fixed": "#dae2fd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#85f8c4",
+            "on-primary-fixed": "#0f0069",
+            "surface": "#f8f9ff",
+            "on-surface-variant": "#464555",
+            "on-tertiary-fixed-variant": "#005137",
+            "surface-container-high": "#dce9ff",
+            "inverse-primary": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "tertiary": "#005338",
+            "outline": "#777587",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-background": "#0b1c30",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-on-surface": "#eaf1ff",
+            "background": "#f8f9ff",
+            "secondary": "#565e74",
+            "on-secondary-container": "#5c647a",
+            "primary-container": "#4f46e5",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-surface": "#0b1c30",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "primary-fixed": "#e2dfff",
+            "outline-variant": "#c7c4d8",
+            "surface-bright": "#f8f9ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "tertiary-container": "#006e4c",
+            "inverse-surface": "#213145",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#bec6e0",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#7df1bd",
+            "on-primary-container": "#dad7ff",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-container": "#dae2fd",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#e5eeff",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "space-md": "0.75rem",
+            "margin": "2rem",
+            "margin-tablet": "1.25rem",
+            "space-sm": "0.5rem",
+            "gutter-tablet": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "currency-table": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"]
+          },
+          "fontSize": {
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col">
+<!-- Shared Component: TopNavBar (Exact JSON styles and semantic mapping) -->
+<header class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none sticky top-0 z-50">
+<div class="w-full px-gutter md:px-margin max-w-7xl mx-auto flex items-center justify-between h-16">
+<!-- Brand Logo & Global Links -->
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2.5" href="#">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="all_inclusive">all_inclusive</span>
+</div>
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary tracking-tight">Brightloop</span>
+</a>
+<!-- Desktop Navigation Items -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="border-b-2 border-primary dark:border-inverse-primary text-primary dark:text-inverse-primary font-title-sm text-title-sm pb-1" href="#">
+            My Subscriptions
+          </a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface font-body-md text-body-md transition-colors" href="#">
+            My Invoices
+          </a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface font-body-md text-body-md transition-colors" href="#">
+            Account
+          </a>
+</nav>
+</div>
+<!-- Trailing Cluster: Notifications, Help, & Profile Dropdown -->
+<div class="flex items-center gap-3">
+<!-- Action: Notifications -->
+<button aria-label="Notifications" class="w-9 h-9 flex items-center justify-center rounded-lg text-secondary hover:text-primary hover:bg-surface-container-low transition-colors duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+</button>
+<!-- Action: Help -->
+<button aria-label="Help" class="w-9 h-9 flex items-center justify-center rounded-lg text-secondary hover:text-primary hover:bg-surface-container-low transition-colors duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+</button>
+<div class="h-5 w-[1px] bg-outline-variant mx-1"></div>
+<!-- Profile Avatar & Interactive Dropdown Trigger -->
+<div class="relative" id="userMenuContainer">
+<button class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-surface-container-low transition-colors duration-150 focus:outline-none" id="userMenuBtn" type="button">
+<img class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="Corporate headshot of Aarav Sharma wearing formal navy blue executive attire in a brightly lit modern corporate office setting with pristine glass walls, minimalist architectural design, high-key ambient light, and cool neutral tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5m6YUsK3_Fm0pcvqat0rTMw-KsFxxs5gTpI2BkfAZo6R7ZR4MvGjQpXxcsmnSha4gql4JdwUYZvxkaHZ_dDCDRG1QXYRcMummWoUjpAUT0Zx_n1PfE5a0kX4BTtZWOYFw9gvEpGCiir-KQ0Xuy1soRvw3R_885G1Pc7dbCT2dbTfcUnn9I5MekninaPUw6KQp7rFivU8KLif092w8TeMGCRo1kgDyvw4nhADClRA">
+<div class="hidden lg:flex flex-col text-left">
+<span class="font-label-md text-label-md text-on-surface leading-tight">Aarav Sharma</span>
+<span class="font-label-sm text-label-sm text-secondary leading-tight">Techcraft Solutions Pvt Ltd</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="expand_more">expand_more</span>
+</button>
+<!-- Popover Dropdown Menu -->
+<div class="hidden absolute right-0 mt-2 w-64 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg py-2 z-50" id="userMenuDropdown">
+<div class="px-4 py-2.5 border-b border-outline-variant/50">
+<p class="font-title-sm text-title-sm text-on-surface">Aarav Sharma</p>
+<p class="font-body-sm text-body-sm text-secondary truncate">aarav@techcraft.in</p>
+<span class="inline-flex items-center gap-1.5 mt-2 px-2 py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Billing Admin
+              </span>
+</div>
+<div class="py-1">
+<a class="flex items-center gap-2 px-4 py-2 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="manage_accounts">manage_accounts</span>
+                Account Settings
+              </a>
+<a class="flex items-center gap-2 px-4 py-2 font-body-sm text-body-sm text-on-surface hover:bg-surface-container-low" href="#">
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="receipt_long">receipt_long</span>
+                Payment Methods
+              </a>
+</div>
+<div class="border-t border-outline-variant/50 pt-1">
+<button class="w-full flex items-center gap-2 px-4 py-2 font-label-md text-label-md text-error hover:bg-error-container/30 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="logout">logout</span>
+                Log out
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas Workspace -->
+<main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-outline-variant">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">My Subscriptions</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">View and manage your active subscriptions, renewal cycles, and contracted services.</p>
+</div>
+<div class="flex items-center gap-3">
+
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+          Enroll New Plan
+        </button>
+</div>
+</div>
+<!-- Filter & Operational Toolbar -->
+<div class="mt-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+<!-- Quick Search Bar -->
+<div class="relative flex-1 max-w-md">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="search">search</span>
+</div>
+<input class="block w-full pl-9 pr-3 py-2 text-body-md font-body-md bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-secondary focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 focus:outline-none transition-all" id="search-input" placeholder="Search by subscription number or plan name..." type="text">
+</div>
+<!-- Status Filter Tabs -->
+<div class="flex items-center gap-1 p-1 bg-surface-container-low rounded-lg border border-outline-variant overflow-x-auto">
+<button class="px-3 py-1.5 rounded-md font-label-md text-label-md bg-surface-container-lowest text-primary shadow-xs font-semibold whitespace-nowrap" type="button">
+          All (3)
+        </button>
+<button class="px-3 py-1.5 rounded-md font-label-md text-label-md text-secondary hover:text-on-surface whitespace-nowrap transition-colors" type="button">
+          Active (2)
+        </button>
+<button class="px-3 py-1.5 rounded-md font-label-md text-label-md text-secondary hover:text-on-surface whitespace-nowrap transition-colors" type="button">
+          Quotation (0)
+        </button>
+<button class="px-3 py-1.5 rounded-md font-label-md text-label-md text-secondary hover:text-on-surface whitespace-nowrap transition-colors" type="button">
+          Confirmed (0)
+        </button>
+<button class="px-3 py-1.5 rounded-md font-label-md text-label-md text-secondary hover:text-on-surface whitespace-nowrap transition-colors" type="button">
+          Closed (1)
+        </button>
+</div>
+</div>
+<!-- Active Subscriptions Grid (Architectural Bento Layout) -->
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- CARD 1: SUB-00128 (Enterprise Scale Annual v3) -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex flex-col justify-between hover:border-outline transition-all duration-200">
+<div>
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between gap-2 border-b border-surface-container pb-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Contract Identifier</span>
+<span class="font-currency-table text-currency-table font-semibold text-primary px-2 py-0.5 rounded bg-surface-container">SUB-00128</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-1.5 font-bold">Enterprise Scale Annual v3</h2>
+</div>
+<!-- Status Badge: Active -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-tertiary-fixed/30 border border-tertiary-fixed font-label-sm text-label-sm text-tertiary font-semibold tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Active
+            </span>
+</div>
+<!-- Financial Value Display -->
+<div class="py-4 border-b border-surface-container">
+<span class="font-label-sm text-label-sm text-secondary block">Contracted Rate</span>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="font-currency-display text-currency-display text-on-surface">₹ 14,50,000.00</span>
+<span class="font-body-sm text-body-sm text-secondary">/ year</span>
+</div>
+</div>
+<!-- Structured Details Matrix -->
+<div class="grid grid-cols-2 gap-y-3.5 gap-x-4 py-4 font-body-sm text-body-sm">
+<div>
+<span class="font-label-sm text-label-sm text-secondary block">Start Date</span>
+<span class="font-medium text-on-surface">01 Nov 2025</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-secondary block">Expiry Date</span>
+<span class="font-medium text-on-surface">31 Oct 2026</span>
+</div>
+<div class="col-span-2">
+<span class="font-label-sm text-label-sm text-secondary block">Next Billing Cycle</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="event_upcoming">event_upcoming</span>
+<span class="font-medium text-on-surface">31 Oct 2026</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-5 border-t border-surface-container">
+<div class="flex items-center gap-2">
+<!-- Disabled Pause with Tooltip Container -->
+<div class="relative group flex-1">
+<button class="w-full px-3 py-2 rounded-lg bg-surface-container text-secondary/50 font-label-md text-label-md cursor-not-allowed border border-outline-variant/40 flex items-center justify-center gap-1" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="pause">pause</span>
+                Pause
+              </button>
+<!-- Tooltip Badge -->
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex items-center px-2.5 py-1 text-label-sm font-label-sm text-on-primary bg-on-surface rounded shadow-md whitespace-nowrap z-20 pointer-events-none">This plan cannot be paused<div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-on-surface"></div></div>
+</div>
+<!-- Active Secondary Renew Button -->
+<button class="flex-1 px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low hover:border-outline font-label-md text-label-md transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="autorenew">autorenew</span>
+              Renew
+            </button>
+<!-- Danger Trigger Close Button -->
+<button class="px-3 py-2 rounded-lg bg-surface-container-lowest border border-error-container text-error hover:bg-error-container/30 font-label-md text-label-md transition-colors flex items-center justify-center gap-1" onclick="openCloseModal('SUB-00128', 'Enterprise Scale Annual v3')" title="Close subscription? Requires confirmation" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="cancel">cancel</span>
+              Close
+            </button>
+</div>
+</div>
+</article>
+<!-- CARD 2: SUB-00142 (Growth Dedicated Cloud) -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm flex flex-col justify-between hover:border-outline transition-all duration-200">
+<div>
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between gap-2 border-b border-surface-container pb-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Contract Identifier</span>
+<span class="font-currency-table text-currency-table font-semibold text-primary px-2 py-0.5 rounded bg-surface-container">SUB-00129</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-1.5 font-bold">Growth Dedicated Cloud</h2>
+</div>
+<!-- Status Badge: Active -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-tertiary-fixed/30 border border-tertiary-fixed font-label-sm text-label-sm text-tertiary font-semibold tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Active
+            </span>
+</div>
+<!-- Financial Value Display -->
+<div class="py-4 border-b border-surface-container">
+<span class="font-label-sm text-label-sm text-secondary block">Contracted Rate</span>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="font-currency-display text-currency-display text-on-surface">₹ 95,000.00</span>
+<span class="font-body-sm text-body-sm text-secondary">/ mo</span>
+</div>
+</div>
+<!-- Structured Details Matrix -->
+<div class="grid grid-cols-2 gap-y-3.5 gap-x-4 py-4 font-body-sm text-body-sm">
+<div>
+<span class="font-label-sm text-label-sm text-secondary block">Start Date</span>
+<span class="font-medium text-on-surface">15 Jan 2026</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-secondary block">Expiry Date</span>
+<span class="font-medium text-on-surface">14 Jan 2027</span>
+</div>
+<div class="col-span-2">
+<span class="font-label-sm text-label-sm text-secondary block">Next Billing Cycle</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="event_upcoming">event_upcoming</span>
+<span class="font-medium text-on-surface">15 Feb 2026</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons (All Enabled) -->
+<div class="pt-5 border-t border-surface-container">
+<div class="flex items-center gap-2">
+<button class="flex-1 px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md text-label-md transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="pause">pause</span>
+              Pause
+            </button>
+<button class="flex-1 px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low hover:border-outline font-label-md text-label-md transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="autorenew">autorenew</span>
+              Renew
+            </button>
+<button class="px-3 py-2 rounded-lg bg-surface-container-lowest border border-error-container text-error hover:bg-error-container/30 font-label-md text-label-md transition-colors flex items-center justify-center gap-1" onclick="openCloseModal('SUB-00129', 'Growth Dedicated Cloud')" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="cancel">cancel</span>
+              Close
+            </button>
+</div>
+</div>
+</article>
+<!-- CARD 3: SUB-00155 (Starter Tier Monthly) -->
+<article class="bg-surface-container-low/50 border border-outline-variant/80 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:border-outline transition-all duration-200">
+<div>
+<!-- Card Header & Badge -->
+<div class="flex items-start justify-between gap-2 border-b border-surface-container pb-4">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Contract Identifier</span>
+<span class="font-currency-table text-currency-table font-semibold text-secondary px-2 py-0.5 rounded bg-surface-container">SUB-00130</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-secondary mt-1.5 font-bold">Starter Tier Monthly</h2>
+</div>
+<!-- Status Badge: Closed -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container-highest border border-outline-variant font-label-sm text-label-sm text-secondary font-semibold tracking-wide">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+              Closed
+            </span>
+</div>
+<!-- Financial Value Display -->
+<div class="py-4 border-b border-surface-container">
+<span class="font-label-sm text-label-sm text-secondary block">Previous Rate</span>
+<div class="flex items-baseline gap-1.5 mt-0.5">
+<span class="font-currency-display text-currency-display text-secondary">₹ 14,500.00</span>
+<span class="font-body-sm text-body-sm text-secondary">/ mo</span>
+</div>
+</div>
+<!-- Structured Details Matrix -->
+<div class="grid grid-cols-2 gap-y-3.5 gap-x-4 py-4 font-body-sm text-body-sm">
+<div>
+<span class="font-label-sm text-label-sm text-secondary block">Start Date</span>
+<span class="font-medium text-secondary">01 Jan 2025</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-secondary block">Expiry Date</span>
+<span class="font-medium text-secondary">31 Dec 2025</span>
+</div>
+<div class="col-span-2">
+<span class="font-label-sm text-label-sm text-secondary block">Next Billing Cycle</span>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="block">block</span>
+<span class="font-medium text-secondary">N/A - Terminated</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons: Reactivate Enabled, others disabled -->
+<div class="pt-5 border-t border-surface-container">
+<div class="flex items-center gap-2">
+<button class="w-full px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-primary hover:bg-surface-container-low hover:border-primary font-label-md text-label-md transition-colors flex items-center justify-center gap-2 font-semibold shadow-xs" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="restart_alt">restart_alt</span>
+              Reactivate Plan
+            </button>
+</div>
+</div>
+</article>
+</div>
+<!-- Architectural Inline Section: Empty State Preview (for testing/reference) -->
+
+</main>
+<!-- Shared Component: Minimal Footer -->
+<footer class="bg-surface dark:bg-inverse-surface border-t border-outline-variant dark:border-outline mt-auto">
+<div class="w-full py-space-xl px-gutter md:px-margin max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-md">
+<!-- Brand & Compliance Disclaimer -->
+<div class="flex flex-col md:flex-row items-center gap-3 text-center md:text-left">
+<span class="text-title-sm font-title-sm font-semibold text-on-surface dark:text-inverse-on-surface">
+          Brightloop
+        </span>
+<span class="hidden md:inline text-outline-variant">•</span>
+<p class="text-body-sm font-body-sm text-secondary dark:text-secondary-fixed-dim">
+          © 2026 Brightloop Inc. All rights reserved. 256-bit SSL Encrypted &amp; PCI-DSS Compliant.
+        </p>
+</div>
+<!-- Footer Navigation Links -->
+<div class="flex items-center flex-wrap justify-center gap-6">
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface text-body-sm font-body-sm transition-colors duration-150 ease-in-out" href="#">
+          Privacy Policy
+        </a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface text-body-sm font-body-sm transition-colors duration-150 ease-in-out" href="#">
+          Terms of Service
+        </a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface text-body-sm font-body-sm transition-colors duration-150 ease-in-out" href="#">
+          Billing Support
+        </a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface text-body-sm font-body-sm transition-colors duration-150 ease-in-out" href="#">
+          Contact Us
+        </a>
+</div>
+</div>
+</footer>
+<!-- Confirmation Modal for "Close Subscription" Action -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs" id="closeSubscriptionModal">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl max-w-md w-full p-6 shadow-xl relative animate-in fade-in zoom-in-95 duration-150">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]" data-icon="warning">warning</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface font-semibold">Terminate Subscription?</h4>
+<p class="font-body-md text-body-md text-secondary mt-1.5">
+            Are you sure you want to terminate <span class="font-semibold text-on-surface" id="modalSubName">subscription</span> (<span class="font-currency-table font-semibold text-primary" id="modalSubId"></span>)? 
+            This action requires billing administrator confirmation and immediately schedules termination at the end of the current cycle.
+          </p>
+</div>
+</div>
+<div class="mt-6 flex items-center justify-end gap-3 pt-4 border-t border-surface-container">
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-container-low font-label-md text-label-md transition-colors" onclick="closeModal()" type="button">
+          Cancel
+        </button>
+<button class="px-4 py-2 rounded-lg bg-error text-on-error hover:bg-error/90 font-label-md text-label-md transition-colors shadow-xs" onclick="confirmClose()" type="button">
+          Confirm Termination
+        </button>
+</div>
+</div>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+    // Profile Dropdown Toggle
+    const userMenuBtn = document.getElementById('userMenuBtn');
+    const userMenuDropdown = document.getElementById('userMenuDropdown');
+
+    userMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userMenuDropdown.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!userMenuDropdown.contains(e.target) && !userMenuBtn.contains(e.target)) {
+        userMenuDropdown.classList.add('hidden');
+      }
+    });
+
+    // Close Modal Logic
+    const closeSubscriptionModal = document.getElementById('closeSubscriptionModal');
+    const modalSubId = document.getElementById('modalSubId');
+    const modalSubName = document.getElementById('modalSubName');
+
+    function openCloseModal(subId, subName) {
+      modalSubId.textContent = subId;
+      modalSubName.textContent = subName;
+      closeSubscriptionModal.classList.remove('hidden');
+      closeSubscriptionModal.classList.add('flex');
+    }
+
+    function closeModal() {
+      closeSubscriptionModal.classList.add('hidden');
+      closeSubscriptionModal.classList.remove('flex');
+    }
+
+    function confirmClose() {
+      closeModal();
+      alert(`Subscription ${modalSubId.textContent} scheduled for closure.`);
+    }
+
+    // Interactive Filter Tabs Micro-interaction
+    const filterButtons = document.querySelectorAll('.flex.items-center.gap-1.p-1.bg-surface-container-low button');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.className = 'px-3 py-1.5 rounded-md font-label-md text-label-md text-secondary hover:text-on-surface whitespace-nowrap transition-colors';
+        });
+        btn.className = 'px-3 py-1.5 rounded-md font-label-md text-label-md bg-surface-container-lowest text-primary shadow-xs font-semibold whitespace-nowrap';
+      });
+    });
+  </script>
+
+
+</body></html>

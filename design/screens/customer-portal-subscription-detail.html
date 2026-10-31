@@ -1,0 +1,350 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Subscription Detail - SUB-00128 | Brightloop</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#3525cd",
+            "secondary-fixed": "#dae2fd",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#85f8c4",
+            "on-primary-fixed": "#0f0069",
+            "surface": "#f8f9ff",
+            "on-surface-variant": "#464555",
+            "on-tertiary-fixed-variant": "#005137",
+            "surface-container-high": "#dce9ff",
+            "inverse-primary": "#c3c0ff",
+            "on-primary-fixed-variant": "#3323cc",
+            "tertiary": "#005338",
+            "outline": "#777587",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-background": "#0b1c30",
+            "surface-container-highest": "#d3e4fe",
+            "inverse-on-surface": "#eaf1ff",
+            "background": "#f8f9ff",
+            "secondary": "#565e74",
+            "on-secondary-container": "#5c647a",
+            "primary-container": "#4f46e5",
+            "error": "#ba1a1a",
+            "on-error-container": "#93000a",
+            "on-surface": "#0b1c30",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "primary-fixed": "#e2dfff",
+            "outline-variant": "#c7c4d8",
+            "surface-bright": "#f8f9ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "tertiary-container": "#006e4c",
+            "inverse-surface": "#213145",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#bec6e0",
+            "surface-container-low": "#eff4ff",
+            "on-tertiary-container": "#7df1bd",
+            "on-primary-container": "#dad7ff",
+            "on-secondary-fixed": "#131b2e",
+            "secondary-container": "#dae2fd",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container": "#e5eeff",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "space-md": "0.75rem",
+            "margin": "2rem",
+            "margin-tablet": "1.25rem",
+            "space-sm": "0.5rem",
+            "gutter-tablet": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem"
+          },
+          "fontFamily": {
+            "currency-table": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"]
+          },
+          "fontSize": {
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md">
+<!-- TopNavBar (Shared Component) -->
+<header class="w-full bg-surface-container-lowest border-b border-outline-variant shadow-sm sticky top-0 z-50">
+<div class="w-full h-16 px-gutter md:px-margin max-w-7xl mx-auto flex items-center justify-between">
+<!-- Brand & Navigation cluster -->
+<div class="flex items-center gap-8">
+<a class="text-headline-md font-headline-md font-bold text-primary tracking-tight flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="sync" style="font-variation-settings: 'FILL' 1;">sync</span>
+          Brightloop
+        </a>
+<nav class="hidden md:flex items-center gap-6 pt-1">
+<!-- Active: My Subscriptions -->
+<a class="border-b-2 border-primary text-primary font-title-sm text-title-sm pb-1" href="#">
+            My Subscriptions
+          </a>
+<!-- Inactive: My Invoices -->
+<a class="text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" href="#">
+            My Invoices
+          </a>
+<!-- Inactive: Account -->
+<a class="text-secondary hover:text-on-surface font-body-md text-body-md transition-colors" href="#">
+            Account
+          </a>
+</nav>
+</div>
+<!-- Trailing cluster -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-surface-container-low transition-colors duration-150 ease-in-out" type="button">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="Help" class="p-2 rounded-lg text-secondary hover:text-primary hover:bg-surface-container-low transition-colors duration-150 ease-in-out" type="button">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-1"></div>
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A polished corporate business avatar of a senior finance manager in a well-lit architectural office with clean daylight and modern neutral backgrounds, matching the high-trust Brightloop indigo design aesthetic perfectly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtTpPxcaoY687TOHN1MAQkaF-K8cR0Prlf1RxdovMPpsFX_3cIwoUV3yXslPCZyBX82XODlFAVFg0a5kgAIaiLvsD4uvIOrJm1-rlyDYX8aioOvhu6gf0Gh_5s4cz91bvNQDnoEVU8pz32TjxkCviSVn_or-ybwMAz2bhN90VE6xUoogd9ZONFUT-lftHBshFjClkOBfSI_mu2JueErrX8QGMIZ6WdqSyL5uV43No">
+<button class="text-secondary hover:text-error text-body-md font-body-md transition-colors duration-150 ease-in-out" type="button">
+            Log out
+          </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-7xl mx-auto px-gutter md:px-margin py-space-xl">
+<!-- Breadcrumb Hierarchy -->
+<nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-2 text-label-md font-label-md text-secondary">
+<a class="hover:text-primary transition-colors" href="#">My Subscriptions</a>
+<span class="material-symbols-outlined text-sm leading-none" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-semibold">SUB-00128</span>
+</nav>
+<!-- Header Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm mb-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-surface-container-high pb-6 mb-6">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h1 class="text-headline-xl font-headline-xl text-on-surface">SUB-00128</h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed-variant border border-tertiary-fixed-dim">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+              Active
+            </span>
+</div>
+<p class="text-body-md font-body-md text-secondary">
+            Plan: <span class="font-title-sm text-title-sm text-on-surface">Enterprise Scale Annual v3</span>
+</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface rounded-lg hover:bg-surface-container-low transition-colors text-body-md font-body-md shadow-sm" type="button">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+            Export Agreement
+          </button>
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary rounded-lg hover:bg-primary transition-colors text-body-md font-title-sm shadow-sm" type="button">
+<span class="material-symbols-outlined text-base" data-icon="edit_calendar">edit_calendar</span>
+            Manage Add-ons
+          </button>
+</div>
+</div>
+<!-- Horizontal Lifecycle Status Stepper -->
+<div>
+<p class="text-label-md font-label-md text-secondary mb-4 uppercase tracking-wider">Lifecycle Status</p>
+<div class="relative flex items-center justify-between w-full">
+<!-- Stepper Background Line -->
+<div class="absolute left-6 right-6 top-4 h-0.5 bg-surface-container-highest -z-0"></div>
+<!-- Stepper Active Progress Line (Draft to Active) -->
+<div class="absolute left-6 right-1/4 top-4 h-0.5 bg-primary-container -z-0"></div>
+<!-- Step 1: Draft (Completed) -->
+<div class="relative z-10 flex flex-col items-center bg-surface-container-lowest px-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<span class="mt-2 text-label-md font-label-md text-on-surface">Draft</span>
+</div>
+<!-- Step 2: Quotation (Completed) -->
+<div class="relative z-10 flex flex-col items-center bg-surface-container-lowest px-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<span class="mt-2 text-label-md font-label-md text-on-surface">Quotation</span>
+</div>
+<!-- Step 3: Confirmed (Completed) -->
+<div class="relative z-10 flex flex-col items-center bg-surface-container-lowest px-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm font-bold" data-icon="check">check</span>
+</div>
+<span class="mt-2 text-label-md font-label-md text-on-surface">Confirmed</span>
+</div>
+<!-- Step 4: Active (Current Active highlighted in bold indigo) -->
+<div class="relative z-10 flex flex-col items-center bg-surface-container-lowest px-2">
+<div class="w-8 h-8 rounded-full bg-primary ring-4 ring-primary-fixed text-on-primary flex items-center justify-center shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-surface-container-lowest"></span>
+</div>
+<span class="mt-2 text-title-sm font-title-sm text-primary font-bold">Active</span>
+</div>
+<!-- Step 5: Closed (Pending Gray) -->
+<div class="relative z-10 flex flex-col items-center bg-surface-container-lowest px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant text-secondary flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+</div>
+<span class="mt-2 text-label-md font-label-md text-secondary">Closed</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Contract Info Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm mb-6">
+<h2 class="text-title-sm font-title-sm text-on-surface pb-3 mb-4 border-b border-surface-container-high flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="description">description</span>
+        Contract Specifications &amp; Billing Entities
+      </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div>
+<span class="block text-label-md font-label-md text-secondary mb-1">Customer Name</span>
+<span class="text-body-md font-body-md font-semibold text-on-surface">Techcraft Solutions Pvt Ltd</span>
+</div>
+<div>
+<span class="block text-label-md font-label-md text-secondary mb-1">Start Date</span>
+<span class="text-body-md font-body-md text-on-surface">01 Apr 2025</span>
+</div>
+<div>
+<span class="block text-label-md font-label-md text-secondary mb-1">Expiry Date</span>
+<span class="text-body-md font-body-md text-on-surface">31 Mar 2026</span>
+</div>
+<div>
+<span class="block text-label-md font-label-md text-secondary mb-1">Payment Terms</span>
+<span class="text-body-md font-body-md text-on-surface">Net 30 Days (Direct RTGS/NEFT)</span>
+</div>
+<div>
+<span class="block text-label-md font-label-md text-secondary mb-1">Billing Cadence</span>
+<span class="text-body-md font-body-md text-on-surface">Annual Prepaid</span>
+</div>
+<div>
+<span class="block text-label-md font-label-md text-secondary mb-1">Place of Supply</span>
+<span class="text-body-md font-body-md text-on-surface">Maharashtra (Code 27) - Intra-state CGST (9%) + SGST (9%)</span>
+</div>
+</div>
+</section>
+<!-- Order Lines Table -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm mb-6 overflow-hidden">
+<div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between">
+<h2 class="text-title-sm font-title-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="receipt_long">receipt_long</span>
+          Order Lines
+        </h2>
+<span class="text-label-md font-label-md text-secondary">3 Billable Line Items</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary text-label-md font-label-md border-b border-outline-variant">
+<th class="py-3 px-6" scope="col">Product / Service</th>
+<th class="py-3 px-6 text-center" scope="col">Quantity</th>
+<th class="py-3 px-6 text-right" scope="col">Unit Price (₹)</th>
+<th class="py-3 px-6 text-center" scope="col">Taxes</th>
+<th class="py-3 px-6 text-right" scope="col">Amount (₹)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high text-body-md font-body-md"><tr class="hover:bg-surface-container-low transition-colors h-12"><td class="py-3 px-6 font-medium text-on-surface">Core Enterprise Cloud License<span class="block text-label-sm font-label-sm text-secondary">Dedicated isolated tenant compute nodes</span></td><td class="py-3 px-6 text-center text-on-surface">100 seats</td><td class="py-3 px-6 text-right font-currency-table text-currency-table text-on-surface">₹ 12,00,00.00</td><td class="py-3 px-6 text-center"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface">GST 18%</span></td><td class="py-3 px-6 text-right font-currency-table text-currency-table text-on-surface font-semibold">₹ 12,00,000.00</td></tr><tr class="hover:bg-surface-container-low transition-colors h-12"><td class="py-3 px-6 font-medium text-on-surface">24/7 Dedicated TAM &amp; Priority SLA<span class="block text-label-sm font-label-sm text-secondary">15-minute guaranteed crisis response</span></td><td class="py-3 px-6 text-center text-on-surface">1</td><td class="py-3 px-6 text-right font-currency-table text-currency-table text-on-surface">₹ 1,50,000.00</td><td class="py-3 px-6 text-center"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface">GST 18%</span></td><td class="py-3 px-6 text-right font-currency-table text-currency-table text-on-surface font-semibold">₹ 1,50,000.00</td></tr><tr class="hover:bg-surface-container-low transition-colors h-12"><td class="py-3 px-6 font-medium text-on-surface">Dedicated Database Shard Cluster<span class="block text-label-sm font-label-sm text-secondary">Geo-replicated primary in Mumbai region</span></td><td class="py-3 px-6 text-center text-on-surface">2</td><td class="py-3 px-6 text-right font-currency-table text-currency-table text-on-surface">₹ 50,000.00</td><td class="py-3 px-6 text-center"><span class="inline-block px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface">GST 18%</span></td><td class="py-3 px-6 text-right font-currency-table text-currency-table text-on-surface font-semibold">₹ 1,00,000.00</td></tr></tbody>
+</table>
+</div>
+</section>
+<!-- Totals Card & Financial Breakdown -->
+<div class="flex justify-end mb-6">
+<section class="w-full md:w-96 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm">
+<h3 class="text-label-md font-label-md uppercase tracking-wider text-secondary mb-4 pb-2 border-b border-surface-container-high">
+          Financial Summary
+        </h3>
+<div class="space-y-3"><div class="flex justify-between items-center text-body-md font-body-md"><span class="text-secondary">Subtotal</span><span class="font-currency-table text-currency-table text-on-surface font-medium">₹ 14,50,000.00</span></div><div class="flex justify-between items-center text-body-md font-body-md"><span class="text-secondary">CGST (9%)</span><span class="font-currency-table text-currency-table text-on-surface">₹ 1,30,500.00</span></div><div class="flex justify-between items-center text-body-md font-body-md"><span class="text-secondary">SGST (9%)</span><span class="font-currency-table text-currency-table text-on-surface">₹ 1,30,500.00</span></div><div class="flex justify-between items-baseline pt-4 border-t-2 border-outline-variant"><span class="text-title-sm font-title-sm text-on-surface font-bold">Total</span><span class="font-currency-display text-currency-display text-primary font-bold">₹ 17,11,000.00</span></div></div>
+</section>
+</div>
+<!-- Invoice History for this Subscription Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden mb-12">
+<div class="px-6 py-4 border-b border-surface-container-high flex items-center justify-between">
+<div>
+<h2 class="text-title-sm font-title-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-base" data-icon="history">history</span>
+            Invoice History for this Subscription
+          </h2>
+<p class="text-body-sm font-body-sm text-secondary">Historical billings and compliance tax records under SUB-00128</p>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary text-label-md font-label-md border-b border-outline-variant">
+<th class="py-3 px-6" scope="col">Invoice No.</th>
+<th class="py-3 px-6" scope="col">Invoice Date</th>
+<th class="py-3 px-6" scope="col">Due Date</th>
+<th class="py-3 px-6 text-right" scope="col">Amount (₹)</th>
+<th class="py-3 px-6 text-center" scope="col">Status</th>
+<th class="py-3 px-6 text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high text-body-md font-body-md"><tr class="hover:bg-surface-container-low transition-colors h-12"><td class="py-3 px-6 font-semibold text-primary">INV-00456</td><td class="py-3 px-6 text-on-surface">01 Oct 2026</td><td class="py-3 px-6 text-on-surface">31 Oct 2026</td><td class="py-3 px-6 text-right font-currency-table text-currency-table text-on-surface font-semibold">₹ 17,11,000.00</td><td class="py-3 px-6 text-center"><div class="inline-flex items-center gap-1.5"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-label-sm font-label-sm bg-primary-fixed text-primary font-medium border border-primary-fixed-dim"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Confirmed</span><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-label-sm font-label-sm bg-secondary-fixed text-secondary font-medium"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>Partially paid</span></div></td><td class="py-3 px-6 text-right"><button class="inline-flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant text-label-md font-label-md transition-colors" type="button"><span class="material-symbols-outlined text-sm" data-icon="file_download">file_download</span>Download PDF</button></td></tr></tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Minimal Clean Footer (Shared Component) -->
+<footer class="w-full bg-surface border-t border-outline-variant mt-auto">
+<div class="w-full py-space-xl px-gutter md:px-margin max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex flex-col md:flex-row items-center gap-3">
+<span class="text-title-sm font-title-sm font-semibold text-on-surface">Brightloop</span>
+<span class="text-body-sm font-body-sm text-secondary">
+          © 2026 Brightloop Inc. All rights reserved. 256-bit SSL Encrypted &amp; PCI-DSS Compliant.
+        </span>
+</div>
+<nav class="flex flex-wrap items-center gap-6 text-label-sm font-label-sm">
+<a class="text-secondary hover:text-on-surface transition-colors" href="#">Privacy Policy</a>
+<a class="text-secondary hover:text-on-surface transition-colors" href="#">Terms of Service</a>
+<a class="text-secondary hover:text-on-surface transition-colors" href="#">Billing Support</a>
+<a class="text-secondary hover:text-on-surface transition-colors" href="#">Contact Us</a>
+</nav>
+</div>
+</footer>
+
+
+</body></html>

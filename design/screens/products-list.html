@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Products - Brightloop Subscriptions</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#3525cd",
+            "secondary-container": "#dae2fd",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-background": "#0b1c30",
+            "on-tertiary-container": "#7df1bd",
+            "on-surface-variant": "#464555",
+            "surface-container-low": "#eff4ff",
+            "surface-variant": "#d3e4fe",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#c3c0ff",
+            "surface-tint": "#4d44e3",
+            "on-secondary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-container": "#e5eeff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary-container": "#006e4c",
+            "surface-container-high": "#dce9ff",
+            "secondary-fixed": "#dae2fd",
+            "on-tertiary-fixed": "#002114",
+            "on-primary": "#ffffff",
+            "surface-dim": "#cbdbf5",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-primary-fixed": "#0f0069",
+            "inverse-surface": "#213145",
+            "on-secondary-fixed": "#131b2e",
+            "surface-bright": "#f8f9ff",
+            "on-primary-container": "#dad7ff",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "primary-fixed": "#e2dfff",
+            "surface": "#f8f9ff",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-secondary-container": "#5c647a",
+            "outline": "#777587",
+            "secondary": "#565e74",
+            "on-surface": "#0b1c30",
+            "primary-container": "#4f46e5",
+            "tertiary": "#005338",
+            "error-container": "#ffdad6",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-container-highest": "#d3e4fe",
+            "secondary-fixed-dim": "#bec6e0",
+            "outline-variant": "#c7c4d8",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#68dba9",
+            "tertiary-fixed": "#85f8c4"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-tablet": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "gutter": "1.5rem",
+            "margin": "2rem",
+            "margin-tablet": "1.25rem",
+            "margin-mobile": "1rem",
+            "space-sm": "0.5rem",
+            "space-md": "0.75rem"
+          },
+          "fontFamily": {
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "currency-table": ["Inter"],
+            "label-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-lg": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F3F4F6;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="text-on-surface antialiased bg-[#F3F4F6] min-h-screen flex flex-row selection:bg-secondary-container">
+<!-- Side Navigation Rail (Shared Component: SideNavBar) -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none justify-between shrink-0">
+<div class="flex flex-col h-full">
+<!-- Brand & Header -->
+<div class="px-6 py-5 flex items-center justify-between border-b border-outline-variant/50">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-white shadow-sm font-bold text-lg tracking-tight">
+            B
+          </div>
+<div>
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight block leading-tight">Brightloop</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium tracking-normal block">Billing &amp; Revenue Ops</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs Cluster -->
+<div class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+<!-- Main Navigation Links -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Customers</span>
+</a>
+<!-- Active Navigation Item: Products (Active Tab Lock) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low dark:bg-surface-container text-primary-container dark:text-inverse-primary font-medium transition-all duration-200" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="inventory_2" data-weight="fill" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-semibold text-primary-container">Products</span>
+<span class="ml-auto w-1.5 h-4 bg-primary-container rounded-full"></span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span>Plans</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Quotation Templates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span>Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span>Reports</span>
+</a>
+<!-- Section Separator for Admin Section -->
+<div class="pt-4 pb-2 px-3">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block font-semibold">Admin Settings</span>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="percent">percent</span>
+<span>Discounts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span>Taxes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span>Staff</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<!-- Action Button & CTA in SideRail -->
+<div class="p-4 border-t border-outline-variant/60">
+<button class="w-full bg-primary-container text-white py-2.5 px-4 rounded-lg font-title-sm text-title-sm flex items-center justify-center gap-2 hover:bg-primary transition-all duration-150 shadow-sm active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span>New Subscription</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrap (Padded left by w-64 for persistent sidebar) -->
+<div class="flex-1 ml-64 flex flex-col min-w-0">
+<!-- Top Navigation Bar (Shared Component: TopNavBar) -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-8 h-16 w-full bg-surface-container-lowest border-b border-outline-variant/60 shadow-sm">
+<!-- Search on Left -->
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-9 pr-4 py-1.5 text-body-sm font-body-sm rounded-lg border border-[#CBD5E1] bg-white focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 placeholder-[#94A3B8]" placeholder="Global search (Invoices, Customers, SKUs)..." type="text"/>
+</div>
+</div>
+<!-- Operational Status Pill & Trailing Actions -->
+<div class="flex items-center gap-5">
+<div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-container-low border border-outline-variant/50 text-[#475569]">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-sm text-label-sm">Admin Configuration • Full Read/Write (Staff Read-Only)</span>
+</div>
+<div class="flex items-center gap-2">
+<!-- Notification Bell with unread dot -->
+<button class="relative p-2 rounded-lg text-secondary hover:bg-surface-container-low transition-colors duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full ring-2 ring-white"></span>
+</button>
+<!-- Help outline -->
+<button class="p-2 rounded-lg text-secondary hover:bg-surface-container-low transition-colors duration-150">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="h-6 w-px bg-outline-variant/60"></div>
+<!-- User Profile Menu -->
+<div class="flex items-center gap-3 cursor-pointer p-1 rounded-lg hover:bg-surface-container-low transition-colors">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 border border-primary-container/30 text-primary-container flex items-center justify-center font-bold text-xs">
+            RS
+          </div>
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Rajesh Sharma</span>
+<span class="font-label-sm text-label-sm text-secondary leading-tight">Admin • Finance Ops</span>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Page Body Area -->
+<main class="flex-1 p-8 space-y-6 max-w-7xl w-full mx-auto">
+<!-- Breadcrumbs & Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 font-label-md text-label-md text-secondary mb-1.5">
+<a class="hover:text-primary-container transition-colors" href="#">Home</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-medium">Products</span>
+</nav>
+<!-- Title & Subtitle -->
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Products</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">
+            Catalog of software licenses, recurring modules, compute add-ons, and service deliverables.
+          </p>
+</div>
+<!-- Header CTAs -->
+<div class="flex items-center gap-3 shrink-0">
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-[#E2E8F0] rounded-lg font-title-sm text-title-sm text-[#0F172A] hover:bg-[#F8FAFC] hover:border-[#CBD5E1] transition-all shadow-sm active:scale-[0.98]">
+<span class="material-symbols-outlined text-[#475569]" data-icon="file_download">file_download</span>
+<span>Export Catalog</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary-container text-white rounded-lg font-title-sm text-title-sm hover:bg-[#3730A3] transition-all shadow-sm active:scale-[0.98] ring-offset-2 focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined text-white" data-icon="add">add</span>
+<span>+ Add Product</span>
+</button>
+</div>
+</div>
+<!-- Top KPI Summary Cards (3 Cards) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1: Total Products -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] transition-all hover:border-[#CBD5E1]">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-[#475569]">Total Products</span>
+<div class="p-2 rounded-lg bg-surface-container-low text-primary-container">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">48</span>
+<span class="font-label-md text-label-md text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">+4 this quarter</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-2">
+<span class="font-semibold text-on-surface">32</span> Recurring Services • <span class="font-semibold text-on-surface">16</span> One-off / Add-on
+          </p>
+</div>
+<!-- Card 2: Active SKUs with Variants -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] transition-all hover:border-[#CBD5E1]">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-[#475569]">Active SKUs with Variants</span>
+<div class="p-2 rounded-lg bg-surface-container-low text-primary-container">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">114</span>
+<span class="font-label-md text-label-md text-secondary bg-surface-container-low px-2 py-0.5 rounded-full font-medium">Across all tiers</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-2">
+            2.38 avg variants per recurring software product
+          </p>
+</div>
+<!-- Card 3: Average Margin -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] transition-all hover:border-[#CBD5E1]">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider font-semibold text-[#475569]">Average Catalog Margin</span>
+<div class="p-2 rounded-lg bg-surface-container-low text-primary-container">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-xl text-headline-xl text-on-surface font-bold">68.4%</span>
+<span class="font-label-md text-label-md text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">+2.1% YoY</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-2">
+            Highest margin tier: Enterprise Digital Licenses (88.5%)
+          </p>
+</div>
+</div>
+<!-- Filter Bar & Search Container Panel -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] space-y-4">
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+<!-- Search Input with Icon -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#64748B]" data-icon="search">search</span>
+<input class="w-full h-[38px] pl-10 pr-4 text-body-md font-body-md rounded-lg border border-[#CBD5E1] bg-white focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none placeholder-[#94A3B8]" placeholder="Search product name, SKU, or attribute..." type="text"/>
+</div>
+<!-- Secondary Filters Dropdowns -->
+<div class="flex items-center gap-3">
+<!-- Margin Filter Dropdown -->
+<div class="relative">
+<select class="h-[38px] pl-3 pr-8 text-body-sm font-body-sm rounded-lg border border-[#CBD5E1] bg-white text-[#0F172A] focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none cursor-pointer">
+<option value="all">Margin: All Tiers</option>
+<option value="high">High (&gt; 70%)</option>
+<option value="med">Standard (50% - 70%)</option>
+<option value="low">Low (&lt; 50%)</option>
+</select>
+</div>
+<!-- Status Filter Dropdown -->
+<div class="relative">
+<select class="h-[38px] pl-3 pr-8 text-body-sm font-body-sm rounded-lg border border-[#CBD5E1] bg-white text-[#0F172A] focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 outline-none cursor-pointer">
+<option value="all">Status: Active</option>
+<option value="archived">Archived SKUs</option>
+<option value="draft">Draft (Unpublished)</option>
+</select>
+</div>
+<button class="h-[38px] px-3 border border-[#E2E8F0] rounded-lg text-[#475569] hover:bg-[#F8FAFC] flex items-center gap-1.5 font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+<span>More Filters</span>
+</button>
+</div>
+</div>
+<!-- Filter Pills Segment -->
+<div class="flex items-center gap-2 border-t border-[#F1F5F9] pt-3 overflow-x-auto text-nowrap">
+<span class="font-label-sm text-label-sm text-[#64748B] uppercase tracking-wider mr-2">Filter By:</span>
+<button class="px-3 py-1 rounded-md text-label-md font-label-md bg-primary-container text-white shadow-sm flex items-center gap-1.5">
+<span>All Types</span>
+<span class="bg-white/20 px-1.5 py-0.2 rounded-full text-[10px]">48</span>
+</button>
+<button class="px-3 py-1 rounded-md text-label-md font-label-md bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] transition-colors flex items-center gap-1.5">
+<span>Recurring Service</span>
+<span class="bg-[#CBD5E1] text-[#0F172A] px-1.5 py-0.2 rounded-full text-[10px]">28</span>
+</button>
+<button class="px-3 py-1 rounded-md text-label-md font-label-md bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] transition-colors flex items-center gap-1.5">
+<span>Digital License</span>
+<span class="bg-[#CBD5E1] text-[#0F172A] px-1.5 py-0.2 rounded-full text-[10px]">14</span>
+</button>
+<button class="px-3 py-1 rounded-md text-label-md font-label-md bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0] transition-colors flex items-center gap-1.5">
+<span>Physical / Hardware</span>
+<span class="bg-[#CBD5E1] text-[#0F172A] px-1.5 py-0.2 rounded-full text-[10px]">6</span>
+</button>
+<span class="ml-auto text-label-sm font-label-sm text-[#64748B] italic">Updated 14 mins ago</span>
+</div>
+</div>
+<!-- Main Data Table Container Card -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full border-collapse text-left">
+<thead>
+<tr class="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#475569] font-label-md text-label-md uppercase tracking-wider h-11">
+<th class="w-10 px-4 text-center">
+<input class="w-4 h-4 rounded border-[#CBD5E1] text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox"/>
+</th>
+<th class="px-4 py-2 font-semibold">Product Name &amp; SKU</th>
+<th class="px-4 py-2 font-semibold">Type</th>
+<th class="px-4 py-2 font-semibold text-right">Sales Price (₹)</th>
+<th class="px-4 py-2 font-semibold text-right">Cost Price (₹)</th>
+<th class="px-4 py-2 font-semibold text-right">Margin %</th>
+<th class="px-4 py-2 font-semibold text-center">Variants</th>
+<th class="px-4 py-2 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#F1F5F9] font-body-sm text-body-sm text-on-surface">
+<!-- Item 1: Cloud Core Platform v2 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-12 group">
+<td class="px-4 text-center">
+<input class="w-4 h-4 rounded border-[#CBD5E1] text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-[#0F172A] font-semibold group-hover:text-primary-container transition-colors">Cloud Core Platform v2</span>
+<span class="font-mono text-label-sm text-[#64748B]">SKU-ENT-100</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-blue-50 text-blue-700 border border-blue-200">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                    Recurring Service
+                  </span>
+</td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table font-semibold text-[#0F172A]">
+                  ₹ 1,20,000.00
+                </td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table text-[#64748B]">
+                  ₹ 38,000.00
+                </td>
+<td class="px-4 py-3 text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    68.3%
+                  </span>
+</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EFF6FF] text-[#1D4ED8] font-medium">
+                    4 variants
+                  </span>
+</td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100">
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-primary-container hover:shadow-xs transition-all" title="Edit Product">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-error hover:shadow-xs transition-all" title="Delete Product">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 2: Dedicated SLA & 24/7 TAM -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-12 group">
+<td class="px-4 text-center">
+<input class="w-4 h-4 rounded border-[#CBD5E1] text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-[#0F172A] font-semibold group-hover:text-primary-container transition-colors">Dedicated SLA &amp; 24/7 TAM</span>
+<span class="font-mono text-label-sm text-[#64748B]">SKU-TAM-SLA1</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-blue-50 text-blue-700 border border-blue-200">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                    Recurring Service
+                  </span>
+</td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table font-semibold text-[#0F172A]">
+                  ₹ 45,000.00
+                </td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table text-[#64748B]">
+                  ₹ 18,500.00
+                </td>
+<td class="px-4 py-3 text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    58.9%
+                  </span>
+</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EFF6FF] text-[#1D4ED8] font-medium">
+                    2 variants
+                  </span>
+</td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100">
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-primary-container hover:shadow-xs transition-all" title="Edit Product">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-error hover:shadow-xs transition-all" title="Delete Product">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 3: Database Shard Cluster -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-12 group">
+<td class="px-4 text-center">
+<input class="w-4 h-4 rounded border-[#CBD5E1] text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-[#0F172A] font-semibold group-hover:text-primary-container transition-colors">Database Shard Cluster</span>
+<span class="font-mono text-label-sm text-[#64748B]">SKU-SHARD-DB</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-purple-50 text-purple-700 border border-purple-200">
+<span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span>
+                    Digital License
+                  </span>
+</td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table font-semibold text-[#0F172A]">
+                  ₹ 50,000.00
+                </td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table text-[#64748B]">
+                  ₹ 15,000.00
+                </td>
+<td class="px-4 py-3 text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    70.0%
+                  </span>
+</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EFF6FF] text-[#1D4ED8] font-medium">
+                    3 variants
+                  </span>
+</td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100">
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-primary-container hover:shadow-xs transition-all" title="Edit Product">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-error hover:shadow-xs transition-all" title="Delete Product">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 4: API Burst Gateway 10M -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-12 group">
+<td class="px-4 text-center">
+<input class="w-4 h-4 rounded border-[#CBD5E1] text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-[#0F172A] font-semibold group-hover:text-primary-container transition-colors">API Burst Gateway 10M</span>
+<span class="font-mono text-label-sm text-[#64748B]">SKU-API-BURST</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-blue-50 text-blue-700 border border-blue-200">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                    Recurring Service
+                  </span>
+</td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table font-semibold text-[#0F172A]">
+                  ₹ 18,500.00
+                </td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table text-[#64748B]">
+                  ₹ 4,200.00
+                </td>
+<td class="px-4 py-3 text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    77.3%
+                  </span>
+</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-gray-100 text-gray-500 font-normal">
+                    No variants
+                  </span>
+</td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100">
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-primary-container hover:shadow-xs transition-all" title="Edit Product">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-error hover:shadow-xs transition-all" title="Delete Product">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 5: Enterprise SSO & SAML Addon -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-12 group">
+<td class="px-4 text-center">
+<input class="w-4 h-4 rounded border-[#CBD5E1] text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-[#0F172A] font-semibold group-hover:text-primary-container transition-colors">Enterprise SSO &amp; SAML Addon</span>
+<span class="font-mono text-label-sm text-[#64748B]">SKU-SSO-ENT</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-purple-50 text-purple-700 border border-purple-200">
+<span class="w-1.5 h-1.5 rounded-full bg-purple-600"></span>
+                    Digital License
+                  </span>
+</td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table font-semibold text-[#0F172A]">
+                  ₹ 25,000.00
+                </td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table text-[#64748B]">
+                  ₹ 2,500.00
+                </td>
+<td class="px-4 py-3 text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    90.0%
+                  </span>
+</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-gray-100 text-gray-500 font-normal">
+                    No variants
+                  </span>
+</td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100">
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-primary-container hover:shadow-xs transition-all" title="Edit Product">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-error hover:shadow-xs transition-all" title="Delete Product">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 6: Hardware Security Key (FIPS 140-2) -->
+<tr class="hover:bg-[#F8FAFC] transition-colors h-12 group">
+<td class="px-4 text-center">
+<input class="w-4 h-4 rounded border-[#CBD5E1] text-primary-container focus:ring-primary-container cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-[#0F172A] font-semibold group-hover:text-primary-container transition-colors">Hardware Security Key (FIPS 140-2)</span>
+<span class="font-mono text-label-sm text-[#64748B]">SKU-HW-KEY</span>
+</div>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-label-sm font-label-sm bg-amber-50 text-amber-800 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                    Physical / Hardware
+                  </span>
+</td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table font-semibold text-[#0F172A]">
+                  ₹ 4,500.00
+                </td>
+<td class="px-4 py-3 text-right font-currency-table text-currency-table text-[#64748B]">
+                  ₹ 2,100.00
+                </td>
+<td class="px-4 py-3 text-right">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm font-label-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    53.3%
+                  </span>
+</td>
+<td class="px-4 py-3 text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EFF6FF] text-[#1D4ED8] font-medium">
+                    2 variants
+                  </span>
+</td>
+<td class="px-4 py-3 text-right">
+<div class="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100">
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-primary-container hover:shadow-xs transition-all" title="Edit Product">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-white text-[#475569] hover:text-error hover:shadow-xs transition-all" title="Delete Product">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Bar -->
+<div class="px-6 py-3.5 border-t border-[#E2E8F0] bg-[#F8FAFC] flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<span class="font-body-sm text-body-sm text-secondary">
+              Showing <span class="font-semibold text-on-surface">1</span> to <span class="font-semibold text-on-surface">6</span> of <span class="font-semibold text-on-surface">48</span> products
+            </span>
+<div class="h-4 w-px bg-outline-variant/60"></div>
+<div class="flex items-center gap-1.5 text-body-sm text-secondary">
+<span>Rows per page:</span>
+<select class="h-7 text-xs border border-[#CBD5E1] rounded bg-white px-2 py-0 text-on-surface focus:border-primary-container outline-none">
+<option value="6">6</option>
+<option value="12">12</option>
+<option value="24">24</option>
+<option value="48">48</option>
+</select>
+</div>
+</div>
+<!-- Page Numbers Control -->
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-md border border-[#E2E8F0] bg-white text-secondary hover:bg-surface-container-low disabled:opacity-40 transition-colors" disabled="">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-md bg-primary-container text-white font-title-sm text-title-sm flex items-center justify-center shadow-xs">
+              1
+            </button>
+<button class="w-8 h-8 rounded-md hover:bg-surface-container-low text-on-surface font-title-sm text-title-sm flex items-center justify-center transition-colors">
+              2
+            </button>
+<button class="w-8 h-8 rounded-md hover:bg-surface-container-low text-on-surface font-title-sm text-title-sm flex items-center justify-center transition-colors">
+              3
+            </button>
+<span class="px-1 text-secondary text-sm">...</span>
+<button class="w-8 h-8 rounded-md hover:bg-surface-container-low text-on-surface font-title-sm text-title-sm flex items-center justify-center transition-colors">
+              8
+            </button>
+<button class="p-1.5 rounded-md border border-[#E2E8F0] bg-white text-secondary hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Loading Skeleton Preview & Empty State Showcase Section (High-trust Finance UX) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4">
+<!-- Loading Skeleton Preview Card -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between border-b border-[#F1F5F9] pb-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="sync">sync</span>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Async Query Sync State</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#64748B] bg-[#F1F5F9] px-2 py-0.5 rounded">Skeleton Preview</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-4">
+            High-cadence ledger updating background sync with server-side pagination cache:
+          </p>
+<div class="space-y-3 animate-pulse">
+<div class="flex items-center justify-between gap-4">
+<div class="h-4 bg-[#E2E8F0] rounded w-1/3"></div>
+<div class="h-4 bg-[#E2E8F0] rounded w-1/5"></div>
+<div class="h-4 bg-[#E2E8F0] rounded w-1/6"></div>
+</div>
+<div class="h-9 bg-[#F1F5F9] rounded-lg w-full"></div>
+<div class="h-9 bg-[#F8FAFC] rounded-lg w-full"></div>
+<div class="h-9 bg-[#F1F5F9] rounded-lg w-full"></div>
+<div class="flex items-center justify-between pt-2">
+<div class="h-3 bg-[#E2E8F0] rounded w-24"></div>
+<div class="h-5 bg-[#E2E8F0] rounded w-32"></div>
+</div>
+</div>
+</div>
+<!-- Empty State Preview Card -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] flex flex-col items-center justify-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-[#64748B] mb-3">
+<span class="material-symbols-outlined text-2xl" data-icon="search_off">search_off</span>
+</div>
+<h3 class="font-title-sm text-title-sm text-[#0F172A] font-semibold">No products match your search</h3>
+<p class="font-body-sm text-body-sm text-secondary max-w-sm mt-1 mb-4">
+            Try adjusting filters, clearing active query constraints, or adding a new software SKU to the master catalog.
+          </p>
+<div class="flex items-center gap-3">
+<button class="px-3.5 py-1.5 border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm text-[#0F172A] hover:bg-[#F8FAFC] transition-colors">
+              Reset Filters
+            </button>
+<button class="px-3.5 py-1.5 bg-primary-container text-white rounded-lg font-body-sm text-body-sm hover:bg-primary transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+<span>Create Product</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

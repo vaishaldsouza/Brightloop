@@ -1,0 +1,999 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - Billing &amp; Revenue Ops Dashboard</title>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration with Design System Tokens verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#85f8c4",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-tertiary": "#ffffff",
+            "surface-container-high": "#dce9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "outline": "#777587",
+            "secondary": "#565e74",
+            "primary": "#3525cd",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "on-surface": "#0b1c30",
+            "on-tertiary-container": "#7df1bd",
+            "primary-container": "#4f46e5",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#5c647a",
+            "surface-tint": "#4d44e3",
+            "on-surface-variant": "#464555",
+            "on-background": "#0b1c30",
+            "error": "#ba1a1a",
+            "background": "#f8f9ff",
+            "error-container": "#ffdad6",
+            "secondary-fixed": "#dae2fd",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-secondary-fixed": "#131b2e",
+            "on-primary-fixed": "#0f0069",
+            "on-error-container": "#93000a",
+            "surface-container-low": "#eff4ff",
+            "surface": "#f8f9ff",
+            "on-primary-container": "#dad7ff",
+            "tertiary": "#005338",
+            "surface-variant": "#d3e4fe",
+            "surface-bright": "#f8f9ff",
+            "primary-fixed": "#e2dfff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "outline-variant": "#c7c4d8",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-dim": "#cbdbf5",
+            "secondary-fixed-dim": "#bec6e0",
+            "inverse-surface": "#213145",
+            "tertiary-container": "#006e4c",
+            "surface-container": "#e5eeff",
+            "inverse-primary": "#c3c0ff",
+            "primary-fixed-dim": "#c3c0ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "1rem",
+            "margin-tablet": "1.25rem",
+            "space-md": "0.75rem",
+            "space-xl": "2rem",
+            "space-xs": "0.25rem",
+            "gutter": "1.5rem",
+            "margin": "2rem",
+            "gutter-tablet": "1rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.25rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "currency-display": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "label-sm": ["Inter"],
+            "currency-table": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-xl": ["Inter"]
+          },
+          "fontSize": {
+            "headline-lg": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-sm": [
+              "13px",
+              {
+                "lineHeight": "18px",
+                "letterSpacing": "0em",
+                "fontWeight": "400"
+              }
+            ],
+            "title-sm": [
+              "15px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "-0.005em",
+                "fontWeight": "600"
+              }
+            ],
+            "currency-display": [
+              "26px",
+              {
+                "lineHeight": "32px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "headline-md": [
+              "18px",
+              {
+                "lineHeight": "24px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "600"
+              }
+            ],
+            "label-md": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "letterSpacing": "0.02em",
+                "fontWeight": "600"
+              }
+            ],
+            "headline-xl-mobile": [
+              "24px",
+              {
+                "lineHeight": "32px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "700"
+              }
+            ],
+            "label-sm": [
+              "11px",
+              {
+                "lineHeight": "14px",
+                "letterSpacing": "0.03em",
+                "fontWeight": "600"
+              }
+            ],
+            "currency-table": [
+              "13px",
+              {
+                "lineHeight": "18px",
+                "letterSpacing": "0em",
+                "fontWeight": "500"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "letterSpacing": "0em",
+                "fontWeight": "400"
+              }
+            ],
+            "headline-xl": [
+              "30px",
+              {
+                "lineHeight": "38px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #F3F4F6;
+      color: #0b1c30;
+      -webkit-font-smoothing: antialiased;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    .pulse-dot {
+      animation: pulseAnimation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulseAnimation {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, #f0f3f9 0%, #e4ebf7 50%, #f0f3f9 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+  </style>
+</head>
+<body class="bg-[#F3F4F6] text-on-surface antialiased flex min-h-screen">
+<!-- ========================================================================= -->
+<!-- SIDE NAVIGATION (From Shared Components JSON: SideNavBar)                 -->
+<!-- ========================================================================= -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-[#E2E8F0] bg-surface-container-lowest shadow-sm select-none" id="appSidebar">
+<!-- Top Org & Brand Header -->
+<div class="px-5 pt-4 pb-3 border-b border-[#F1F5F9]">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-white font-bold text-sm shadow-sm">
+<span class="material-symbols-outlined fill-icon text-white text-[18px]">bolt</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight leading-tight">Brightloop</div>
+<div class="font-label-sm text-label-sm text-secondary font-medium tracking-normal">Billing &amp; Revenue Ops</div>
+</div>
+</div>
+</div>
+<!-- Organization Switcher Pill -->
+<div class="relative mt-1">
+<button class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] hover:bg-surface-container-low transition-colors duration-150 text-left group">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+<span class="font-body-sm text-body-sm font-medium text-on-surface truncate">Brightloop India Pvt Ltd</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-base group-hover:text-on-surface transition-colors">unfold_more</span>
+</button>
+</div>
+</div>
+<!-- Navigation Scroll Container -->
+<div class="flex-1 overflow-y-auto px-3 py-3 space-y-5">
+<!-- Primary Core Nav: tab_labels & tab_icons -->
+<div class="space-y-0.5">
+<div class="px-2 pb-1 font-label-sm text-label-sm font-semibold uppercase text-slate-400 tracking-wider">Workspace</div>
+<!-- Tab 0: Dashboard (Active as per hierarchy) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low text-primary-container font-semibold transition-all duration-200 border-l-4 border-primary-container shadow-xs" href="#dashboard">
+<span class="material-symbols-outlined fill-icon text-primary-container">dashboard</span>
+<span class="font-body-md text-body-md text-primary-container">Dashboard</span>
+</a>
+<!-- Tab 1: Customers -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#customers">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-md text-body-md">Customers</span>
+</a>
+<!-- Tab 2: Products -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#products">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<!-- Tab 3: Plans -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#plans">
+<span class="material-symbols-outlined">layers</span>
+<span class="font-body-md text-body-md">Plans</span>
+</a>
+<!-- Tab 4: Quotation Templates -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#templates">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">Quotation Templates</span>
+</a>
+<!-- Tab 5: Subscriptions -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#subscriptions">
+<span class="material-symbols-outlined">autorenew</span>
+<span class="font-body-md text-body-md">Subscriptions</span>
+</a>
+<!-- Tab 6: Invoices -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#invoices">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-body-md text-body-md">Invoices</span>
+</a>
+<!-- Tab 7: Payments -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#payments">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-body-md text-body-md">Payments</span>
+</a>
+<!-- Tab 8: Reports -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#reports">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</div>
+<!-- Quick CTA Button -->
+<div class="px-1 pt-1">
+<button class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-primary-container text-white font-body-md text-body-md font-medium hover:bg-primary shadow-sm transition-all duration-150">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="">New Subscription</span>
+</button>
+</div>
+<!-- Admin Only Divider Section -->
+<div class="pt-2 border-t border-[#F1F5F9] space-y-0.5">
+<div class="flex items-center justify-between px-2 pb-1.5">
+<span class="font-label-sm text-label-sm font-semibold uppercase text-slate-400 tracking-wider">Admin only</span>
+<span class="material-symbols-outlined text-slate-400 text-[14px]">lock</span>
+</div>
+<a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#discounts">
+<span class="material-symbols-outlined text-[19px]">percent</span>
+<span class="font-body-md text-body-md">Discounts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#taxes">
+<span class="material-symbols-outlined text-[19px]">account_balance</span>
+<span class="font-body-md text-body-md">Taxes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" href="#staff">
+<span class="material-symbols-outlined text-[19px]">badge</span>
+<span class="font-body-md text-body-md">Staff</span>
+</a>
+
+</div>
+</div>
+<!-- Sidebar Bottom Collapse Utility -->
+<div class="p-3 border-t border-[#F1F5F9] bg-[#F8FAFC]">
+<button class="w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 text-left">
+<span class="font-body-sm text-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">keyboard_double_arrow_left</span>
+          Collapse Sidebar
+        </span>
+<span class="text-xs px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 font-mono">⌘[</span>
+</button>
+</div>
+</aside>
+<!-- ========================================================================= -->
+<!-- MAIN WORKSPACE VIEWPORT (Pushed right by sidebar 260px)                   -->
+<!-- ========================================================================= -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen min-w-0">
+<!-- ======================================================================= -->
+<!-- TOP NAVIGATION BAR (From Shared Components JSON: TopNavBar)             -->
+<!-- ======================================================================= -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-8 h-16 w-full bg-surface-container-lowest border-b border-[#E2E8F0] shadow-xs">
+<!-- Global Search Bar -->
+<div class="flex items-center w-full max-w-xl">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+<span class="material-symbols-outlined text-[19px]">search</span>
+</div>
+<input class="w-full pl-9 pr-14 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg text-body-md font-body-md text-on-surface placeholder:text-slate-400 focus:bg-white focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 transition-all outline-none" placeholder="Search subscriptions, customers, invoices (₹ INR)..." type="text">
+<div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+<kbd class="px-1.5 py-0.5 text-[11px] font-semibold text-slate-500 bg-white border border-[#CBD5E1] rounded shadow-xs">⌘K</kbd>
+</div>
+</div>
+</div>
+<!-- Right Trailing Cluster -->
+<div class="flex items-center gap-4 ml-6 shrink-0">
+<!-- Live Gateway Status Pill -->
+<div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200">
+<span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span>
+<span class="font-label-sm text-label-sm font-semibold text-emerald-800">Gateway Active</span>
+<span class="text-[10px] text-emerald-600 bg-emerald-100/60 px-1 rounded font-mono">18ms</span>
+</div>
+<div class="h-5 w-px bg-[#E2E8F0] hidden sm:block"></div>
+<!-- Help Documentation -->
+<button class="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" title="Documentation &amp; Help">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<!-- Notifications with unread badge -->
+<button class="relative p-2 text-secondary hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" title="Notifications">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white"></span>
+</button>
+<div class="h-6 w-px bg-[#E2E8F0]"></div>
+<!-- User Profile Pill -->
+<div class="flex items-center gap-2.5 pl-1">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-on-primary-fixed text-xs ring-1 ring-primary-container/20">
+            RS
+          </div>
+<div class="hidden xl:block text-left leading-tight">
+<div class="font-title-sm text-title-sm text-on-surface">Rajesh Sharma</div>
+<div class="flex items-center gap-1.5">
+<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">Admin</span>
+<span class="text-[11px] text-slate-400">Finance Ops</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm">expand_more</span>
+</div>
+</div>
+</header>
+<!-- ======================================================================= -->
+<!-- MAIN CONTENT CANVAS                                                     -->
+<!-- ======================================================================= -->
+<main class="flex-1 p-8 max-w-7xl w-full mx-auto space-y-6">
+<!-- Breadcrumbs & Quick Alerts Row -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<nav class="flex items-center gap-2 text-body-sm font-body-sm text-secondary">
+<a class="hover:text-primary-container transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px] text-slate-400">chevron_right</span>
+<span class="font-medium text-on-surface">Dashboard</span>
+</nav>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-slate-500">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">sync</span>
+<span class="">Last automated sync: <strong class="text-slate-700 font-medium">Just now (12:44 IST)</strong></span>
+</div>
+</div>
+<!-- Page Header with Date Range & Export Report -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-1 border-b border-[#E2E8F0]">
+<div>
+<h1 class="font-headline-xl text-headline-xl font-bold text-on-surface tracking-tight">Dashboard</h1>
+<p class="font-body-md text-body-md text-secondary mt-0.5">Recurring revenue, real-time subscriber cohorts &amp; ledger recovery metrics.</p>
+</div>
+<div class="flex items-center flex-wrap gap-3">
+<!-- Interactive State Switcher Preview Pills -->
+
+<!-- Date Range Selector -->
+<button class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-lowest border border-[#CBD5E1] font-body-md text-body-md font-medium text-on-surface hover:bg-[#F8FAFC] hover:border-slate-400 transition-all shadow-xs"><span class="material-symbols-outlined text-secondary text-[18px]">calendar_today</span><span class="">Last 30 Days: 01 Oct - 31 Oct 2026</span><span class="material-symbols-outlined text-secondary text-[16px]">expand_more</span></button>
+<!-- Export Report Button -->
+<button class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-primary-container text-white font-body-md text-body-md font-medium hover:bg-primary transition-all shadow-xs">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span class="">Export Report</span>
+</button>
+</div>
+</div>
+<!-- FILTER BAR (Card Container) -->
+<section class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-3 shadow-xs">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+<!-- Dropdown Filters Group -->
+<div class="flex items-center flex-wrap gap-2.5">
+<!-- Period Dropdown -->
+<div class="relative">
+<select class="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer"><option>Billing Cycle: Current Month (Oct 2026)</option><option>Billing Cycle: Q3 FY26-27</option><option>Billing Cycle: FY26-27 Full Year</option></select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-slate-500 text-[18px]">expand_more</span>
+</div>
+<!-- Plan Filter -->
+<div class="relative">
+<select class="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer">
+<option>All Plans (Starter, Growth, Enterprise)</option>
+<option>Enterprise Cloud Tier</option>
+<option>Growth Scale Tier</option>
+<option>Starter Foundation</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-slate-500 text-[18px]">expand_more</span>
+</div>
+<!-- Customer Filter -->
+<div class="relative">
+<select class="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer">
+<option>All Customers (Domestic &amp; SEZ)</option>
+<option>Reliance Digital Infra</option>
+<option>Tata Smart Communications</option>
+<option>RazorByte Cloud</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-slate-500 text-[18px]">expand_more</span>
+</div>
+<!-- Status Filter -->
+<div class="relative">
+<select class="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer">
+<option>All Statuses</option>
+<option>Active</option>
+<option>Overdue</option>
+<option>Confirmed</option>
+<option>Quotation</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2 pointer-events-none text-slate-500 text-[18px]">expand_more</span>
+</div>
+<button class="px-2.5 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 font-body-sm text-body-sm flex items-center gap-1 transition">
+<span class="material-symbols-outlined text-[16px]">filter_alt_off</span>
+<span class="">Reset</span>
+</button>
+</div>
+<!-- Segmented Control View Toggle -->
+<div class="flex items-center bg-[#F1F5F9] p-0.5 rounded-lg shrink-0 self-start md:self-auto border border-[#E2E8F0]">
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold bg-white text-on-surface shadow-xs transition-all" id="viewSummaryBtn">
+<span class="material-symbols-outlined text-[15px]">bar_chart</span>
+<span class="">Summary View</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium text-secondary hover:text-on-surface transition-all" id="viewDetailedBtn">
+<span class="material-symbols-outlined text-[15px]">table_rows</span>
+<span class="">Detailed List</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- 4 KPI METRIC CARDS                                                      -->
+<!-- ======================================================================= -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5" id="kpiContainer">
+<!-- Metric 1: Active Subscriptions -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-5 shadow-xs relative overflow-hidden group hover:border-[#CBD5E1] transition-all">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-slate-500">Active Subscriptions</span>
+<div class="w-8 h-8 rounded-lg bg-indigo-50 text-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">autorenew</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-xl text-headline-xl font-bold text-on-surface tabular-nums">1,428</span>
+<span class="inline-flex items-center gap-0.5 font-label-sm text-label-sm font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+              +12.4%
+            </span>
+</div>
+<div class="mt-2.5 pt-2.5 border-t border-[#F1F5F9] flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<span class="">38 new this month</span>
+<span class="text-xs text-slate-400">vs. last month</span>
+</div>
+</div>
+<!-- Metric 2: Revenue Collected -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-5 shadow-xs relative overflow-hidden group hover:border-[#CBD5E1] transition-all">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-slate-500">Revenue Collected</span>
+<div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-currency-display text-currency-display font-bold text-on-surface tabular-nums">₹ 1,84,50,000</span>
+<span class="inline-flex items-center gap-0.5 font-label-sm text-label-sm font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+              +8.2%
+            </span>
+</div>
+<div class="mt-2.5 pt-2.5 border-t border-[#F1F5F9] flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<span class="">Across 1,240 paying accounts</span>
+<span class="text-xs text-slate-400">INR gross</span>
+</div>
+</div>
+<!-- Metric 3: Amount Outstanding -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-5 shadow-xs relative overflow-hidden group hover:border-[#CBD5E1] transition-all">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-slate-500">Amount Outstanding</span>
+<div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-currency-display text-currency-display font-bold text-on-surface tabular-nums">₹ 34,20,500</span>
+<span class="inline-flex items-center gap-0.5 font-label-sm text-label-sm font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">trending_down</span>
+              -3.1%
+            </span>
+</div>
+<div class="mt-2.5 pt-2.5 border-t border-[#F1F5F9] flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<span class="">Due in next 15-30 days</span>
+<span class="text-xs text-slate-400">Normal cycle</span>
+</div>
+</div>
+<!-- Metric 4: Overdue Invoices -->
+<div class="bg-surface-container-lowest border border-rose-200/80 rounded-xl p-5 shadow-xs relative overflow-hidden group hover:border-rose-300 transition-all bg-gradient-to-b from-white to-rose-50/20">
+<div class="flex items-center justify-between text-secondary mb-2">
+<span class="font-label-md text-label-md uppercase tracking-wider text-rose-800 font-semibold">Overdue Invoices</span>
+<div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-currency-display text-currency-display font-bold text-rose-950 tabular-nums">₹ 18,75,000</span>
+<span class="inline-flex items-center gap-0.5 font-label-sm text-label-sm font-semibold text-rose-700 bg-rose-100 px-1.5 py-0.5 rounded-md">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+              +15.8%
+            </span>
+</div>
+<div class="mt-2.5 pt-2.5 border-t border-rose-100 flex items-center justify-between text-body-sm font-body-sm text-rose-900 font-medium">
+<span class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
+              42 delinquent accounts
+            </span>
+<span class="text-xs text-rose-600 underline cursor-pointer hover:text-rose-800">Review list</span>
+</div>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- DATA VISUALIZATIONS SECTION (2-Column Grid: 8 cols & 4 cols)            -->
+<!-- ======================================================================= -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left 8-cols: Revenue Over Time Chart -->
+<div class="lg:col-span-8 bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-6 shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#F1F5F9]">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Revenue Trend (Last 12 Months)</h2>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-indigo-50 text-indigo-700">FY26-27 Run Rate</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Recurring subscription collections vs one-time setup implementation fees</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<div class="font-label-sm text-label-sm text-slate-400">Total Run Collection</div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface tabular-nums">Total: ₹ 14.82 Cr</div>
+</div>
+</div>
+</div>
+<!-- Legend & Sub-toggles -->
+<div class="flex items-center justify-between pt-3 pb-2 text-xs">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-primary-container"></span>
+<span class="font-medium text-slate-700">Recurring ARR/MRR (89%)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-[#A5B4FC]"></span>
+<span class="text-slate-500">One-time Addons &amp; Onboarding</span>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined text-[15px]">info</span>
+<span class="">Values represented in Lakhs &amp; Crores (₹ INR)</span>
+</div>
+</div>
+<!-- SVG Line & Area Chart -->
+<div class="relative w-full h-64 mt-4">
+<svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 740 220">
+<defs>
+<linearGradient id="revenueGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#4F46E5" stop-opacity="0.22"></stop>
+<stop offset="100%" stop-color="#4F46E5" stop-opacity="0.00"></stop>
+</linearGradient>
+<linearGradient id="secondaryGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#C7D2FE" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#C7D2FE" stop-opacity="0.0"></stop>
+</linearGradient>
+</defs>
+<!-- Horizontal Grid Lines -->
+<line stroke="#F1F5F9" stroke-dasharray="4 4" stroke-width="1" x1="45" x2="735" y1="20" y2="20"></line>
+<line stroke="#F1F5F9" stroke-dasharray="4 4" stroke-width="1" x1="45" x2="735" y1="70" y2="70"></line>
+<line stroke="#F1F5F9" stroke-dasharray="4 4" stroke-width="1" x1="45" x2="735" y1="120" y2="120"></line>
+<line stroke="#F1F5F9" stroke-dasharray="4 4" stroke-width="1" x1="45" x2="735" y1="170" y2="170"></line>
+<line stroke="#E2E8F0" stroke-width="1" x1="45" x2="735" y1="200" y2="200"></line>
+<!-- Left Axis Text -->
+<text fill="#94A3B8" font-family="Inter" font-size="10" text-anchor="end" x="35" y="24">₹2.0 Cr</text>
+<text fill="#94A3B8" font-family="Inter" font-size="10" text-anchor="end" x="35" y="74">₹1.5 Cr</text>
+<text fill="#94A3B8" font-family="Inter" font-size="10" text-anchor="end" x="35" y="124">₹1.0 Cr</text>
+<text fill="#94A3B8" font-family="Inter" font-size="10" text-anchor="end" x="35" y="174">₹50 L</text>
+<!-- Area Fill -->
+<path d="M 50 170 
+                         C 110 162, 170 148, 230 140 
+                         C 290 132, 350 115, 410 100 
+                         C 470 85, 530 65, 590 55 
+                         C 650 45, 680 38, 725 32
+                         L 725 200 L 50 200 Z" fill="url(#revenueGrad)"></path>
+<!-- Stroke Line Primary -->
+<path d="M 50 170 
+                         C 110 162, 170 148, 230 140 
+                         C 290 132, 350 115, 410 100 
+                         C 470 85, 530 65, 590 55 
+                         C 650 45, 680 38, 725 32" fill="none" stroke="#4F46E5" stroke-linecap="round" stroke-width="3"></path>
+<!-- Data point markers -->
+<circle cx="50" cy="170" fill="#FFFFFF" r="3.5" stroke="#4F46E5" stroke-width="2.5"></circle>
+<circle cx="170" cy="148" fill="#FFFFFF" r="3.5" stroke="#4F46E5" stroke-width="2.5"></circle>
+<circle cx="290" cy="132" fill="#FFFFFF" r="3.5" stroke="#4F46E5" stroke-width="2.5"></circle>
+<circle cx="410" cy="100" fill="#FFFFFF" r="3.5" stroke="#4F46E5" stroke-width="2.5"></circle>
+<circle cx="530" cy="65" fill="#FFFFFF" r="3.5" stroke="#4F46E5" stroke-width="2.5"></circle>
+<circle cx="650" cy="45" fill="#FFFFFF" r="3.5" stroke="#4F46E5" stroke-width="2.5"></circle>
+<circle cx="725" cy="32" fill="#4F46E5" r="5" stroke="#FFFFFF" stroke-width="3"></circle>
+<!-- Interactive Point Indicator Line for October -->
+<line stroke="#4F46E5" stroke-dasharray="3 3" stroke-width="1.5" x1="725" x2="725" y1="32" y2="200"></line>
+</svg>
+<!-- High fidelity mock Tooltip at October point -->
+<div class="absolute right-0 top-0 -mt-2 transform translate-x-2 bg-slate-900 text-white rounded-lg shadow-xl p-2.5 text-xs z-10 pointer-events-none">
+<div class="font-semibold text-slate-200 border-b border-slate-700 pb-1 mb-1 flex items-center justify-between gap-3"><span class="">Oct 2026 (Current)</span><span class="text-emerald-400 font-mono">+8.2%</span></div>
+<div class="flex items-center justify-between gap-4 font-body-sm">
+<span class="text-slate-400">Recurring:</span>
+<span class="font-bold text-white tabular-nums">₹ 1.84 Cr</span>
+</div>
+<div class="flex items-center justify-between gap-4 text-[11px] text-slate-300">
+<span class="text-slate-400">One-Time:</span>
+<span class="tabular-nums">₹ 18.2 Lakhs</span>
+</div>
+</div>
+</div>
+<!-- X-Axis Months -->
+<div class="flex items-center justify-between pl-10 pr-2 pt-2 text-[11px] text-slate-400 font-medium font-mono">
+<span class="">Nov</span>
+<span class="">Dec</span>
+<span class="">Jan</span>
+<span class="">Feb</span>
+<span class="">Mar</span>
+<span class="">Apr</span>
+<span class="">May</span>
+<span class="">Jun</span>
+<span class="">Jul</span>
+<span class="">Aug</span>
+<span class="">Sep</span>
+<span class="text-primary-container font-bold">Oct '26</span>
+</div>
+</div>
+<div class="pt-4 mt-3 border-t border-[#F1F5F9] flex items-center justify-between text-body-sm text-secondary">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+              All 12 billing schedules consolidated and reconciled via Razorpay &amp; BillDesk.
+            </span>
+<a class="text-primary-container font-medium hover:underline text-xs" href="#detailed-report">View full cohort report →</a>
+</div>
+</div>
+<!-- Right 4-cols: Subscriptions by Status Donut Chart -->
+<div class="lg:col-span-4 bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-6 shadow-xs flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-[#F1F5F9]">
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Subscriptions by Status</h2>
+<p class="font-body-sm text-body-sm text-secondary">Cohort distribution</p>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold text-xs tabular-nums">1,568 Total</span>
+</div>
+<!-- Circular SVG Donut Chart with Center Anchor -->
+<div class="relative flex items-center justify-center my-6">
+<svg class="w-48 h-48 -rotate-90 transform" viewBox="0 0 160 160">
+<!-- Base Track -->
+<circle cx="80" cy="80" fill="none" r="62" stroke="#F1F5F9" stroke-width="18"></circle>
+<!-- Active: 82% (Circumference ~389.5, stroke-dasharray: 319.4 389.5) Color: #10B981 (Emerald) -->
+<circle cx="80" cy="80" fill="none" r="62" stroke="#10B981" stroke-dasharray="319.4 389.5" stroke-dashoffset="0" stroke-linecap="round" stroke-width="18"></circle>
+<!-- Quotation: 7% (27.2 px) Color: #3B82F6 (Blue) -->
+<circle cx="80" cy="80" fill="none" r="62" stroke="#3B82F6" stroke-dasharray="27.2 389.5" stroke-dashoffset="-322" stroke-width="18"></circle>
+<!-- Confirmed: 5% (19.4 px) Color: #F59E0B (Amber) -->
+<circle cx="80" cy="80" fill="none" r="62" stroke="#F59E0B" stroke-dasharray="19.4 389.5" stroke-dashoffset="-350" stroke-width="18"></circle>
+<!-- Overdue: 4% (15.5 px) Color: #EF4444 (Rose Red) -->
+<circle cx="80" cy="80" fill="none" r="62" stroke="#EF4444" stroke-dasharray="15.5 389.5" stroke-dashoffset="-370" stroke-width="18"></circle>
+<!-- Draft: 2% (7.8 px) Color: #9CA3AF (Gray) -->
+<circle cx="80" cy="80" fill="none" r="62" stroke="#9CA3AF" stroke-dasharray="7.8 389.5" stroke-dashoffset="-386" stroke-width="18"></circle>
+</svg>
+<!-- Central Metric Metric Counter -->
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface tabular-nums">82%</span>
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider text-emerald-600">Active Retained</span>
+</div>
+</div>
+<!-- Legend with Exact Counts & Badges -->
+<div class="space-y-2.5 pt-2">
+<div class="flex items-center justify-between text-body-sm py-0.5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
+<span class="font-medium text-slate-800">Active</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-semibold text-slate-900 tabular-nums">1,284</span>
+<span class="text-xs text-slate-400 tabular-nums w-8 text-right">82%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm py-0.5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
+<span class="font-medium text-slate-800">Quotation</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-semibold text-slate-900 tabular-nums">112</span>
+<span class="text-xs text-slate-400 tabular-nums w-8 text-right">7%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm py-0.5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
+<span class="font-medium text-slate-800">Confirmed</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-semibold text-slate-900 tabular-nums">86</span>
+<span class="text-xs text-slate-400 tabular-nums w-8 text-right">5%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm py-0.5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#EF4444]"></span>
+<span class="font-medium text-slate-800">Overdue</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-semibold text-rose-600 tabular-nums">58</span>
+<span class="text-xs text-rose-500 tabular-nums w-8 text-right">4%</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-body-sm py-0.5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#9CA3AF]"></span>
+<span class="font-medium text-slate-800">Draft</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-semibold text-slate-900 tabular-nums">28</span>
+<span class="text-xs text-slate-400 tabular-nums w-8 text-right">2%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-[#F1F5F9] mt-3">
+<button class="w-full py-1.5 px-3 rounded-lg border border-[#CBD5E1] bg-white text-secondary hover:text-on-surface hover:bg-[#F8FAFC] font-body-sm text-body-sm font-medium transition text-center">
+              Configure Cohort Rules
+            </button>
+</div>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- OVERDUE INVOICES MANAGEMENT TABLE (White Card with 12px Radius)         -->
+<!-- ======================================================================= -->
+<section class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl shadow-xs overflow-hidden" id="tableContainer">
+<!-- Table Header Section with Bulk Action -->
+<div class="p-6 border-b border-[#E2E8F0] flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Invoices &amp; Subscriptions Ledger</h2>
+<span class="px-2 py-0.5 rounded text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">42 Outstanding</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Recent transactions and subscription renewals reconciled through 31 Oct 2026.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#CBD5E1] bg-white font-body-md text-body-md font-medium text-on-surface hover:bg-[#F8FAFC] transition shadow-xs">
+<span class="material-symbols-outlined text-[18px] text-slate-500">filter_list</span>
+<span class="">Filter Overdue</span>
+</button>
+<button class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-rose-600 text-white font-body-md text-body-md font-semibold hover:bg-rose-700 transition shadow-xs">
+<span class="material-symbols-outlined text-[18px]">outgoing_mail</span>
+<span class="">Send All Reminders (42)</span>
+</button>
+</div>
+</div>
+<!-- Table Viewport -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#475569] font-label-md text-label-md uppercase tracking-wider"><th class="py-3 px-5 w-10"><input class="w-4 h-4 rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox"></th><th class="py-3 px-4 font-semibold">Ref / No.</th><th class="py-3 px-6 font-semibold">Customer &amp; Plan Details</th><th class="py-3 px-5 font-semibold">Due / Next Billing</th><th class="py-3 px-5 font-semibold">Status &amp; Tags</th><th class="py-3 px-6 font-semibold text-right">Amount &amp; Balance (₹ INR)</th><th class="py-3 px-6 font-semibold text-right">Actions</th></tr>
+</thead>
+<tbody class="divide-y divide-[#F1F5F9] font-body-md text-body-md"><tr class="hover:bg-[#F8FAFC] transition-colors duration-150 h-12"><td class="py-3 px-5"><input class="w-4 h-4 rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox"></td><td class="py-3 px-4 font-semibold font-mono text-primary-container hover:underline cursor-pointer">SUB-00128</td><td class="py-3 px-6"><div class="font-medium text-slate-900">Techcraft Solutions Pvt Ltd</div><div class="font-label-sm text-label-sm text-secondary font-mono tracking-normal">Enterprise Scale Annual</div></td><td class="py-3 px-5 text-slate-700 whitespace-nowrap">31 Oct 2026</td><td class="py-3 px-5"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Active</span></td><td class="py-3 px-6 text-right font-currency-table text-currency-table font-bold text-slate-900 tabular-nums"><div class="">₹ 14,50,000.00 <span class="text-xs font-normal text-slate-500">/ yr</span></div></td><td class="py-3 px-6 text-right whitespace-nowrap"><div class="flex items-center justify-end gap-2"><button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-[#CBD5E1] text-slate-700 hover:bg-[#F8FAFC] hover:border-slate-400 transition shadow-xs"><span class="material-symbols-outlined text-[15px] text-slate-500">receipt_long</span><span class="">Manage</span></button><button class="p-1 text-slate-400 hover:text-slate-700 rounded transition" title="More Options"><span class="material-symbols-outlined text-base">more_vert</span></button></div></td></tr><tr class="hover:bg-[#F8FAFC] transition-colors duration-150 h-12 bg-amber-50/20"><td class="py-3 px-5"><input class="w-4 h-4 rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox"></td><td class="py-3 px-4 font-semibold font-mono text-primary-container hover:underline cursor-pointer">INV-00456</td><td class="py-3 px-6"><div class="font-medium text-slate-900">Techcraft Solutions Pvt Ltd</div><div class="font-label-sm text-label-sm text-slate-400 font-mono tracking-normal">Paid: ₹ 10,00,000.00 • Due: ₹ 7,11,000.00</div></td><td class="py-3 px-5 text-slate-700 whitespace-nowrap">28 Oct 2026</td><td class="py-3 px-5"><div class="flex items-center gap-1.5 flex-wrap"><span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">Confirmed</span><span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">Partially paid</span></div></td><td class="py-3 px-6 text-right font-currency-table text-currency-table font-bold text-slate-900 tabular-nums"><div class="">₹ 17,11,000.00</div><div class="text-xs font-medium text-amber-700">Due: ₹ 7,11,000.00</div></td><td class="py-3 px-6 text-right whitespace-nowrap"><div class="flex items-center justify-end gap-2"><button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-[#CBD5E1] text-slate-700 hover:bg-[#F8FAFC] hover:border-slate-400 transition shadow-xs"><span class="material-symbols-outlined text-[15px] text-slate-500">mail</span><span class="">Send Reminder</span></button><button class="p-1 text-slate-400 hover:text-slate-700 rounded transition" title="More Options"><span class="material-symbols-outlined text-base">more_vert</span></button></div></td></tr><tr class="hover:bg-[#F8FAFC] transition-colors duration-150 h-12 bg-rose-50/20"><td class="py-3 px-5"><input class="w-4 h-4 rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox"></td><td class="py-3 px-4 font-semibold font-mono text-primary-container hover:underline cursor-pointer">INV-00457</td><td class="py-3 px-6"><div class="font-medium text-slate-900">Acme Technologies Pvt Ltd</div><div class="font-label-sm text-label-sm text-slate-400 font-mono tracking-normal">29AAACA5512L1Z9</div></td><td class="py-3 px-5 text-slate-700 whitespace-nowrap">15 Oct 2026</td><td class="py-3 px-5"><div class="flex items-center gap-1.5 flex-wrap"><span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">Confirmed</span><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300"><span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>Overdue 16 days</span></div></td><td class="py-3 px-6 text-right font-currency-table text-currency-table font-bold text-rose-900 tabular-nums">₹ 4,85,000.00</td><td class="py-3 px-6 text-right whitespace-nowrap"><div class="flex items-center justify-end gap-2"><button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-[#CBD5E1] text-slate-700 hover:bg-[#F8FAFC] hover:border-slate-400 transition shadow-xs"><span class="material-symbols-outlined text-[15px] text-slate-500">mail</span><span class="">Send Reminder</span></button><button class="p-1 text-slate-400 hover:text-slate-700 rounded transition" title="More Options"><span class="material-symbols-outlined text-base">more_vert</span></button></div></td></tr><tr class="hover:bg-[#F8FAFC] transition-colors duration-150 h-12"><td class="py-3 px-5"><input class="w-4 h-4 rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox"></td><td class="py-3 px-4 font-semibold font-mono text-primary-container hover:underline cursor-pointer">SUB-00129</td><td class="py-3 px-6"><div class="font-medium text-slate-900">RazorByte Cloud Technologies</div><div class="font-label-sm text-label-sm text-secondary font-mono tracking-normal">Growth Scale Tier</div></td><td class="py-3 px-5 text-slate-700 whitespace-nowrap">31 Oct 2026</td><td class="py-3 px-5"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Active</span></td><td class="py-3 px-6 text-right font-currency-table text-currency-table font-bold text-slate-900 tabular-nums"><div class="">₹ 3,75,000.00 <span class="text-xs font-normal text-slate-500">/ mo</span></div></td><td class="py-3 px-6 text-right whitespace-nowrap"><div class="flex items-center justify-end gap-2"><button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-[#CBD5E1] text-slate-700 hover:bg-[#F8FAFC] hover:border-slate-400 transition shadow-xs"><span class="material-symbols-outlined text-[15px] text-slate-500">receipt_long</span><span class="">Manage</span></button><button class="p-1 text-slate-400 hover:text-slate-700 rounded transition" title="More Options"><span class="material-symbols-outlined text-base">more_vert</span></button></div></td></tr><tr class="hover:bg-[#F8FAFC] transition-colors duration-150 h-12"><td class="py-3 px-5"><input class="w-4 h-4 rounded border-slate-300 text-primary-container focus:ring-primary-container" type="checkbox"></td><td class="py-3 px-4 font-semibold font-mono text-primary-container hover:underline cursor-pointer">INV-00458</td><td class="py-3 px-6"><div class="font-medium text-slate-900">Zomex Logistics Solutions</div><div class="font-label-sm text-label-sm text-slate-400 font-mono tracking-normal">07AAACZ4321P1Z5</div></td><td class="py-3 px-5 text-slate-700 whitespace-nowrap">24 Oct 2026</td><td class="py-3 px-5"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>7 days overdue</span></td><td class="py-3 px-6 text-right font-currency-table text-currency-table font-bold text-slate-900 tabular-nums">₹ 82,500.00</td><td class="py-3 px-6 text-right whitespace-nowrap"><div class="flex items-center justify-end gap-2"><button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-[#CBD5E1] text-slate-700 hover:bg-[#F8FAFC] hover:border-slate-400 transition shadow-xs"><span class="material-symbols-outlined text-[15px] text-slate-500">mail</span><span class="">Send Reminder</span></button><button class="p-1 text-slate-400 hover:text-slate-700 rounded transition" title="More Options"><span class="material-symbols-outlined text-base">more_vert</span></button></div></td></tr></tbody>
+</table>
+</div>
+<!-- Pagination Footer Controls -->
+<div class="px-6 py-3.5 bg-[#F8FAFC] border-t border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-body-sm font-body-sm">
+<div class="text-secondary">Showing <strong class="font-medium text-slate-900">1 to 5</strong> of <strong class="font-medium text-slate-900">42</strong> transactions &amp; subscriptions</div>
+<div class="flex items-center gap-1.5 self-center sm:self-auto">
+<button class="px-2.5 py-1 rounded-md border border-[#CBD5E1] bg-white text-slate-500 hover:text-slate-800 disabled:opacity-50 disabled:pointer-events-none transition text-xs font-medium" disabled="">
+              Previous
+            </button>
+<button class="px-2.5 py-1 rounded-md bg-primary-container text-white font-medium text-xs">
+              1
+            </button>
+<button class="px-2.5 py-1 rounded-md border border-[#CBD5E1] bg-white text-slate-700 hover:bg-slate-100 text-xs font-medium">
+              2
+            </button>
+<button class="px-2.5 py-1 rounded-md border border-[#CBD5E1] bg-white text-slate-700 hover:bg-slate-100 text-xs font-medium">
+              3
+            </button>
+<span class="px-1 text-slate-400 text-xs">…</span>
+<button class="px-2.5 py-1 rounded-md border border-[#CBD5E1] bg-white text-slate-700 hover:bg-slate-100 text-xs font-medium">
+              9
+            </button>
+<button class="px-2.5 py-1 rounded-md border border-[#CBD5E1] bg-white text-slate-700 hover:text-slate-900 transition text-xs font-medium">
+              Next
+            </button>
+</div>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- INTERACTIVE STATE MODAL / PREVIEWS (Loading Shimmer & Zero Overdue)     -->
+<!-- ======================================================================= -->
+<!-- Skeleton Loading State Container (Hidden by default, triggered by toggle) -->
+<section class="hidden space-y-6" id="skeletonSection">
+<div class="p-3 bg-indigo-50/70 border border-indigo-200 rounded-xl text-indigo-900 text-xs font-medium flex items-center justify-between">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">motion_photos_on</span>
+            Loading Skeleton Shimmer State Simulation (Pre-fetching financial ledger...)
+          </span>
+<button class="underline hover:text-indigo-950 font-semibold" onclick="toggleStateView('real')">Back to Live Data</button>
+</div>
+<!-- Metric Shimmers -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-xs space-y-3">
+<div class="h-3 w-28 shimmer-bg rounded"></div>
+<div class="h-8 w-36 shimmer-bg rounded"></div>
+<div class="h-3 w-44 shimmer-bg rounded pt-2"></div>
+</div>
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-xs space-y-3">
+<div class="h-3 w-28 shimmer-bg rounded"></div>
+<div class="h-8 w-44 shimmer-bg rounded"></div>
+<div class="h-3 w-40 shimmer-bg rounded pt-2"></div>
+</div>
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-xs space-y-3">
+<div class="h-3 w-28 shimmer-bg rounded"></div>
+<div class="h-8 w-36 shimmer-bg rounded"></div>
+<div class="h-3 w-40 shimmer-bg rounded pt-2"></div>
+</div>
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-xs space-y-3">
+<div class="h-3 w-28 shimmer-bg rounded"></div>
+<div class="h-8 w-36 shimmer-bg rounded"></div>
+<div class="h-3 w-32 shimmer-bg rounded pt-2"></div>
+</div>
+</div>
+<!-- Table Shimmer -->
+<div class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-xs space-y-4">
+<div class="h-5 w-64 shimmer-bg rounded"></div>
+<div class="h-3 w-96 shimmer-bg rounded"></div>
+<div class="space-y-3 pt-4">
+<div class="h-10 w-full shimmer-bg rounded"></div>
+<div class="h-10 w-full shimmer-bg rounded"></div>
+<div class="h-10 w-full shimmer-bg rounded"></div>
+</div>
+</div>
+</section>
+<!-- Empty State Container (Celebratory Zero Overdue) -->
+<section class="hidden bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-12 text-center shadow-xs" id="emptyStateSection">
+<div class="max-w-md mx-auto space-y-4">
+<div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto ring-8 ring-emerald-50/50">
+<span class="material-symbols-outlined text-3xl">verified</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">No Overdue Invoices Found</h3>
+<p class="font-body-md text-body-md text-secondary mt-1">All accounts are completely up to date! 100% of generated billing installments are cleared within regular grace terms.</p>
+</div>
+<div class="pt-2 flex items-center justify-center gap-3">
+<button class="px-4 py-2 rounded-lg bg-primary-container text-white font-body-md text-body-md font-medium hover:bg-primary transition shadow-xs" onclick="toggleStateView('real')">
+              Run Billing Reconciliation
+            </button>
+<button class="px-4 py-2 rounded-lg border border-[#CBD5E1] bg-white text-secondary font-body-md text-body-md font-medium hover:bg-slate-50 transition" onclick="toggleStateView('real')">
+              View Audit Logs
+            </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Global App Footer Note -->
+<footer class="mt-auto px-8 py-4 border-t border-[#E2E8F0] bg-white flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
+<div class="flex items-center gap-3">
+<span class="">Brightloop Revenue Engine v3.4.2</span>
+<span class="">•</span>
+<span class="">Razorpay &amp; Stripe Verified PCI-DSS L1</span>
+</div>
+<div class="mt-2 sm:mt-0 flex items-center gap-4">
+<a class="hover:text-slate-600 transition" href="#privacy">Privacy &amp; Security</a>
+<a class="hover:text-slate-600 transition" href="#terms">Compliance Terms</a>
+<a class="hover:text-slate-600 transition" href="#support">FinOps Desk</a>
+</div>
+</footer>
+</div>
+<!-- Inline Vanilla Script for Micro-Interactions & State View Toggling -->
+<script>
+    function toggleStateView(state) {
+      const realKpi = document.getElementById('kpiContainer');
+      const realTable = document.getElementById('tableContainer');
+      const skeletonSec = document.getElementById('skeletonSection');
+      const emptySec = document.getElementById('emptyStateSection');
+
+      const btnReal = document.getElementById('btnRealData');
+      const btnSkel = document.getElementById('btnSkeleton');
+      const btnEmpty = document.getElementById('btnEmpty');
+
+      // Reset button styles
+      [btnReal, btnSkel, btnEmpty].forEach(btn => {
+        btn.className = "px-2.5 py-1 rounded text-secondary hover:text-on-surface transition-all";
+      });
+
+      if (state === 'real') {
+        realKpi.classList.remove('hidden');
+        realTable.classList.remove('hidden');
+        skeletonSec.classList.add('hidden');
+        emptySec.classList.add('hidden');
+        btnReal.className = "px-2.5 py-1 rounded text-primary-container font-medium bg-surface-container-low transition-all";
+      } else if (state === 'skeleton') {
+        realKpi.classList.add('hidden');
+        realTable.classList.add('hidden');
+        skeletonSec.classList.remove('hidden');
+        emptySec.classList.add('hidden');
+        btnSkel.className = "px-2.5 py-1 rounded text-primary-container font-medium bg-surface-container-low transition-all";
+      } else if (state === 'empty') {
+        realKpi.classList.remove('hidden');
+        realTable.classList.add('hidden');
+        skeletonSec.classList.add('hidden');
+        emptySec.classList.remove('hidden');
+        btnEmpty.className = "px-2.5 py-1 rounded text-primary-container font-medium bg-surface-container-low transition-all";
+      }
+    }
+
+    // Segmented View Toggle Buttons
+    const viewSummary = document.getElementById('viewSummaryBtn');
+    const viewDetailed = document.getElementById('viewDetailedBtn');
+
+    viewSummary.addEventListener('click', () => {
+      viewSummary.className = "flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold bg-white text-on-surface shadow-xs transition-all";
+      viewDetailed.className = "flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium text-secondary hover:text-on-surface transition-all";
+    });
+
+    viewDetailed.addEventListener('click', () => {
+      viewDetailed.className = "flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold bg-white text-on-surface shadow-xs transition-all";
+      viewSummary.className = "flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium text-secondary hover:text-on-surface transition-all";
+    });
+  </script>
+
+
+</body></html>

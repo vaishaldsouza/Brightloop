@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Brightloop Subscriptions - Login</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed": "#dae2fd",
+            "inverse-on-surface": "#eaf1ff",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "primary-fixed-dim": "#c3c0ff",
+            "inverse-primary": "#c3c0ff",
+            "on-background": "#0b1c30",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary": "#ffffff",
+            "surface": "#f8f9ff",
+            "surface-tint": "#4d44e3",
+            "outline": "#777587",
+            "background": "#f8f9ff",
+            "tertiary-container": "#006e4c",
+            "tertiary-fixed-dim": "#68dba9",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary-container": "#7df1bd",
+            "primary": "#3525cd",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-surface": "#0b1c30",
+            "inverse-surface": "#213145",
+            "surface-bright": "#f8f9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-error-container": "#93000a",
+            "surface-dim": "#cbdbf5",
+            "outline-variant": "#c7c4d8",
+            "primary-fixed": "#e2dfff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-container": "#dae2fd",
+            "on-secondary-container": "#5c647a",
+            "surface-container-high": "#dce9ff",
+            "surface-container": "#e5eeff",
+            "tertiary": "#005338",
+            "on-surface-variant": "#464555",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#0f0069",
+            "surface-variant": "#d3e4fe",
+            "on-secondary-fixed": "#131b2e",
+            "on-primary": "#ffffff",
+            "secondary": "#565e74",
+            "surface-container-low": "#eff4ff",
+            "on-primary-container": "#dad7ff",
+            "on-primary-fixed-variant": "#3323cc"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1.5rem",
+            "margin-tablet": "1.25rem",
+            "space-md": "0.75rem",
+            "margin": "2rem",
+            "space-xl": "2rem",
+            "gutter-tablet": "1rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "currency-display": ["Inter"],
+            "label-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "currency-table": ["Inter"],
+            "title-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl-mobile": ["Inter"]
+          },
+          "fontSize": {
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex justify-center items-start selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Mobile Viewport Container (~390px width) -->
+<div class="w-full max-w-[390px] min-h-screen bg-background flex flex-col shadow-xl relative overflow-x-hidden border-x border-outline-variant/30">
+<!-- TopAppBar (Derived from Shared Component Anchor) -->
+<header class="bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container docked full-width top shadow-sm flex justify-between items-center w-full px-4 h-14 select-none shrink-0 z-20">
+<div class="flex items-center space-x-3">
+<button aria-label="Go back" class="p-1.5 -ml-1.5 rounded-lg hover:bg-primary-container/20 dark:hover:bg-primary/20 transition-colors active:opacity-80 transition-opacity duration-150 flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[22px]" data-icon="arrow_back">arrow_back</span>
+</button>
+<span class="font-title-sm text-title-sm text-on-primary dark:text-on-primary-container tracking-tight font-bold">Brightloop</span>
+</div>
+<button aria-label="Support &amp; Help" class="p-1.5 -mr-1.5 rounded-lg hover:bg-primary-container/20 dark:hover:bg-primary/20 transition-colors active:opacity-80 transition-opacity duration-150 flex items-center justify-center text-primary-fixed" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="help_outline">help_outline</span>
+</button>
+</header>
+<!-- Context Brand Banner: Brightloop Subscriptions -->
+<section class="bg-primary-container px-5 pt-4 pb-7 text-on-primary shrink-0 relative">
+<div class="flex items-center space-x-2.5">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest/15 backdrop-blur-sm flex items-center justify-center border border-on-primary/20 shadow-sm shrink-0">
+<span class="material-symbols-outlined text-on-primary text-[20px]" data-icon="sync_alt">sync_alt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold tracking-tight text-white leading-tight">Brightloop Subscriptions</span>
+<span class="font-label-sm text-label-sm text-on-primary-container font-medium tracking-wide">Recurring Revenue Engine</span>
+</div>
+</div>
+</section>
+<!-- Main Content Container with Native Mobile Layering -->
+<main class="flex-1 px-4 -mt-3.5 pb-8 flex flex-col z-10">
+<!-- Authentication Card Panel -->
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-5 shadow-sm flex flex-col">
+<!-- Header -->
+<div class="mb-4">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface font-bold tracking-tight">Log in to your account</h1>
+<p class="font-body-sm text-body-sm text-secondary mt-1">Access your billing dashboard and subscription metrics</p>
+</div>
+<!-- Prominent Inline Error Banner -->
+<div aria-live="polite" class="bg-error-container text-on-error-container border border-error/20 rounded-lg p-3 mb-5 flex items-start space-x-2.5" role="alert">
+<span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5" data-icon="warning">warning</span>
+<div class="flex-1">
+<span class="font-label-md text-label-md font-semibold block text-on-error-container">Incorrect email or password.</span>
+<span class="font-body-sm text-body-sm text-on-error-container/90 mt-0.5 block">Please re-check your credentials and try again.</span>
+</div>
+</div>
+<!-- Form Elements -->
+<form class="space-y-4" novalidate="" onsubmit="event.preventDefault();">
+<!-- Email Input Field -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface font-semibold" for="email">
+              Email address
+            </label>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-icon="mail">mail</span>
+</div>
+<input autocomplete="email" class="w-full pl-9 pr-3 py-2 text-on-surface bg-surface-container-lowest border border-error rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all placeholder:text-outline/60" id="email" name="email" placeholder="name@company.com" required="" type="email" value="controller@acmecorp.com"/>
+</div>
+</div>
+<!-- Password Input Field -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-label-md text-label-md text-on-surface font-semibold" for="password">
+                Password
+              </label>
+</div>
+<div class="relative rounded-lg shadow-sm">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock">lock</span>
+</div>
+<input autocomplete="current-password" class="w-full pl-9 pr-10 py-2 text-on-surface bg-surface-container-lowest border border-error rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all placeholder:text-outline/60" id="password" name="password" placeholder="Enter your password" required="" type="password" value="••••••••••••"/>
+<button aria-label="Toggle password visibility" class="absolute inset-y-0 right-0 pr-3 flex items-center text-secondary hover:text-on-surface transition-colors focus:outline-none" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility_off" id="password-visibility-icon">visibility_off</span>
+</button>
+</div>
+<!-- Forgot Password Action (Aligned Right) -->
+<div class="flex justify-end pt-1">
+<a class="font-label-md text-label-md text-primary-container hover:text-primary font-medium focus:outline-none focus:underline active:opacity-80 transition-opacity" href="#">
+                Forgot password?
+              </a>
+</div>
+</div>
+<!-- Primary CTA Button (Full-width) -->
+<div class="pt-2">
+<button class="w-full bg-primary-container hover:bg-primary active:bg-on-primary-fixed-variant text-on-primary py-2.5 px-4 rounded-lg font-title-sm text-title-sm font-semibold tracking-tight shadow-sm hover:shadow transition-all duration-150 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container" type="submit">
+<span>Log in</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+<!-- Divider with Trust Context -->
+<div class="relative my-6 text-center">
+<div aria-hidden="true" class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant/40"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-surface-container-lowest px-3 font-label-sm text-label-sm text-secondary font-medium uppercase tracking-wider">
+              Single Sign-On
+            </span>
+</div>
+</div>
+<!-- SSO Action (Secondary Option) -->
+<button class="w-full bg-surface-container-lowest border border-outline-variant/60 hover:bg-surface-container-low text-on-surface py-2 px-3 rounded-lg font-label-md text-label-md font-semibold flex items-center justify-center space-x-2 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-container/20" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary" data-icon="domain">domain</span>
+<span>Log in with Enterprise SAML SSO</span>
+</button>
+</div>
+<!-- Footer Action: Don't have an account? -->
+<div class="mt-6 text-center">
+<p class="font-body-md text-body-md text-secondary">
+          Don't have an account? 
+          <a class="font-semibold text-primary-container hover:text-primary focus:outline-none focus:underline ml-1" href="#">
+            Create an account
+          </a>
+</p>
+</div>
+<!-- Compliance & Security Assurance Badge -->
+<div class="mt-auto pt-8 flex items-center justify-center space-x-4 text-secondary/70">
+<div class="flex items-center space-x-1">
+<span class="material-symbols-outlined text-[15px]" data-icon="verified_user">verified_user</span>
+<span class="font-label-sm text-label-sm tracking-wide">SOC-2 Certified</span>
+</div>
+<span class="text-outline-variant/60">•</span>
+<div class="flex items-center space-x-1">
+<span class="material-symbols-outlined text-[15px]" data-icon="lock_clock">lock_clock</span>
+<span class="font-label-sm text-label-sm tracking-wide">256-bit TLS</span>
+</div>
+</div>
+</main>
+</div>
+<!-- Interactive behavior for Show/Hide Password Toggle -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById('toggle-password');
+      const passwordInput = document.getElementById('password');
+      const visibilityIcon = document.getElementById('password-visibility-icon');
+
+      if (toggleBtn && passwordInput && visibilityIcon) {
+        toggleBtn.addEventListener('click', () => {
+          const isPassword = passwordInput.getAttribute('type') === 'password';
+          if (isPassword) {
+            passwordInput.setAttribute('type', 'text');
+            visibilityIcon.textContent = 'visibility';
+            visibilityIcon.setAttribute('data-icon', 'visibility');
+            toggleBtn.setAttribute('aria-label', 'Hide password');
+          } else {
+            passwordInput.setAttribute('type', 'password');
+            visibilityIcon.textContent = 'visibility_off';
+            visibilityIcon.setAttribute('data-icon', 'visibility_off');
+            toggleBtn.setAttribute('aria-label', 'Show password');
+          }
+        });
+      }
+    });
+  </script>
+</body></html>

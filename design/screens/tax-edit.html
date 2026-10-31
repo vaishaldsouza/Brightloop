@@ -1,0 +1,480 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Brightloop - Edit Tax Rule</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-surface": "#0b1c30",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary-container": "#7df1bd",
+            "primary-fixed": "#e2dfff",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-primary-fixed": "#0f0069",
+            "surface-container-highest": "#d3e4fe",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-secondary-fixed": "#131b2e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary-container": "#006e4c",
+            "secondary": "#565e74",
+            "error": "#ba1a1a",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "surface-container": "#e5eeff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-fixed": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c3c0ff",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-bright": "#f8f9ff",
+            "tertiary": "#005338",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#dce9ff",
+            "on-background": "#0b1c30",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-container": "#5c647a",
+            "on-primary-container": "#dad7ff",
+            "primary": "#3525cd",
+            "background": "#f8f9ff",
+            "outline-variant": "#c7c4d8",
+            "on-surface-variant": "#464555",
+            "outline": "#777587"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "margin-tablet": "1.25rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "currency-display": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-table": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-[#F3F4F6] text-on-surface antialiased min-h-screen flex">
+<!-- Side Navigation Rail -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant bg-surface-container-lowest shadow-sm">
+<!-- Brand Header -->
+<div class="h-16 flex items-center gap-3 px-5 border-b border-[#F1F5F9] shrink-0">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="autorenew">autorenew</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight leading-tight">Brightloop</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">Billing &amp; Revenue Ops</span>
+</div>
+</div>
+<!-- Main Navigation Items -->
+<div class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="">Products</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="">Plans</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="">Quotation Templates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span class="">Subscriptions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="">Invoices</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="">Reports</span>
+</a>
+<!-- Admin Section Divider -->
+<div class="pt-4 pb-2 px-3">
+<span class="font-label-sm text-label-sm text-[#94A3B8] tracking-wider uppercase font-semibold">Admin only</span>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="percent">percent</span>
+<span class="">Discounts</span>
+</a>
+<!-- Active Taxes Navigation Item -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low text-primary-container font-medium font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined text-primary-container" data-icon="account_balance">account_balance</span>
+<span class="font-semibold">Taxes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span class="">Staff</span>
+</a>
+
+</div>
+<!-- Quick CTA in rail -->
+<div class="p-3 border-t border-[#F1F5F9] shrink-0">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg border border-[#E2E8F0] text-on-surface bg-surface-container-lowest hover:bg-[#F8FAFC] transition-colors font-body-md text-body-md font-medium">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+<span class="">New Subscription</span>
+</button>
+</div>
+</aside>
+<!-- Main Layout Area -->
+<div class="flex-1 ml-64 flex flex-col min-w-0">
+<!-- Top Persistent Header -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-8 h-16 w-full bg-surface-container-lowest border-b border-outline-variant shadow-sm">
+<!-- Search Bar -->
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-1.5 text-body-md font-body-md bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg text-on-surface placeholder-secondary focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none transition-all" placeholder="Search tax rules, invoices, customers..." type="search">
+</div>
+<!-- Trailing Actions & Profile -->
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 text-secondary hover:text-on-surface hover:bg-[#F8FAFC] rounded-lg transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#059669] rounded-full"></span>
+</button>
+<button aria-label="Help &amp; Documentation" class="p-2 text-secondary hover:text-on-surface hover:bg-[#F8FAFC] rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-6 w-px bg-[#E2E8F0] mx-1"></div>
+<div class="flex items-center gap-3 pl-1">
+<img class="w-8 h-8 rounded-full border border-[#CBD5E1] object-cover" data-alt="Close up professional portrait of Rajesh Sharma, revenue operations administrative lead, wearing dark navy formal blazer in brightly illuminated architectural corporate office interior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCe9KQ-82EqxDHzVr4yF4b3HMiK3nX5mpW24xlrgPHsBlCJ1FsFcznOGw77pO9zBHhz67LzfHCvPWIm47hoXJyVfMFqze5Tkd5JuJPvVMJy8YMR2fom4UZyy-QLxshtKm3JM6H_PogK-L9vIeU3z9XPvXc2Pg2AskdcXkBDnB9jQ8DWk5vbpQuGITbJKt85Hu6H1nYUrF2GSLSw6wxqM-TrJjasANIlOMrYw-XrfdQ">
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight font-semibold">Rajesh Sharma</span>
+<span class="font-label-sm text-label-sm text-secondary">Admin</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content Container -->
+<main class="flex-1 p-8 max-w-6xl mx-auto w-full">
+<!-- Breadcrumbs & Header Section -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 font-label-md text-label-md text-secondary mb-3">
+<a class="hover:text-on-surface transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<a class="hover:text-on-surface transition-colors" href="#">Taxes</a>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-semibold">Edit Tax (TAX-IGST-18)</span>
+</nav>
+<!-- Page Title & Primary Actions Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#E2E8F0] mb-8">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tight">
+              Edit Tax Rule: Integrated Goods and Services Tax (IGST 18%)
+            </h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-label-sm font-label-sm bg-[#EFF4FF] text-primary-container border border-[#C7C4D8]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4F46E5]"></span>
+              Active Rule
+            </span>
+</div>
+<p class="font-body-md text-body-md text-secondary mt-1">
+            Configure statutory rate calibration, SAC/HSN codes, and automated inter-state customer eligibility.
+          </p>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<button class="px-4 py-2 border border-[#E2E8F0] bg-surface-container-lowest text-on-surface font-body-md text-body-md font-medium rounded-lg hover:bg-[#F8FAFC] hover:border-[#CBD5E1] transition-colors focus:ring-2 focus:ring-[#CBD5E1]">
+            Cancel
+          </button>
+<button class="px-4 py-2 bg-primary-container text-on-primary font-body-md text-body-md font-medium rounded-lg hover:bg-[#4338CA] transition-colors shadow-sm focus:ring-2 focus:ring-primary-container/20">
+            Save Tax Rule
+          </button>
+</div>
+</div>
+<!-- Form Cards Container -->
+<div class="space-y-6">
+<!-- Card 1: Tax Definition & Rate -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="px-6 py-4 border-b border-[#F1F5F9] bg-[#F8FAFC]/50 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="receipt">receipt</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">Tax Definition &amp; Rate</h2>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">Indian GST Statutory Framework (FY 2026-27)</span>
+</div>
+<div class="p-6 space-y-5">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Tax Rule Name -->
+<div>
+<label class="block font-label-md text-label-md text-[#475569] mb-1.5" for="tax-rule-name">
+                  Tax Rule Name <span class="text-error">*</span>
+</label>
+<input class="w-full h-[38px] px-3 font-body-md text-body-md bg-surface-container-lowest border border-[#CBD5E1] rounded-lg text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" id="tax-rule-name" type="text" value="Integrated Goods and Services Tax (IGST 18%)">
+</div>
+<!-- Tax Code / Statutory Identifier -->
+<div>
+<label class="block font-label-md text-label-md text-[#475569] mb-1.5" for="tax-code">
+                  Tax Code / Statutory Identifier <span class="text-error">*</span>
+</label>
+<input class="w-full h-[38px] px-3 font-body-md text-body-md bg-surface-container-lowest border border-[#CBD5E1] rounded-lg text-on-surface font-mono text-sm focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" id="tax-code" type="text" value="IGST-18-SAC998313">
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Percentage (%) -->
+<div>
+<label class="block font-label-md text-label-md text-[#475569] mb-1.5" for="tax-percentage">
+                  Percentage (%) <span class="text-error">*</span>
+</label>
+<div class="relative">
+<input class="w-full h-[38px] pl-3 pr-10 font-body-md text-body-md bg-surface-container-lowest border border-[#CBD5E1] rounded-lg text-on-surface font-semibold focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" id="tax-percentage" step="0.01" type="number" value="18.00">
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-secondary font-label-md">
+                    %
+                  </div>
+</div>
+</div>
+<!-- Tax Type Selector -->
+<div>
+<label class="block font-label-md text-label-md text-[#475569] mb-1.5" for="tax-type">
+                  Tax Type <span class="text-error">*</span>
+</label>
+<select class="w-full h-[38px] px-3 font-body-md text-body-md bg-surface-container-lowest border border-[#CBD5E1] rounded-lg text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none" id="tax-type">
+<option value="CGST">Central GST (CGST)</option>
+<option value="SGST">State GST (SGST)</option>
+<option selected="" value="IGST">Integrated GST (IGST)</option>
+<option value="UTGST">Union Territory GST (UTGST)</option>
+</select>
+</div>
+</div>
+<!-- Description -->
+<div>
+<label class="block font-label-md text-label-md text-[#475569] mb-1.5" for="tax-description">
+                Description
+              </label>
+<textarea class="w-full p-3 font-body-md text-body-md bg-surface-container-lowest border border-[#CBD5E1] rounded-lg text-on-surface focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 focus:outline-none resize-none leading-relaxed" id="tax-description" rows="3">Statutory 18% rate levied on inter-state supply of SaaS and cloud subscription services under SAC 998313.</textarea>
+<span class="block mt-1 font-body-sm text-body-sm text-secondary">
+                Will be populated across B2B invoice line-item GST notes for GSTIN compliance.
+              </span>
+</div>
+</div>
+</div>
+<!-- Card 2: Applicable Products & Scope -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] overflow-hidden">
+<div class="px-6 py-4 border-b border-[#F1F5F9] bg-[#F8FAFC]/50 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container" data-icon="hub">hub</span>
+<h2 class="font-headline-md text-headline-md text-on-surface font-semibold">Applicable Products &amp; Scope</h2>
+</div>
+<span class="font-label-sm text-label-sm text-[#059669] font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+              5 Active Attachments
+            </span>
+</div>
+<div class="p-6 space-y-6">
+<!-- Scope Radios -->
+<div>
+<span class="block font-label-md text-label-md text-[#475569] mb-2.5">Application Scope</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="flex items-center gap-3 p-3 border border-[#E2E8F0] rounded-lg cursor-pointer hover:bg-[#F8FAFC] transition-colors">
+<input class="w-4 h-4 text-primary-container border-[#CBD5E1] focus:ring-primary-container" name="scope" type="radio" value="all">
+<div>
+<span class="font-body-md text-body-md text-on-surface font-medium block">All catalog products</span>
+<span class="font-body-sm text-body-sm text-secondary">Auto-bind to all current and future plans</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-3 border border-primary-container bg-surface-container-low/40 rounded-lg cursor-pointer transition-colors">
+<input checked="" class="w-4 h-4 text-primary-container border-primary-container focus:ring-primary-container" name="scope" type="radio" value="specific">
+<div>
+<span class="font-body-md text-body-md text-on-surface font-medium block">Specific products</span>
+<span class="font-body-sm text-body-sm text-secondary">Restrict to selected software services</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Applicable Products multi-select chip container -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="font-label-md text-label-md text-[#475569]">
+                  Applicable Products Multi-select
+                </label>
+<span class="font-label-sm text-label-sm text-secondary">5 products selected</span>
+</div>
+<div class="min-h-[52px] p-2.5 border border-[#CBD5E1] rounded-lg bg-surface-container-lowest flex flex-wrap items-center gap-2">
+<!-- Chip 1 -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-body-sm font-body-sm bg-[#EFF4FF] border border-[#CBD5E1] text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="inventory_2">inventory_2</span>
+<span class="">Cloud Core Platform v2</span>
+<button class="text-secondary hover:text-error transition-colors ml-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]" data-icon="close">close</span>
+</button>
+</span>
+<!-- Chip 2 -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-body-sm font-body-sm bg-[#EFF4FF] border border-[#CBD5E1] text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="inventory_2">inventory_2</span>
+<span class="">Dedicated SLA &amp; 24/7 TAM</span>
+<button class="text-secondary hover:text-error transition-colors ml-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]" data-icon="close">close</span>
+</button>
+</span>
+<!-- Chip 3 -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-body-sm font-body-sm bg-[#EFF4FF] border border-[#CBD5E1] text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="inventory_2">inventory_2</span>
+<span class="">Database Shard Cluster</span>
+<button class="text-secondary hover:text-error transition-colors ml-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]" data-icon="close">close</span>
+</button>
+</span>
+<!-- Chip 4 -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-body-sm font-body-sm bg-[#EFF4FF] border border-[#CBD5E1] text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="inventory_2">inventory_2</span>
+<span class="">API Burst Gateway 10M</span>
+<button class="text-secondary hover:text-error transition-colors ml-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]" data-icon="close">close</span>
+</button>
+</span>
+<!-- Chip 5 -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-body-sm font-body-sm bg-[#EFF4FF] border border-[#CBD5E1] text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary-container" data-icon="inventory_2">inventory_2</span>
+<span class="">Enterprise SSO &amp; SAML Addon</span>
+<button class="text-secondary hover:text-error transition-colors ml-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]" data-icon="close">close</span>
+</button>
+</span>
+<!-- Selector Button -->
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-body-sm font-body-sm text-primary-container border border-dashed border-primary-container/40 hover:bg-[#EFF4FF] transition-colors font-medium" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+<span class="">Add Product</span>
+</button>
+</div>
+</div>
+<!-- Toggles Section -->
+<div class="pt-4 border-t border-[#F1F5F9] space-y-4">
+<!-- Customer Eligibility toggle -->
+<div class="flex items-start justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg">
+<div class="pr-4">
+<label class="font-body-md text-body-md text-on-surface font-semibold cursor-pointer block" for="eligibility-toggle">
+                    Apply automatically on inter-state (Buyer State ≠ Seller State) transactions
+                  </label>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+                    Evaluates customer GSTIN state code vs. Brightloop seller nexus state code (27-Maharashtra). When states mismatch, 18% IGST is automatically levied.
+                  </p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" id="eligibility-toggle" type="checkbox">
+<div class="w-11 h-6 bg-[#CBD5E1] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</div>
+</div>
+<!-- Reverse Charge Mechanism toggle -->
+<div class="flex items-start justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg">
+<div class="pr-4">
+<label class="font-body-md text-body-md text-on-surface font-semibold cursor-pointer block" for="rcm-toggle">
+                    Reverse Charge Mechanism (RCM)
+                  </label>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+                    Not applicable (Standard Forward Charge). Tax liability remains with Brightloop Inc.
+                  </p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer shrink-0">
+<input class="sr-only peer" id="rcm-toggle" type="checkbox">
+<div class="w-11 h-6 bg-[#CBD5E1] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Statutory Context Panel -->
+<div class="p-4 border border-[#E2E8F0] bg-surface-container-lowest rounded-xl flex items-center justify-between text-body-sm font-body-sm text-secondary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary-container" data-icon="verified_user">verified_user</span>
+<span class="">Indian GST Compliance Standard: SAC Code 998313 (Information Technology &amp; Hosting)</span>
+</div>
+<span class="font-mono text-label-sm">Effective Year: 2026-2027</span>
+</div>
+</div>
+<!-- Bottom Action Bar -->
+<div class="mt-8 pt-6 border-t border-[#E2E8F0] flex items-center justify-end gap-3 pb-12">
+<button class="px-5 py-2.5 border border-[#E2E8F0] bg-surface-container-lowest text-on-surface font-body-md text-body-md font-medium rounded-lg hover:bg-[#F8FAFC] hover:border-[#CBD5E1] transition-colors focus:ring-2 focus:ring-[#CBD5E1]">
+          Cancel
+        </button>
+<button class="px-5 py-2.5 bg-primary-container text-on-primary font-body-md text-body-md font-medium rounded-lg hover:bg-[#4338CA] transition-colors shadow-sm focus:ring-2 focus:ring-primary-container/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="save">save</span>
+<span class="">Save Tax Rule</span>
+</button>
+</div>
+</main>
+</div>
+
+
+</body></html>

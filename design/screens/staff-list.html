@@ -1,0 +1,508 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Staff Management - Brightloop</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#f8f9ff",
+            "inverse-surface": "#213145",
+            "on-surface": "#0b1c30",
+            "on-secondary": "#ffffff",
+            "on-tertiary-fixed-variant": "#005137",
+            "on-tertiary-container": "#7df1bd",
+            "primary-fixed": "#e2dfff",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-primary-fixed-variant": "#3323cc",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-fixed-dim": "#68dba9",
+            "on-primary-fixed": "#0f0069",
+            "surface-container-highest": "#d3e4fe",
+            "surface-variant": "#d3e4fe",
+            "on-tertiary-fixed": "#002114",
+            "primary-container": "#4f46e5",
+            "on-secondary-fixed": "#131b2e",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed-variant": "#3f465c",
+            "tertiary-container": "#006e4c",
+            "secondary": "#565e74",
+            "error": "#ba1a1a",
+            "surface-tint": "#4d44e3",
+            "surface-dim": "#cbdbf5",
+            "surface-container": "#e5eeff",
+            "secondary-fixed-dim": "#bec6e0",
+            "secondary-fixed": "#dae2fd",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#c3c0ff",
+            "tertiary-fixed": "#85f8c4",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-bright": "#f8f9ff",
+            "tertiary": "#005338",
+            "on-error-container": "#93000a",
+            "surface-container-high": "#dce9ff",
+            "on-background": "#0b1c30",
+            "surface-container-low": "#eff4ff",
+            "on-secondary-container": "#5c647a",
+            "on-primary-container": "#dad7ff",
+            "primary": "#3525cd",
+            "background": "#f8f9ff",
+            "outline-variant": "#c7c4d8",
+            "on-surface-variant": "#464555",
+            "outline": "#777587"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "gutter": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "margin": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.25rem",
+            "space-xl": "2rem",
+            "margin-tablet": "1.25rem"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "currency-display": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-xl-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "currency-table": ["Inter"],
+            "label-sm": ["Inter"],
+            "title-sm": ["Inter"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "currency-display": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-lg": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-xl": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "currency-table": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Side Navigation Rail -->
+<aside class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 border-r border-outline-variant dark:border-outline bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none">
+<!-- Header/Brand -->
+<div class="h-16 flex items-center px-5 gap-3 border-b border-outline-variant/40 shrink-0">
+<div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm shrink-0">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight truncate">Brightloop</span>
+<span class="font-label-sm text-label-sm text-secondary truncate">Billing &amp; Revenue Ops</span>
+</div>
+</div>
+<!-- Navigation Scrollable Region -->
+<div class="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+<!-- Primary Core Flow Items -->
+<div class="space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="truncate">Dashboard</span>
+</a>
+<!-- Customers -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="truncate">Customers</span>
+</a>
+<!-- Products -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="truncate">Products</span>
+</a>
+<!-- Plans -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="truncate">Plans</span>
+</a>
+<!-- Quotation Templates -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="truncate">Quotation Templates</span>
+</a>
+<!-- Subscriptions -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="autorenew">autorenew</span>
+<span class="truncate">Subscriptions</span>
+</a>
+<!-- Invoices -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="truncate">Invoices</span>
+</a>
+<!-- Payments -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="truncate">Payments</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="truncate">Reports</span>
+</a>
+</div>
+<!-- Admin Section Divider -->
+<div class="pt-2 border-t border-outline-variant/40">
+<div class="px-3 pb-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Admin only</span>
+</div>
+<div class="space-y-1">
+<!-- Discounts -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="percent">percent</span>
+<span class="truncate">Discounts</span>
+</a>
+<!-- Taxes -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface hover:bg-surface-container-low dark:hover:bg-surface-container transition-colors duration-150 font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="truncate">Taxes</span>
+</a>
+<!-- Staff (Active Navigation Lock) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-container-low dark:bg-surface-container text-primary-container dark:text-inverse-primary font-medium font-body-md text-body-md" href="#">
+<span class="material-symbols-outlined" data-icon="badge" style="font-variation-settings: 'FILL' 1;">badge</span>
+<span class="truncate">Staff</span>
+</a>
+<!-- Settings -->
+
+</div>
+</div>
+</div>
+<!-- Bottom Actions / CTA -->
+<div class="p-4 border-t border-outline-variant/40 bg-surface-container-lowest dark:bg-inverse-surface shrink-0">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-primary-container text-on-primary font-title-sm text-title-sm hover:opacity-95 active:bg-primary transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="">New Subscription</span>
+</button>
+</div>
+</aside>
+<!-- Main View Container -->
+<div class="pl-64 flex flex-col flex-1 min-w-0">
+<!-- TopNavBar (Persistent Header) -->
+<header class="sticky top-0 z-20 flex items-center justify-between px-6 h-16 w-full bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+<!-- Global Search Bar -->
+<div class="flex items-center w-96">
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</div>
+<input class="w-full pl-9 pr-4 py-1.5 h-[38px] rounded-lg border border-outline-variant/80 bg-surface text-on-surface font-body-md text-body-md placeholder:text-secondary/70 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Search subscriptions, customers, invoices..." type="text">
+</div>
+</div>
+<!-- Trailing Action Cluster -->
+<div class="flex items-center gap-3">
+<!-- Help Action -->
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" title="Help &amp; Documentation" type="button">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<!-- Notifications Action with dot indicator -->
+<button class="relative w-9 h-9 flex items-center justify-center rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150" title="Notifications" type="button">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span>
+</button>
+<div class="h-6 w-px bg-outline-variant/60 mx-1"></div>
+<!-- Admin Profile -->
+<div class="flex items-center gap-3 pl-1">
+<img class="w-8 h-8 rounded-full border border-outline-variant/60 object-cover" data-alt="Close-up professional studio portrait of Rajesh Sharma, senior finance administrator at Brightloop. He is wearing formal dark attire against a soft neutral studio background, radiating calm reliability and financial competence in crisp high-key lighting consistent with modern corporate minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4ffJ1Xmrq_ndNycF9VTWWTlNjcjq40QtPOqoawkwlzf-hETKVaHa1n23C_vmSzFZLTWIGbEEcjxtsD14FNrMX_bjHddxmtQg-V1HshFKyQHiBmECRuGHGYJIetXaK8EykXhs-pwbix0F8PgIiF-_JWvDioHr1Z3GfXnyOcQl-phHVlycePAAH0EVzcZlIo0WEUwFuusYF8yk_D2KmDIFRgBK3oZCUBb_uBSRLzpA">
+<div class="flex flex-col text-left">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Rajesh Sharma</span>
+<span class="font-label-sm text-label-sm text-secondary leading-tight">Admin</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-sm ml-0.5" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Page Content Canvas -->
+<main class="flex-1 p-8 space-y-6">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 font-label-md text-label-md text-secondary">
+<a class="hover:text-on-surface transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-semibold">Staff</span>
+</nav>
+<!-- Page Header & Action Bar -->
+<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Staff Management</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">Manage internal workspace users, operational permissions, and staff login access.</p>
+</div>
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary font-title-sm text-title-sm rounded-lg hover:opacity-95 active:bg-primary shadow-sm transition-all shrink-0" type="button">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="">Add Staff Member</span>
+</button>
+</div>
+<!-- Filter / Control Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-3.5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
+<!-- Search Table Input -->
+<div class="relative w-full md:w-80">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-secondary">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</div>
+<input class="w-full pl-9 pr-3 py-1.5 h-[38px] rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md placeholder:text-secondary/70 focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all" placeholder="Search by name or email..." type="text">
+</div>
+<!-- Filter Selects -->
+<div class="flex items-center gap-2.5 w-full md:w-auto">
+<!-- Role Filter -->
+<div class="relative min-w-[140px]">
+<select class="w-full h-[38px] pl-3 pr-8 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 appearance-none transition-all cursor-pointer">
+<option value="">All Roles</option>
+<option value="staff">Staff</option>
+<option value="admin">Admin</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Status Filter -->
+<div class="relative min-w-[140px]">
+<select class="w-full h-[38px] pl-3 pr-8 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 appearance-none transition-all cursor-pointer">
+<option value="">All Statuses</option>
+<option value="active">Active</option>
+<option value="disabled">Disabled</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Clear Filters Outline Button -->
+<button class="h-[38px] px-3 border border-outline-variant text-secondary rounded-lg font-body-md text-body-md hover:bg-surface-container-low hover:text-on-surface transition-colors flex items-center gap-1.5" title="Reset Filters" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="filter_alt_off">filter_alt_off</span>
+<span class="hidden sm:inline">Reset</span>
+</button>
+</div>
+</div>
+<!-- Staff Data Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full border-collapse text-left">
+<thead>
+<tr class="bg-surface border-b border-outline-variant"><th class="py-3 px-4 w-10 text-center" scope="col">
+<input class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary tracking-wider uppercase" scope="col">Name</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary tracking-wider uppercase" scope="col">Email</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary tracking-wider uppercase" scope="col">Role</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary tracking-wider uppercase" scope="col">Status</th>
+<th class="py-3 px-4 font-label-md text-label-md text-secondary tracking-wider uppercase text-right" scope="col">Actions</th></tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/40">
+<!-- Row 1: Priya Patel -->
+<tr class="hover:bg-surface/70 transition-colors h-12"><td class="py-3 px-4 text-center">
+<input class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/60 object-cover" data-alt="Portrait photo of Priya Patel, a young professional woman in executive office attire with natural ambient daylight illuminating the background. The aesthetic reflects corporate elegance and high security standards, incorporating muted indigo tones and crisp clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2hYFShjhFLvygn_KpATAhIjQP_TfOYpFT1Taza1kfkmbFkO7ml__77cljCQ1I1nt-0qxGlZeTl7YhUSLUuFIWsj185WPgl_iLDu6ST1nDew04PbPZ0SvsGDyOKpvjwqLvFfIN-Uyh5VVmfD1BKnRrwG6H6QrzP4HxmL4lEUZRcQ21MMxjvZ_bCGfCdPwhyhyQ8ydo5hXtYS1it4Ce3frO9_Q8TCcxCgn5w7ztrms">
+<span class="font-title-sm text-title-sm text-on-surface">Priya Patel</span>
+</div>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-secondary whitespace-nowrap">priya.p@brightloop.in</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-secondary-container text-on-secondary-container">Staff</span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-surface-container-low text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="">Active</span>
+</span>
+</td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Edit Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Row 2: Vikram Malhotra -->
+<tr class="hover:bg-surface/70 transition-colors h-12"><td class="py-3 px-4 text-center">
+<input class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/60 object-cover" data-alt="Portrait photo of Vikram Malhotra, an Indian professional in tech operations wearing a smart collared shirt in a bright corporate office setting. The composition is balanced and minimal with soft shadow transitions adhering to a modern financial software aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0qKUc3XNTfan0d5DDqLlbIko69llCA4CryzSAPCQrM1fnVXGAmB1pr4lc3pRwKvVhSRVfjwbzDPWO5MbbzX6sGI5oxfk92TvCcU3Eekw95SUbCqvDb_JNUqdLtJRDafvrArkp9NTAMcoc0p9KNxiwD4eIap7WtzhJ4MFh3_toIdu9jH0DRjZNxN6xzmCN090p0iNDZkkr8tsxBe_CYRTzBm2y2cDUFq0AbjG4Nws">
+<span class="font-title-sm text-title-sm text-on-surface">Vikram Malhotra</span>
+</div>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-secondary whitespace-nowrap">vikram.m@brightloop.in</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-secondary-container text-on-secondary-container">Staff</span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-surface-container-low text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="">Active</span>
+</span>
+</td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Edit Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Row 3: Ananya Sen -->
+<tr class="hover:bg-surface/70 transition-colors h-12"><td class="py-3 px-4 text-center">
+<input class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/60 object-cover" data-alt="Professional studio headshot of Ananya Sen, revenue operations manager. High-key soft lighting emphasizes clarity, wearing a minimal neutral blazer in an architectural office interior with crisp geometric backgrounds and subtle indigo accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSL1eFUXX4IwrYZCD4QOdMdrqXEXQlXRpnaYabQUpKPCYM6yQOVYyWiTOGCP92UDqYjN144jSkqVSWQbxrCvgkvC4-moVO42dA8_pSpnLmIlS8IqfiSF7T-ism9r-Hh4OBAyXLtr9xesySxuUjVTqCzeKSXrFhH34YUFnuqnIcyCDGw2tTa7D2b_HaQIp7ZtN915riHQr_lefKrmHsr1Lse-bKgt9A4mm_lm5TVm4">
+<span class="font-title-sm text-title-sm text-on-surface">Ananya Sen</span>
+</div>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-secondary whitespace-nowrap">ananya.s@brightloop.in</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-secondary-container text-on-secondary-container">Staff</span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-surface-container-low text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="">Active</span>
+</span>
+</td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Edit Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Row 4: Rohan Mehta (Disabled) -->
+<tr class="hover:bg-surface/70 transition-colors h-12 opacity-85"><td class="py-3 px-4 text-center">
+<input class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/60 object-cover grayscale" data-alt="Editorial headshot of Rohan Mehta, an operations analyst in modern tailored workwear. Balanced daylight studio portrait with neutral grey gradient backdrop, emphasizing calm corporate trust and precise detail in a high-end SaaS workplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD55is8myEvc7XEjS-qQ017-450tWNJNapsNrFkcBpn43YvDqPFUVl01Qeo8r2uGFZsGJJlnaR-x4rFJXojrG2D2-AU2l-5rb_CBzOgqYXYR7_GQ6oDds381B7aon3TqS09NT7mMsp5NoSQLlUn4bzNFZGYCPX3zrcTHNQxpq2lSLFEPOUuHi9nMYFREYk17kId0XJ8-oqobU2hXXMFyNJ7As_a2IJCQhOgytwu1c">
+<span class="font-title-sm text-title-sm text-secondary">Rohan Mehta</span>
+</div>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-secondary/80 whitespace-nowrap">rohan.m@brightloop.in</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-surface-container text-secondary">Staff</span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-surface-container text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="">Disabled</span>
+</span>
+</td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Edit Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-error hover:bg-error-container/40 transition-colors" title="Delete Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+<!-- Row 5: Rajesh Sharma (Admin) -->
+<tr class="hover:bg-surface/70 transition-colors h-12 bg-surface/30"><td class="py-3 px-4 text-center">
+<input class="w-4 h-4 rounded border-outline-variant text-primary-container focus:ring-primary-container/20 cursor-pointer" type="checkbox">
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-primary-container/30 object-cover" data-alt="Professional studio portrait of Rajesh Sharma, finance director and workspace administrator. Focused expression, sharp formal attire, soft daylight casting subtle shadows against a refined modern architectural office wall." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHuleTBpIAUsYESr7kH902XBLLt2iQtk4BqL8YH2WxGBiqXyXMpr2lkpv1JgN3zGwFHreMLWd_WUP3_jBNaXeZYyUzp11l4AdtS3K0riX0c2o24xeZTNkeddcqDfk2MVJLKJ8rkLNQ96ZANhcCGeHCoDHecfxCsU9X6PVTPlIVF22GxybY-tMGgiWirz4_-dn1sGJCbgVF1nhyChw8dnrELrLbGkx9O91B5uy24us">
+<div class="flex items-center gap-2">
+<span class="font-title-sm text-title-sm text-on-surface">Rajesh Sharma</span>
+<span class="font-label-sm text-label-sm text-primary-container bg-surface-container-low px-1.5 py-0.2 rounded font-medium">You</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 font-body-md text-body-md text-secondary whitespace-nowrap">rajesh.s@brightloop.in</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-secondary-container text-on-secondary-container">Staff</span>
+</td>
+<td class="py-3 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-surface-container-low text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span class="">Active</span>
+</span>
+</td>
+<td class="py-3 px-4 text-right whitespace-nowrap">
+<div class="inline-flex items-center gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Edit Member" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-secondary hover:text-error hover:bg-error-container/40 transition-colors" disabled="" title="Delete Member" type="button">
+<span class="material-symbols-outlined text-sm opacity-40" data-icon="delete">delete</span>
+</button>
+</div>
+</td></tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="px-5 py-3.5 border-t border-outline-variant/60 bg-surface flex flex-col sm:flex-row items-center justify-between gap-3 font-body-md text-body-md">
+<div class="text-secondary font-body-sm text-body-sm">
+            Showing <span class="font-medium text-on-surface">1</span> to <span class="font-medium text-on-surface">5</span> of <span class="font-medium text-on-surface">5</span> staff members
+          </div>
+<div class="flex items-center gap-1.5">
+<button class="px-2.5 py-1.5 rounded-lg border border-outline-variant bg-surface-container-lowest text-secondary opacity-50 cursor-not-allowed flex items-center gap-1 font-body-sm text-body-sm" disabled="" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+<span class="">Previous</span>
+</button>
+<span class="px-3 py-1 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md">1</span>
+<button class="px-2.5 py-1.5 rounded-lg border border-outline-variant bg-surface-container-lowest text-secondary opacity-50 cursor-not-allowed flex items-center gap-1 font-body-sm text-body-sm" disabled="" type="button">
+<span class="">Next</span>
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+</body></html>
