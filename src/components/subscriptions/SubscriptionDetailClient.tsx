@@ -16,6 +16,7 @@ import {
   closeSubscriptionAction,
   closeExpiredQuotationAction,
   convertToQuotationAction,
+  renewSubscriptionAction,
 } from "@/app/actions/subscriptions";
 import { isQuotationExpired, getSubscriptionDerivedTags } from "@/lib/validations/subscription";
 import { calculateOrderTax } from "@/lib/tax";
@@ -344,8 +345,56 @@ export default function SubscriptionDetailClient({
                     <span>Close (Locked)</span>
                   </button>
                 )}
+
+                {/* Renew */}
+                {sub.isRenewable && (
+                  <button
+                    type="button"
+                    disabled={isPending}
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Renew subscription for the next billing cycle?"
+                        )
+                      ) {
+                        handleAction(() => renewSubscriptionAction(sub.id));
+                      }
+                    }}
+                    className="bg-surface-container-lowest border border-outline-variant hover:bg-surface-container-low text-on-surface font-label-md px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">
+                      autorenew
+                    </span>
+                    <span>Renew</span>
+                  </button>
+                )}
               </>
             )}
+
+            {/* CLOSED ACTIONS: Renew if allowed by plan policy */}
+            {sub.status === SubscriptionStatus.CLOSED &&
+              sub.isRenewable &&
+              (isAdmin || isStaff) && (
+                <button
+                  type="button"
+                  disabled={isPending}
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Reactivate and renew this closed subscription?"
+                      )
+                    ) {
+                      handleAction(() => renewSubscriptionAction(sub.id));
+                    }
+                  }}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-label-md px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                >
+                  <span className="material-symbols-outlined text-[18px]">
+                    autorenew
+                  </span>
+                  <span>Renew Contract</span>
+                </button>
+              )}
 
             {/* DRAFT / QUOTATION GENERAL CLOSE */}
             {(sub.status === SubscriptionStatus.DRAFT ||

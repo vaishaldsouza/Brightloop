@@ -310,7 +310,8 @@ model Subscription {
   customerId String
   planId     String
 
-  // Snapshotted plan flags at creation time (plan edits must not affect existing subs)
+  // Snapshotted plan flags and configuration at creation time (plan edits must not affect existing subs)
+  planName             String?            // Snapshot of plan name
   billingPeriod        BillingPeriod
   paymentTerms         PaymentTerms
   isPausable           Boolean
@@ -319,12 +320,14 @@ model Subscription {
   autoClose            Boolean
   planPricePaise       Int?
   planMinQuantity      Int?               @default(1)
+  customerGstStateCode String?            // Snapshot of customer GST state code at creation
 
   // PRD §4.5: Valid statuses are strictly DRAFT, QUOTATION, CONFIRMED, ACTIVE, CLOSED
   status               SubscriptionStatus @default(DRAFT)
   // Pausing is a boolean flag (isPaused), NOT a lifecycle status
   isPaused             Boolean            @default(false)
   pausedAt             DateTime?
+  lastResumedAt        DateTime?
 
   startDate            DateTime
   endDate              DateTime?
@@ -340,10 +343,11 @@ model Subscription {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
-  customer       Customer           @relation(fields: [customerId], references: [id], onDelete: Restrict)
-  plan           Plan               @relation(fields: [planId], references: [id], onDelete: Restrict)
+  customer       Customer                     @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  plan           Plan                         @relation(fields: [planId], references: [id], onDelete: Restrict)
   lines          SubscriptionLine[]
   invoices       Invoice[]
+  pauseIntervals SubscriptionPauseInterval[]
   discountUsages DiscountUsage[]
 
   @@map("subscriptions")
@@ -353,12 +357,17 @@ model SubscriptionLine {
   id               String   @id @default(cuid())
   subscriptionId   String
   productVariantId String
+  productName      String?  // Snapshot of product name
+  variantName      String?  // Snapshot of variant name
   description      String?
   quantity         Int
   unitPricePaise   Int      // paise
   sortOrder        Int      @default(0)
   taxRateBps       Int?     @default(0)
   taxAmountPaise   Int?     @default(0)
+  cgstPaise        Int?     @default(0)
+  sgstPaise        Int?     @default(0)
+  igstPaise        Int?     @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -366,6 +375,20 @@ model SubscriptionLine {
   productVariant ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Restrict)
 
   @@map("subscription_lines")
+}
+
+model SubscriptionPauseInterval {
+  id              String    @id @default(cuid())
+  subscriptionId  String
+  pausedAt        DateTime  @default(now())
+  resumedAt       DateTime?
+  durationSeconds Int?
+  reason          String?
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([subscriptionId])
+  @@map("subscription_pause_intervals")
 }
 
 // ─────────────────────────────────────────────

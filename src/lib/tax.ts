@@ -1,7 +1,17 @@
 import { COMPANY_GST_STATE_CODE, isIntraState } from "@/lib/gstStates";
 
+export const CGST_BPS = 900; // 9%
+export const SGST_BPS = 900; // 9%
+export const IGST_BPS = 1800; // 18%
+export const BPS_DIVISOR = 10000;
+export const HALF_BPS_DIVISOR = 5000;
+export const ROUNDING_POLICY = "HALF_UP_INTEGER_PAISE" as const;
+
 export interface LineTaxDetail {
   rateBps: number; // e.g. 1800
+  cgstBps: number;
+  sgstBps: number;
+  igstBps: number;
   cgstPaise: number;
   sgstPaise: number;
   igstPaise: number;
@@ -30,9 +40,27 @@ export interface OrderTaxCalculation {
 }
 
 /**
+ * Computes integer half-up rounded basis-points calculation:
+ * result = round(subtotalPaise * rateBps / 10,000)
+ *
+ * Integer-Safe Rounding Formula:
+ * For non-negative integers: Math.floor((subtotalPaise * rateBps + 5000) / 10000)
+ * - Remainder >= 5000 (0.5 paise) rounds up by adding 1 paise.
+ * - Remainder < 5000 rounds down.
+ * - Uses pure integer arithmetic; eliminates floating-point representation anomalies.
+ */
+export function calculateTaxPaiseInteger(subtotalPaise: number, rateBps: number): number {
+  if (subtotalPaise <= 0 || rateBps <= 0) return 0;
+  const safeSubtotal = Number.isInteger(subtotalPaise) ? subtotalPaise : Math.floor(subtotalPaise);
+  const safeRate = Number.isInteger(rateBps) ? rateBps : Math.floor(rateBps);
+  const numerator = safeSubtotal * safeRate;
+  return Math.floor((numerator + HALF_BPS_DIVISOR) / BPS_DIVISOR);
+}
+
+/**
  * Calculates line-level GST for an item line given customer state code.
  * Per PRD §4.7: Intra-state (MH 27) = CGST 9% + SGST 9%, Inter-state = IGST 18%.
- * Uses pure integer arithmetic with Math.round on paise.
+ * Pure integer arithmetic with half-up paise rounding.
  */
 export function calculateLineTax(
   quantity: number,
@@ -45,22 +73,31 @@ export function calculateLineTax(
 
   const intra = isIntraState(customerGstStateCode);
 
+  let cgstBps = 0;
+  let sgstBps = 0;
+  let igstBps = 0;
   let cgstPaise = 0;
   let sgstPaise = 0;
   let igstPaise = 0;
 
   if (intra) {
-    cgstPaise = Math.round((subtotalPaise * 900) / 10000);
-    sgstPaise = Math.round((subtotalPaise * 900) / 10000);
+    cgstBps = CGST_BPS;
+    sgstBps = SGST_BPS;
+    cgstPaise = calculateTaxPaiseInteger(subtotalPaise, CGST_BPS);
+    sgstPaise = calculateTaxPaiseInteger(subtotalPaise, SGST_BPS);
   } else {
-    igstPaise = Math.round((subtotalPaise * 1800) / 10000);
+    igstBps = IGST_BPS;
+    igstPaise = calculateTaxPaiseInteger(subtotalPaise, IGST_BPS);
   }
 
   const taxAmountPaise = cgstPaise + sgstPaise + igstPaise;
   const totalPaise = subtotalPaise + taxAmountPaise;
 
   return {
-    rateBps: 1800,
+    rateBps: cgstBps + sgstBps + igstBps,
+    cgstBps,
+    sgstBps,
+    igstBps,
     cgstPaise,
     sgstPaise,
     igstPaise,
@@ -72,6 +109,7 @@ export function calculateLineTax(
 
 /**
  * Computes complete GST order calculation for a subscription or quotation given customer state code.
+ * Line taxes reconcile identically with order total tax.
  */
 export function calculateOrderTax(
   lines: Array<{ quantity: number; unitPricePaise: number }>,
@@ -99,13 +137,13 @@ export function calculateOrderTax(
     ? [
         {
           taxName: "CGST",
-          rateBps: 900,
+          rateBps: CGST_BPS,
           ratePercent: "9%",
           amountPaise: cgstPaise,
         },
         {
           taxName: "SGST",
-          rateBps: 900,
+          rateBps: SGST_BPS,
           ratePercent: "9%",
           amountPaise: sgstPaise,
         },
@@ -113,7 +151,7 @@ export function calculateOrderTax(
     : [
         {
           taxName: "IGST",
-          rateBps: 1800,
+          rateBps: IGST_BPS,
           ratePercent: "18%",
           amountPaise: igstPaise,
         },

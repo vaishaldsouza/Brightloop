@@ -127,9 +127,9 @@ export default async function SubscriptionDetailPage({
     },
     plan: {
       id: sub.plan.id,
-      name: sub.plan.name,
+      name: sub.planName || sub.plan.name,
       billingPeriod: sub.plan.billingPeriod,
-      pricePaise: sub.plan.pricePaise,
+      pricePaise: sub.planPricePaise ?? sub.plan.pricePaise,
     },
     lines: sub.lines.map((l) => ({
       id: l.id,
@@ -142,10 +142,10 @@ export default async function SubscriptionDetailPage({
       taxAmountPaise: l.taxAmountPaise,
       productVariant: {
         id: l.productVariant.id,
-        name: l.productVariant.name,
+        name: l.variantName || l.productVariant.name,
         product: {
           id: l.productVariant.product.id,
-          name: l.productVariant.product.name,
+          name: l.productName || l.productVariant.product.name,
         },
       },
     })),

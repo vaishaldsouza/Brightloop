@@ -107,11 +107,11 @@ export async function createSubscriptionFromTemplateAction(
 
     const plan = template.plan;
 
-    // 5. Verify all selected product variants exist
+    // 5. Verify all selected product variants exist and fetch product names
     const variantIds = lines.map((l) => l.productVariantId);
     const existingVariants = await prisma.productVariant.findMany({
       where: { id: { in: variantIds } },
-      select: { id: true, name: true },
+      include: { product: true },
     });
 
     if (existingVariants.length !== variantIds.length) {
@@ -121,6 +121,8 @@ export async function createSubscriptionFromTemplateAction(
         fieldErrors: { lines: "One or more variants do not exist" },
       };
     }
+
+    const variantMap = new Map(existingVariants.map((v) => [v.id, v]));
 
     // 6. Compute quotation expiry date using template validityDays
     const parsedStartDate = new Date(startDate);
@@ -157,7 +159,9 @@ export async function createSubscriptionFromTemplateAction(
           number: subscriptionNumber,
           customerId: customer.id,
           planId: plan.id,
-          // Snapshot plan flags and configuration at creation time
+          // Snapshot plan flags, name, and configuration at creation time
+          planName: plan.name,
+          customerGstStateCode: customer.gstStateCode || "27",
           billingPeriod: plan.billingPeriod,
           paymentTerms,
           isPausable: plan.isPausable,
@@ -175,6 +179,7 @@ export async function createSubscriptionFromTemplateAction(
           notes: notes || null,
           lines: {
             create: lines.map((line, idx) => {
+              const variant = variantMap.get(line.productVariantId);
               const lineTax = calculateLineTax(
                 line.quantity,
                 line.unitPricePaise,
@@ -182,12 +187,17 @@ export async function createSubscriptionFromTemplateAction(
               );
               return {
                 productVariantId: line.productVariantId,
+                productName: variant?.product?.name || null,
+                variantName: variant?.name || null,
                 description: line.description || null,
                 quantity: line.quantity,
                 unitPricePaise: line.unitPricePaise,
                 sortOrder: line.sortOrder ?? idx + 1,
                 taxRateBps: lineTax.rateBps,
                 taxAmountPaise: lineTax.taxAmountPaise,
+                cgstPaise: lineTax.cgstPaise,
+                sgstPaise: lineTax.sgstPaise,
+                igstPaise: lineTax.igstPaise,
               };
             }),
           },
@@ -547,12 +557,22 @@ export async function pauseSubscriptionAction(
   }
 
   try {
+    const now = new Date();
     await prisma.$transaction(async (tx) => {
       await tx.subscription.update({
         where: { id },
         data: {
           isPaused: true,
-          pausedAt: new Date(),
+          pausedAt: now,
+        },
+      });
+
+      // Track individual pause interval for precise billing shift in Batch 9
+      await tx.subscriptionPauseInterval.create({
+        data: {
+          subscriptionId: id,
+          pausedAt: now,
+          reason: reason || null,
         },
       });
 
@@ -564,6 +584,7 @@ export async function pauseSubscriptionAction(
           entityId: id,
           meta: {
             number: sub.number,
+            pausedAt: now.toISOString(),
             reason: reason || null,
           },
         },
@@ -586,6 +607,7 @@ export async function pauseSubscriptionAction(
 
 /**
  * Resumes a paused subscription (isPaused = false).
+ * Shifting the nextBillingDate forward by the exact duration of the pause (PRD §4.5).
  */
 export async function resumeSubscriptionAction(
   id: string
@@ -604,11 +626,25 @@ export async function resumeSubscriptionAction(
 
   const sub = await prisma.subscription.findUnique({
     where: { id },
-    select: { id: true, number: true, isPaused: true },
+    select: {
+      id: true,
+      number: true,
+      status: true,
+      isPaused: true,
+      pausedAt: true,
+      nextBillingDate: true,
+    },
   });
 
   if (!sub) {
     return { success: false, error: "Subscription not found." };
+  }
+
+  if (sub.status !== SubscriptionStatus.ACTIVE) {
+    return {
+      success: false,
+      error: `Cannot resume subscription with status "${sub.status}". Only ACTIVE paused subscriptions can be resumed.`,
+    };
   }
 
   if (!sub.isPaused) {
@@ -618,6 +654,16 @@ export async function resumeSubscriptionAction(
     };
   }
 
+  const now = new Date();
+  const pauseDurationMs = sub.pausedAt
+    ? Math.max(0, now.getTime() - new Date(sub.pausedAt).getTime())
+    : 0;
+
+  // Shift nextBillingDate forward by the exact pause duration (PRD §4.5)
+  const nextBillingDate = sub.nextBillingDate
+    ? new Date(new Date(sub.nextBillingDate).getTime() + pauseDurationMs)
+    : null;
+
   try {
     await prisma.$transaction(async (tx) => {
       await tx.subscription.update({
@@ -625,8 +671,29 @@ export async function resumeSubscriptionAction(
         data: {
           isPaused: false,
           pausedAt: null,
+          lastResumedAt: now,
+          nextBillingDate,
         },
       });
+
+      // Complete open pause interval
+      const openInterval = await tx.subscriptionPauseInterval.findFirst({
+        where: {
+          subscriptionId: id,
+          resumedAt: null,
+        },
+        orderBy: { pausedAt: "desc" },
+      });
+
+      if (openInterval) {
+        await tx.subscriptionPauseInterval.update({
+          where: { id: openInterval.id },
+          data: {
+            resumedAt: now,
+            durationSeconds: Math.round(pauseDurationMs / 1000),
+          },
+        });
+      }
 
       await tx.auditLog.create({
         data: {
@@ -636,6 +703,9 @@ export async function resumeSubscriptionAction(
           entityId: id,
           meta: {
             number: sub.number,
+            pauseDurationMs,
+            durationSeconds: Math.round(pauseDurationMs / 1000),
+            shiftedNextBillingDate: nextBillingDate?.toISOString() || null,
           },
         },
       });
@@ -831,6 +901,162 @@ export async function closeExpiredQuotationAction(
     return {
       success: false,
       error: "An error occurred while closing the expired quotation.",
+    };
+  }
+}
+
+/**
+ * Renews a subscription (PRD §4.3, §4.5).
+ * Allowed only if associated plan policy allows renewal (isRenewable === true).
+ */
+export async function renewSubscriptionAction(
+  id: string
+): Promise<SubscriptionActionResult> {
+  const session = await auth();
+
+  if (
+    !session?.user ||
+    (session.user.role !== Role.ADMIN && session.user.role !== Role.STAFF)
+  ) {
+    return {
+      success: false,
+      error: "Unauthorized: Only Staff and Administrators can renew subscriptions.",
+    };
+  }
+
+  const sub = await prisma.subscription.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      number: true,
+      status: true,
+      isRenewable: true,
+      billingPeriod: true,
+      startDate: true,
+      endDate: true,
+      nextBillingDate: true,
+    },
+  });
+
+  if (!sub) {
+    return { success: false, error: "Subscription not found." };
+  }
+
+  if (!sub.isRenewable) {
+    return {
+      success: false,
+      error: "Plan configuration does not permit renewal for this contract.",
+    };
+  }
+
+  if (
+    sub.status !== SubscriptionStatus.ACTIVE &&
+    sub.status !== SubscriptionStatus.CLOSED
+  ) {
+    return {
+      success: false,
+      error: `Cannot renew subscription with status "${sub.status}". Only ACTIVE or CLOSED contracts can be renewed.`,
+    };
+  }
+
+  const now = new Date();
+  const baseDate = sub.endDate && new Date(sub.endDate) > now ? new Date(sub.endDate) : now;
+  const newEndDate = new Date(baseDate);
+
+  if (sub.billingPeriod === BillingPeriod.DAILY) {
+    newEndDate.setDate(newEndDate.getDate() + 1);
+  } else if (sub.billingPeriod === BillingPeriod.WEEKLY) {
+    newEndDate.setDate(newEndDate.getDate() + 7);
+  } else if (sub.billingPeriod === BillingPeriod.MONTHLY) {
+    newEndDate.setMonth(newEndDate.getMonth() + 1);
+  } else if (sub.billingPeriod === BillingPeriod.YEARLY) {
+    newEndDate.setFullYear(newEndDate.getFullYear() + 1);
+  }
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.subscription.update({
+        where: { id },
+        data: {
+          status: SubscriptionStatus.ACTIVE,
+          closedAt: null,
+          endDate: newEndDate,
+          nextBillingDate: newEndDate,
+        },
+      });
+
+      await tx.auditLog.create({
+        data: {
+          userId: session.user.id,
+          action: "subscription.renewed",
+          entityType: "Subscription",
+          entityId: id,
+          meta: {
+            number: sub.number,
+            fromStatus: sub.status,
+            toStatus: SubscriptionStatus.ACTIVE,
+            newEndDate: newEndDate.toISOString(),
+          },
+        },
+      });
+    });
+
+    revalidatePath("/subscriptions");
+    revalidatePath(`/subscriptions/${id}`);
+    revalidatePath("/dashboard");
+
+    return { success: true, subscriptionId: id };
+  } catch (error) {
+    console.error("Failed to renew subscription:", error);
+    return {
+      success: false,
+      error: "An error occurred while renewing the subscription.",
+    };
+  }
+}
+
+import { evaluateAutomatedLifecycleTransitions } from "@/lib/lifecycleAutomation";
+
+export { evaluateAutomatedLifecycleTransitions };
+
+/**
+ * Explicit server action to trigger automated lifecycle processing.
+ */
+export async function processAutomatedSubscriptionLifecycleAction(): Promise<{
+  success: boolean;
+  expiredQuotationsClosed: number;
+  autoClosedSubscriptions: number;
+  error?: string;
+}> {
+  const session = await auth();
+
+  if (
+    !session?.user ||
+    (session.user.role !== Role.ADMIN && session.user.role !== Role.STAFF)
+  ) {
+    return {
+      success: false,
+      expiredQuotationsClosed: 0,
+      autoClosedSubscriptions: 0,
+      error: "Unauthorized: Only Staff and Administrators can run lifecycle automation.",
+    };
+  }
+
+  try {
+    const results = await evaluateAutomatedLifecycleTransitions();
+    revalidatePath("/subscriptions");
+    revalidatePath("/dashboard");
+    return {
+      success: true,
+      ...results,
+    };
+  } catch (error) {
+    console.error("Lifecycle automation failed:", error);
+    return {
+      success: false,
+      expiredQuotationsClosed: 0,
+      autoClosedSubscriptions: 0,
+      error: "An error occurred while processing lifecycle automation.",
     };
   }
 }

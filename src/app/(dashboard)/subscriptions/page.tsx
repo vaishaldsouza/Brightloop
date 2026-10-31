@@ -8,6 +8,7 @@ import SubscriptionListClient, {
 } from "@/components/subscriptions/SubscriptionListClient";
 import { PERMITTED_SUBSCRIPTION_STATUSES } from "@/lib/validations/subscription";
 import { calculateOrderTax } from "@/lib/tax";
+import { evaluateAutomatedLifecycleTransitions } from "@/app/actions/subscriptions";
 
 export const metadata = {
   title: "Subscriptions — Brightloop Subscriptions",
@@ -82,6 +83,11 @@ export default async function SubscriptionsPage({
   if (customerIdParam !== "ALL") {
     where.customerId = customerIdParam;
   }
+
+  // Evaluate automated lifecycle transitions (PRD §4.3, §4.5, §10):
+  // 1. Closes expired unconfirmed quotations.
+  // 2. Auto-closes active subscriptions reaching their end date when autoClose === true.
+  await evaluateAutomatedLifecycleTransitions();
 
   // Fetch subscriptions, count, status groups, plans, and customers in parallel
   const [subscriptions, totalCount, statusGroups, plans, customers] =
