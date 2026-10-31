@@ -4,6 +4,7 @@ interface FilterBarProps {
   children: React.ReactNode;
   onReset?: () => void;
   trailingAction?: React.ReactNode;
+  actions?: React.ReactNode;
   className?: string;
 }
 
@@ -11,8 +12,10 @@ export function FilterBar({
   children,
   onReset,
   trailingAction,
+  actions,
   className = "",
 }: FilterBarProps) {
+  const actionContent = actions || trailingAction;
   return (
     <section className={`bg-surface-container-lowest border border-[#E2E8F0] rounded-xl p-3 shadow-xs ${className}`}>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
@@ -31,9 +34,9 @@ export function FilterBar({
           )}
         </div>
 
-        {trailingAction && (
+        {actionContent && (
           <div className="flex items-center shrink-0 self-start md:self-auto">
-            {trailingAction}
+            {actionContent}
           </div>
         )}
       </div>

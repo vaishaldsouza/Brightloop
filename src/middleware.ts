@@ -7,13 +7,14 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
   const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+  const isLoggedIn = !!req.auth?.user;
   const role = req.auth?.user?.role as Role | undefined;
 
   const pathname = nextUrl.pathname;
 
   // 1. Allow public authentication and static routes
   const isAuthRoute =
+    pathname === "/" ||
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup") ||
     pathname.startsWith("/forgot-password") ||
@@ -36,7 +37,7 @@ export default auth((req) => {
     return NextResponse.redirect(loginUrl);
   }
 
-  // 3. Logged-in user visiting auth pages -> redirect to appropriate home
+  // 3. Logged-in user visiting auth/landing pages -> redirect to appropriate home
   if (isLoggedIn && isAuthRoute && !pathname.startsWith("/api/auth")) {
     if (role === Role.CUSTOMER) {
       return NextResponse.redirect(new URL("/portal/subscriptions", nextUrl.origin));

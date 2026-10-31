@@ -21,6 +21,7 @@ export default async function DashboardPage() {
         include: {
           customer: { select: { id: true, companyName: true } },
           plan: { select: { id: true, name: true } },
+          lines: true,
         },
         orderBy: { createdAt: "desc" },
       }),
@@ -70,6 +71,10 @@ export default async function DashboardPage() {
       startDate: sub.startDate.toISOString(),
       nextBillingDate: sub.nextBillingDate ? sub.nextBillingDate.toISOString() : null,
       billingPeriod: sub.billingPeriod,
+      subtotalPaise: sub.lines.reduce(
+        (sum, l) => sum + l.unitPricePaise * l.quantity,
+        0
+      ),
       planId: sub.planId,
       planName: sub.plan.name,
       customerId: sub.customerId,
@@ -90,6 +95,8 @@ export default async function DashboardPage() {
     cancelledAt: inv.cancelledAt ? inv.cancelledAt.toISOString() : null,
     subscriptionId: inv.subscriptionId,
     subscriptionNumber: inv.subscription.number,
+    subscriptionStatus: inv.subscription.status,
+    billingPeriod: inv.subscription.billingPeriod,
     planId: inv.subscription.planId,
     planName: inv.subscription.plan.name,
     customerId: inv.subscription.customerId,
