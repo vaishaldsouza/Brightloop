@@ -11,10 +11,10 @@ CREATE TYPE "PaymentTerms" AS ENUM ('DUE_ON_RECEIPT', 'NET_15', 'NET_30');
 CREATE TYPE "PaymentMethod" AS ENUM ('CARD', 'BANK_TRANSFER', 'CASH', 'UPI');
 
 -- CreateEnum
-CREATE TYPE "SubscriptionStatus" AS ENUM ('ACTIVE', 'PAUSED', 'CLOSED', 'PENDING');
+CREATE TYPE "SubscriptionStatus" AS ENUM ('DRAFT', 'QUOTATION', 'CONFIRMED', 'ACTIVE', 'CLOSED');
 
 -- CreateEnum
-CREATE TYPE "InvoiceStatus" AS ENUM ('DRAFT', 'SENT', 'PAID', 'VOID');
+CREATE TYPE "InvoiceStatus" AS ENUM ('DRAFT', 'CONFIRMED', 'PAID');
 
 -- CreateEnum
 CREATE TYPE "DiscountType" AS ENUM ('PERCENTAGE', 'FIXED');
@@ -70,7 +70,11 @@ CREATE TABLE "customers" (
 CREATE TABLE "products" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "type" TEXT,
     "description" TEXT,
+    "salesPricePaise" INTEGER NOT NULL DEFAULT 0,
+    "costPricePaise" INTEGER,
+    "notes" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -84,6 +88,9 @@ CREATE TABLE "product_variants" (
     "productId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
+    "attributeName" TEXT,
+    "attributeValue" TEXT,
+    "priceExtraPaise" INTEGER NOT NULL DEFAULT 0,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -97,8 +104,12 @@ CREATE TABLE "plans" (
     "productId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
+    "pricePaise" INTEGER NOT NULL DEFAULT 0,
     "billingPeriod" "BillingPeriod" NOT NULL,
     "paymentTerms" "PaymentTerms" NOT NULL DEFAULT 'DUE_ON_RECEIPT',
+    "minQuantity" INTEGER NOT NULL DEFAULT 1,
+    "availableFrom" TIMESTAMP(3),
+    "availableTo" TIMESTAMP(3),
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "isPausable" BOOLEAN NOT NULL DEFAULT false,
     "isRenewable" BOOLEAN NOT NULL DEFAULT true,
@@ -116,6 +127,7 @@ CREATE TABLE "quotation_templates" (
     "planId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
+    "validityDays" INTEGER NOT NULL DEFAULT 30,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -159,8 +171,10 @@ CREATE TABLE "discounts" (
     "discountType" "DiscountType" NOT NULL,
     "scope" "DiscountScope" NOT NULL,
     "value" INTEGER NOT NULL,
+    "minQuantity" INTEGER NOT NULL DEFAULT 1,
     "maxUses" INTEGER,
     "usedCount" INTEGER NOT NULL DEFAULT 0,
+    "startDate" TIMESTAMP(3),
     "expiresAt" TIMESTAMP(3),
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -191,11 +205,13 @@ CREATE TABLE "subscriptions" (
     "isRenewable" BOOLEAN NOT NULL,
     "isClosableEarly" BOOLEAN NOT NULL,
     "autoClose" BOOLEAN NOT NULL,
-    "status" "SubscriptionStatus" NOT NULL DEFAULT 'ACTIVE',
+    "status" "SubscriptionStatus" NOT NULL DEFAULT 'DRAFT',
+    "isPaused" BOOLEAN NOT NULL DEFAULT false,
+    "pausedAt" TIMESTAMP(3),
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3),
     "nextBillingDate" TIMESTAMP(3),
-    "pausedAt" TIMESTAMP(3),
+    "quotationExpiryDate" TIMESTAMP(3),
     "closedAt" TIMESTAMP(3),
     "discountId" TEXT,
     "discountAmountPaise" INTEGER,

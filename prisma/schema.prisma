@@ -40,18 +40,22 @@ enum PaymentMethod {
   UPI
 }
 
+// PRD §4.5: Status flow: Draft → Quotation → Confirmed → Active → Closed.
+// Paused is a boolean flag (isPaused), NOT a lifecycle status.
 enum SubscriptionStatus {
+  DRAFT
+  QUOTATION
+  CONFIRMED
   ACTIVE
-  PAUSED
   CLOSED
-  PENDING
 }
 
+// PRD §4.6 & §4.9: Stored statuses are strictly Draft, Confirmed, Paid.
+// Overdue and Partially paid are derived tags computed at query time, NEVER stored as database statuses.
 enum InvoiceStatus {
   DRAFT
-  SENT
+  CONFIRMED
   PAID
-  VOID
 }
 
 enum DiscountType {
@@ -84,9 +88,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Customer link (nullable – admin/staff have no customer record)
-  customer Customer?
-
+  customer            Customer?
   passwordResetTokens PasswordResetToken[]
   auditLogs           AuditLog[]
 
@@ -111,12 +113,12 @@ model PasswordResetToken {
 // ─────────────────────────────────────────────
 
 model Customer {
-  id               String  @id @default(cuid())
-  userId           String  @unique
+  id               String   @id @default(cuid())
+  userId           String   @unique
   companyName      String
   gstin            String?
-  gstState         String? // e.g. "Maharashtra"
-  gstStateCode     String? // e.g. "27"
+  gstState         String?  // e.g. "Maharashtra"
+  gstStateCode     String?  // e.g. "27"
   billingAddress   String?
   phone            String?
   createdAt        DateTime @default(now())
@@ -133,12 +135,16 @@ model Customer {
 // ─────────────────────────────────────────────
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  name            String
+  type            String?  // e.g. "Software", "Service"
+  description     String?
+  salesPricePaise Int      @default(0) // in paise
+  costPricePaise  Int?     // in paise
+  notes           String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   variants ProductVariant[]
   plans    Plan[]
@@ -147,15 +153,18 @@ model Product {
 }
 
 model ProductVariant {
-  id          String   @id @default(cuid())
-  productId   String
-  name        String
-  description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  productId       String
+  name            String
+  description     String?
+  attributeName   String?  // e.g. "Brand"
+  attributeValue  String?  // e.g. "Odoo"
+  priceExtraPaise Int      @default(0) // extra in paise (e.g. +56000 paise = +₹560)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  product               Product                @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product                Product                @relation(fields: [productId], references: [id], onDelete: Cascade)
   quotationTemplateLines QuotationTemplateLine[]
   subscriptionLines      SubscriptionLine[]
   invoiceLines           InvoiceLine[]
@@ -172,11 +181,15 @@ model Plan {
   productId       String
   name            String
   description     String?
+  pricePaise      Int           @default(0) // base plan price in paise
   billingPeriod   BillingPeriod
   paymentTerms    PaymentTerms  @default(DUE_ON_RECEIPT)
+  minQuantity     Int           @default(1)
+  availableFrom   DateTime?
+  availableTo     DateTime?
   isActive        Boolean       @default(true)
 
-  // Feature flags
+  // Feature flags set by admin (PRD §4.3)
   isPausable      Boolean @default(false)
   isRenewable     Boolean @default(true)
   isClosableEarly Boolean @default(true)
@@ -197,13 +210,14 @@ model Plan {
 // ─────────────────────────────────────────────
 
 model QuotationTemplate {
-  id          String   @id @default(cuid())
-  planId      String
-  name        String
-  description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  planId       String
+  name         String
+  description  String?
+  validityDays Int      @default(30)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   plan  Plan                    @relation(fields: [planId], references: [id], onDelete: Restrict)
   lines QuotationTemplateLine[]
@@ -236,7 +250,7 @@ model Tax {
   id          String   @id @default(cuid())
   name        String
   taxType     TaxType
-  rate        Int      // basis points, e.g. 900 = 9%
+  rate        Int      // basis points, e.g. 900 = 9%, 1800 = 18%
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -259,8 +273,10 @@ model Discount {
   // For PERCENTAGE: value in basis points (e.g. 1000 = 10%)
   // For FIXED: value in paise
   value         Int
+  minQuantity   Int           @default(1)
   maxUses       Int?
   usedCount     Int           @default(0)
+  startDate     DateTime?
   expiresAt     DateTime?
   isActive      Boolean       @default(true)
   createdAt     DateTime      @default(now())
@@ -302,11 +318,16 @@ model Subscription {
   isClosableEarly      Boolean
   autoClose            Boolean
 
-  status               SubscriptionStatus @default(ACTIVE)
+  // PRD §4.5: Valid statuses are strictly DRAFT, QUOTATION, CONFIRMED, ACTIVE, CLOSED
+  status               SubscriptionStatus @default(DRAFT)
+  // Pausing is a boolean flag (isPaused), NOT a lifecycle status
+  isPaused             Boolean            @default(false)
+  pausedAt             DateTime?
+
   startDate            DateTime
   endDate              DateTime?
   nextBillingDate      DateTime?
-  pausedAt             DateTime?
+  quotationExpiryDate  DateTime?          // For tracking quotation validity period
   closedAt             DateTime?
 
   // Discount applied at subscription level
@@ -317,23 +338,23 @@ model Subscription {
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
-  customer         Customer          @relation(fields: [customerId], references: [id], onDelete: Restrict)
-  plan             Plan              @relation(fields: [planId], references: [id], onDelete: Restrict)
-  lines            SubscriptionLine[]
-  invoices         Invoice[]
-  discountUsages   DiscountUsage[]
+  customer       Customer           @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  plan           Plan               @relation(fields: [planId], references: [id], onDelete: Restrict)
+  lines          SubscriptionLine[]
+  invoices       Invoice[]
+  discountUsages DiscountUsage[]
 
   @@map("subscriptions")
 }
 
 model SubscriptionLine {
-  id               String  @id @default(cuid())
+  id               String   @id @default(cuid())
   subscriptionId   String
   productVariantId String
   description      String?
   quantity         Int
-  unitPricePaise   Int     // paise
-  sortOrder        Int     @default(0)
+  unitPricePaise   Int      // paise
+  sortOrder        Int      @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -351,6 +372,8 @@ model Invoice {
   id                 String        @id @default(cuid())
   number             String        @unique // INV-XXXXX
   subscriptionId     String
+  // PRD §4.6: Valid stored statuses are strictly DRAFT, CONFIRMED, PAID
+  // Overdue and Partially paid are derived tags computed at query time
   status             InvoiceStatus @default(DRAFT)
 
   billingPeriodStart DateTime
@@ -371,26 +394,23 @@ model Invoice {
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
 
-  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  subscription Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
   lines        InvoiceLine[]
   taxes        InvoiceTax[]
   payments     Payment[]
-
-  // NOTE: The partial unique index on (subscriptionId, billingPeriodStart) WHERE cancelledAt IS NULL
-  // is created via a raw SQL migration — not expressible in schema.prisma syntax.
 
   @@map("invoices")
 }
 
 model InvoiceLine {
-  id               String  @id @default(cuid())
+  id               String   @id @default(cuid())
   invoiceId        String
   productVariantId String
   description      String?
   quantity         Int
-  unitPricePaise   Int     // paise
-  subtotalPaise    Int     // quantity * unitPricePaise
-  sortOrder        Int     @default(0)
+  unitPricePaise   Int      // paise
+  subtotalPaise    Int      // quantity * unitPricePaise
+  sortOrder        Int      @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -401,13 +421,13 @@ model InvoiceLine {
 }
 
 model InvoiceTax {
-  id          String @id @default(cuid())
+  id          String   @id @default(cuid())
   invoiceId   String
   taxId       String
-  taxName     String // snapshotted at invoice creation
+  taxName     String   // snapshotted at invoice creation
   taxType     TaxType
-  rateBps     Int    // snapshotted rate in basis points
-  amountPaise Int    // computed amount in paise
+  rateBps     Int      // snapshotted rate in basis points
+  amountPaise Int      // computed amount in paise
   createdAt   DateTime @default(now())
 
   invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
@@ -443,7 +463,7 @@ model Payment {
 model AuditLog {
   id         String   @id @default(cuid())
   userId     String?
-  action     String   // e.g. "subscription.created", "invoice.sent"
+  action     String   // e.g. "subscription.created", "invoice.confirmed"
   entityType String   // e.g. "Subscription", "Invoice"
   entityId   String
   meta       Json?
