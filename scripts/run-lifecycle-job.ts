@@ -1,26 +1,34 @@
 import { evaluateAutomatedLifecycleTransitions } from "../src/lib/lifecycleAutomation";
+import { evaluateAutomatedBilling } from "../src/lib/billingEngine";
 import prisma from "../src/lib/prisma";
 
 async function executeJobOnce(): Promise<boolean> {
   const start = Date.now();
-  console.log(`[${new Date().toISOString()}] Starting automated lifecycle transitions job...`);
+  console.log(`[${new Date().toISOString()}] Starting automated lifecycle and billing job...`);
 
   try {
-    const res = await evaluateAutomatedLifecycleTransitions();
+    const lifecycleRes = await evaluateAutomatedLifecycleTransitions();
+    const billingRes = await evaluateAutomatedBilling();
     const elapsed = Date.now() - start;
 
     console.log(
       `[${new Date().toISOString()}] Job completed in ${elapsed}ms: ` +
-      `${res.expiredQuotationsClosed} expired quotations closed, ` +
-      `${res.autoClosedSubscriptions} subscriptions auto-closed.`
+      `${lifecycleRes.expiredQuotationsClosed} expired quotations closed, ` +
+      `${lifecycleRes.autoClosedSubscriptions} subscriptions auto-closed, ` +
+      `${billingRes.invoicesGenerated} invoices generated across ${billingRes.subscriptionsProcessed} subscriptions.`
     );
 
-    if (res.errors && res.errors.length > 0) {
-      console.error(`[${new Date().toISOString()}] Job reported ${res.errors.length} errors:`, res.errors);
+    const allErrors = [
+      ...(lifecycleRes.errors || []),
+      ...(billingRes.errors || []),
+    ];
+
+    if (allErrors.length > 0) {
+      console.error(`[${new Date().toISOString()}] Job reported ${allErrors.length} errors:`, allErrors);
       return false;
     }
 
-    return res.success;
+    return lifecycleRes.success && billingRes.success;
   } catch (error) {
     console.error(`[${new Date().toISOString()}] Job encountered an unhandled error:`, error);
     return false;

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { evaluateAutomatedLifecycleTransitions } from "@/lib/lifecycleAutomation";
+import { evaluateAutomatedBilling } from "@/lib/billingEngine";
 import crypto from "crypto";
 
 /**
@@ -86,16 +87,19 @@ export async function POST(request: NextRequest) {
 
   // 4. State-changing execution
   try {
-    // Note: evaluateAutomatedLifecycleTransitions() resolves its actor internally
-    // and intentionally does NOT accept arbitrary actor IDs from callers.
-    const result = await evaluateAutomatedLifecycleTransitions();
+    // Note: evaluateAutomatedLifecycleTransitions() and evaluateAutomatedBilling()
+    // resolve administrative actor internally and do NOT accept arbitrary actor IDs from callers.
+    const lifecycleResult = await evaluateAutomatedLifecycleTransitions();
+    const billingResult = await evaluateAutomatedBilling();
     const durationMs = Date.now() - startTime;
 
     return NextResponse.json({
-      success: result.success,
-      timestamp: result.timestamp,
-      expiredQuotationsClosed: result.expiredQuotationsClosed,
-      autoClosedSubscriptions: result.autoClosedSubscriptions,
+      success: lifecycleResult.success && billingResult.success,
+      timestamp: new Date().toISOString(),
+      expiredQuotationsClosed: lifecycleResult.expiredQuotationsClosed,
+      autoClosedSubscriptions: lifecycleResult.autoClosedSubscriptions,
+      invoicesGenerated: billingResult.invoicesGenerated,
+      subscriptionsProcessed: billingResult.subscriptionsProcessed,
       durationMs,
     });
   } catch (error) {

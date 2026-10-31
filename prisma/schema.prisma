@@ -426,6 +426,10 @@ model Invoice {
   taxes        InvoiceTax[]
   payments     Payment[]
 
+  @@index([status])
+  @@index([dueDate])
+  @@index([subscriptionId])
+  @@index([cancelledAt])
   @@map("invoices")
 }
 
