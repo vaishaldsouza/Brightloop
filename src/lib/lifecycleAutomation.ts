@@ -1,28 +1,54 @@
 import prisma from "@/lib/prisma";
 import { SubscriptionStatus, Role } from "@prisma/client";
 
+export interface LifecycleAutomationResult {
+  success: boolean;
+  timestamp: string;
+  expiredQuotationsClosed: number;
+  autoClosedSubscriptions: number;
+  errors?: string[];
+}
+
 /**
  * Core idempotent automated lifecycle processing engine.
  * PRD §4.3 & §4.5 & §10:
  * 1. Closes expired unconfirmed quotations.
  * 2. Auto-closes active subscriptions reaching their end date when autoClose === true.
+ *
+ * Uses conditional atomic updates (`updateMany` with exact status predicates)
+ * to guarantee that concurrent executions cannot create duplicate transitions or duplicate audit entries.
  */
-export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string): Promise<{
-  expiredQuotationsClosed: number;
-  autoClosedSubscriptions: number;
-}> {
+export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string): Promise<LifecycleAutomationResult> {
   const now = new Date();
   let expiredQuotationsClosed = 0;
   let autoClosedSubscriptions = 0;
+  const errors: string[] = [];
 
-  // Resolve an administrative actor ID for audit logging if not passed
+  // Resolve a valid administrative actor ID for foreign-key-compliant audit logging
   let resolvedActorId = actorUserId;
   if (!resolvedActorId) {
-    const admin = await prisma.user.findFirst({ where: { role: Role.ADMIN }, select: { id: true } });
-    resolvedActorId = admin?.id || "system";
+    const admin = await prisma.user.findFirst({
+      where: { role: Role.ADMIN },
+      select: { id: true },
+    });
+    resolvedActorId = admin?.id;
   }
 
+  if (!resolvedActorId) {
+    const err = "No valid administrative user found for audit logging in lifecycle automation.";
+    console.error(err);
+    return {
+      success: false,
+      timestamp: now.toISOString(),
+      expiredQuotationsClosed: 0,
+      autoClosedSubscriptions: 0,
+      errors: [err],
+    };
+  }
+
+  // -------------------------------------------------------------------------
   // 1. Expired quotations (PRD §4.5)
+  // -------------------------------------------------------------------------
   const expiredQuotations = await prisma.subscription.findMany({
     where: {
       status: SubscriptionStatus.QUOTATION,
@@ -34,22 +60,23 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
   for (const q of expiredQuotations) {
     try {
       await prisma.$transaction(async (tx) => {
-        const curr = await tx.subscription.findUnique({
-          where: { id: q.id },
-          select: { status: true },
+        // Atomic conditional update: only updates if status is still strictly QUOTATION
+        const updated = await tx.subscription.updateMany({
+          where: {
+            id: q.id,
+            status: SubscriptionStatus.QUOTATION,
+          },
+          data: {
+            status: SubscriptionStatus.CLOSED,
+            closedAt: now,
+          },
         });
-        if (curr?.status === SubscriptionStatus.QUOTATION) {
-          await tx.subscription.update({
-            where: { id: q.id },
-            data: {
-              status: SubscriptionStatus.CLOSED,
-              closedAt: now,
-            },
-          });
 
+        // Exactly one concurrent worker will receive count === 1
+        if (updated.count === 1) {
           await tx.auditLog.create({
             data: {
-              userId: resolvedActorId,
+              userId: resolvedActorId!,
               action: "quotation.expired_closed",
               entityType: "Subscription",
               entityId: q.id,
@@ -57,6 +84,7 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
                 number: q.number,
                 expiredAt: q.quotationExpiryDate?.toISOString(),
                 automated: true,
+                scheduler: "lifecycleAutomation",
               },
             },
           });
@@ -64,11 +92,15 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
         }
       });
     } catch (err) {
-      console.error(`Automated expiry closure failed for ${q.number}:`, err);
+      const msg = `Automated expiry closure failed for ${q.number}: ${err instanceof Error ? err.message : String(err)}`;
+      console.error(msg);
+      errors.push(msg);
     }
   }
 
+  // -------------------------------------------------------------------------
   // 2. Auto-close subscriptions at end date (PRD §4.3)
+  // -------------------------------------------------------------------------
   const dueToAutoClose = await prisma.subscription.findMany({
     where: {
       status: SubscriptionStatus.ACTIVE,
@@ -81,22 +113,24 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
   for (const sub of dueToAutoClose) {
     try {
       await prisma.$transaction(async (tx) => {
-        const curr = await tx.subscription.findUnique({
-          where: { id: sub.id },
-          select: { status: true },
+        // Atomic conditional update: only updates if status is still strictly ACTIVE with autoClose
+        const updated = await tx.subscription.updateMany({
+          where: {
+            id: sub.id,
+            status: SubscriptionStatus.ACTIVE,
+            autoClose: true,
+          },
+          data: {
+            status: SubscriptionStatus.CLOSED,
+            closedAt: now,
+          },
         });
-        if (curr?.status === SubscriptionStatus.ACTIVE) {
-          await tx.subscription.update({
-            where: { id: sub.id },
-            data: {
-              status: SubscriptionStatus.CLOSED,
-              closedAt: now,
-            },
-          });
 
+        // Exactly one concurrent worker will receive count === 1
+        if (updated.count === 1) {
           await tx.auditLog.create({
             data: {
-              userId: resolvedActorId,
+              userId: resolvedActorId!,
               action: "subscription.auto_closed",
               entityType: "Subscription",
               entityId: sub.id,
@@ -104,6 +138,7 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
                 number: sub.number,
                 endDate: sub.endDate?.toISOString(),
                 automated: true,
+                scheduler: "lifecycleAutomation",
               },
             },
           });
@@ -111,9 +146,17 @@ export async function evaluateAutomatedLifecycleTransitions(actorUserId?: string
         }
       });
     } catch (err) {
-      console.error(`Automated auto-close failed for ${sub.number}:`, err);
+      const msg = `Automated auto-close failed for ${sub.number}: ${err instanceof Error ? err.message : String(err)}`;
+      console.error(msg);
+      errors.push(msg);
     }
   }
 
-  return { expiredQuotationsClosed, autoClosedSubscriptions };
+  return {
+    success: errors.length === 0,
+    timestamp: now.toISOString(),
+    expiredQuotationsClosed,
+    autoClosedSubscriptions,
+    errors: errors.length > 0 ? errors : undefined,
+  };
 }

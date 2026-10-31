@@ -368,13 +368,11 @@ export async function confirmSubscriptionAction(
     };
   }
 
-  if (
-    sub.status !== SubscriptionStatus.DRAFT &&
-    sub.status !== SubscriptionStatus.QUOTATION
-  ) {
+  // PRD §4.5: Status flow is strictly Draft → Quotation → Confirmed → Active → Closed (no stage skipping)
+  if (sub.status !== SubscriptionStatus.QUOTATION) {
     return {
       success: false,
-      error: `Cannot confirm subscription with status "${sub.status}". Only DRAFT or QUOTATION can be confirmed.`,
+      error: `Cannot confirm subscription with status "${sub.status}". PRD §4.5 lifecycle requires Draft → Quotation → Confirmed with no stage skipping. Direct Draft to Confirmed transition is prohibited.`,
     };
   }
 
@@ -949,13 +947,11 @@ export async function renewSubscriptionAction(
     };
   }
 
-  if (
-    sub.status !== SubscriptionStatus.ACTIVE &&
-    sub.status !== SubscriptionStatus.CLOSED
-  ) {
+  // Closed subscriptions cannot be reopened through ordinary status transitions (PRD §4.5 forward-only lifecycle)
+  if (sub.status !== SubscriptionStatus.ACTIVE) {
     return {
       success: false,
-      error: `Cannot renew subscription with status "${sub.status}". Only ACTIVE or CLOSED contracts can be renewed.`,
+      error: `Cannot renew subscription with status "${sub.status}". Only ACTIVE contracts can be renewed. Closed contracts cannot be reopened through ordinary status transitions (PRD §4.5).`,
     };
   }
 
@@ -978,8 +974,6 @@ export async function renewSubscriptionAction(
       await tx.subscription.update({
         where: { id },
         data: {
-          status: SubscriptionStatus.ACTIVE,
-          closedAt: null,
           endDate: newEndDate,
           nextBillingDate: newEndDate,
         },
@@ -993,8 +987,8 @@ export async function renewSubscriptionAction(
           entityId: id,
           meta: {
             number: sub.number,
-            fromStatus: sub.status,
-            toStatus: SubscriptionStatus.ACTIVE,
+            status: sub.status,
+            previousEndDate: sub.endDate?.toISOString() || null,
             newEndDate: newEndDate.toISOString(),
           },
         },
@@ -1046,10 +1040,7 @@ export async function processAutomatedSubscriptionLifecycleAction(): Promise<{
     const results = await evaluateAutomatedLifecycleTransitions();
     revalidatePath("/subscriptions");
     revalidatePath("/dashboard");
-    return {
-      success: true,
-      ...results,
-    };
+    return results;
   } catch (error) {
     console.error("Lifecycle automation failed:", error);
     return {

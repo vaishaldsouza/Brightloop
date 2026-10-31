@@ -197,20 +197,6 @@ export default function SubscriptionDetailClient({
                   </span>
                   <span>Issue Quotation</span>
                 </button>
-
-                <button
-                  type="button"
-                  disabled={isPending}
-                  onClick={() =>
-                    handleAction(() => confirmSubscriptionAction(sub.id))
-                  }
-                  className="bg-primary-container hover:bg-primary text-on-primary font-label-md px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs disabled:opacity-50"
-                >
-                  <span className="material-symbols-outlined text-[18px]">
-                    check_circle
-                  </span>
-                  <span>Confirm Agreement</span>
-                </button>
               </>
             )}
 
@@ -370,31 +356,6 @@ export default function SubscriptionDetailClient({
                 )}
               </>
             )}
-
-            {/* CLOSED ACTIONS: Renew if allowed by plan policy */}
-            {sub.status === SubscriptionStatus.CLOSED &&
-              sub.isRenewable &&
-              (isAdmin || isStaff) && (
-                <button
-                  type="button"
-                  disabled={isPending}
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        "Reactivate and renew this closed subscription?"
-                      )
-                    ) {
-                      handleAction(() => renewSubscriptionAction(sub.id));
-                    }
-                  }}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-label-md px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5 shadow-xs disabled:opacity-50"
-                >
-                  <span className="material-symbols-outlined text-[18px]">
-                    autorenew
-                  </span>
-                  <span>Renew Contract</span>
-                </button>
-              )}
 
             {/* DRAFT / QUOTATION GENERAL CLOSE */}
             {(sub.status === SubscriptionStatus.DRAFT ||
