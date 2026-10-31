@@ -20,20 +20,14 @@ export async function POST(req: Request) {
 
     // Secure lookup: match cryptographic SHA-256 hash of token
     const hashed = hashToken(token);
-    let resetToken = await prisma.passwordResetToken.findUnique({
+    const resetToken = await prisma.passwordResetToken.findUnique({
       where: { token: hashed },
       include: { user: true },
     });
 
-    // Fallback: check raw token for backward compatibility with pre-hashing records
-    if (!resetToken) {
-      resetToken = await prisma.passwordResetToken.findUnique({
-        where: { token },
-        include: { user: true },
-      });
-    }
+    const now = new Date();
 
-    if (!resetToken || resetToken.usedAt || resetToken.expiresAt < new Date()) {
+    if (!resetToken || resetToken.usedAt || resetToken.expiresAt < now) {
       return NextResponse.json(
         { error: "This password reset link is invalid or has expired" },
         { status: 400 }
@@ -42,16 +36,41 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    await prisma.$transaction([
-      prisma.user.update({
-        where: { id: resetToken.userId },
-        data: { password: hashedPassword },
-      }),
-      prisma.passwordResetToken.update({
-        where: { id: resetToken.id },
-        data: { usedAt: new Date() },
-      }),
-    ]);
+    // Atomic conditional redemption & password update
+    try {
+      await prisma.$transaction(async (tx) => {
+        // 1. Atomic conditional update: strictly consume only if usedAt is currently null and not expired
+        const consumeResult = await tx.passwordResetToken.updateMany({
+          where: {
+            id: resetToken.id,
+            usedAt: null,
+            expiresAt: { gt: now },
+          },
+          data: {
+            usedAt: now,
+          },
+        });
+
+        if (consumeResult.count === 0) {
+          throw new Error("TOKEN_ALREADY_USED_OR_EXPIRED");
+        }
+
+        // 2. Atomically update user's password in the exact same transaction
+        await tx.user.update({
+          where: { id: resetToken.userId },
+          data: { password: hashedPassword },
+        });
+      });
+    } catch (txErr: unknown) {
+      const err = txErr as Error;
+      if (err?.message === "TOKEN_ALREADY_USED_OR_EXPIRED") {
+        return NextResponse.json(
+          { error: "This password reset link is invalid or has expired" },
+          { status: 400 }
+        );
+      }
+      throw txErr;
+    }
 
     return NextResponse.json({ message: "Password updated successfully" });
   } catch (error) {
