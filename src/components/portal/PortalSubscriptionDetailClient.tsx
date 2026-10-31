@@ -154,6 +154,7 @@ export default function PortalSubscriptionDetailClient({
               type="button"
               onClick={() => setConfirmModal({ type: "renew" })}
               disabled={loadingAction}
+              suppressHydrationWarning
               className="px-4 py-2 rounded-lg bg-primary-container text-on-primary text-xs font-semibold hover:bg-primary transition-colors disabled:opacity-50"
             >
               Renew Contract
@@ -165,6 +166,7 @@ export default function PortalSubscriptionDetailClient({
               type="button"
               onClick={() => setConfirmModal({ type: "close" })}
               disabled={loadingAction}
+              suppressHydrationWarning
               className="px-4 py-2 rounded-lg border border-error/40 text-error hover:bg-error-container/30 text-xs font-semibold transition-colors disabled:opacity-50"
             >
               Cancel Contract

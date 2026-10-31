@@ -96,6 +96,7 @@ export default function PortalTopNav({ user }: PortalTopNavProps) {
             <button
               type="button"
               onClick={() => setDropdownOpen(!dropdownOpen)}
+              suppressHydrationWarning
               className="flex items-center gap-2.5 p-1.5 rounded-lg hover:bg-surface-container-low transition-colors duration-150 focus:outline-none"
               aria-expanded={dropdownOpen}
             >
@@ -160,6 +161,7 @@ export default function PortalTopNav({ user }: PortalTopNavProps) {
                   <button
                     type="button"
                     onClick={() => signOut({ callbackUrl: "/login" })}
+                    suppressHydrationWarning
                     className="w-full flex items-center gap-2 px-4 py-2 text-xs font-semibold text-error hover:bg-error-container/30 transition-colors text-left"
                   >
                     <span className="material-symbols-outlined text-[18px]">

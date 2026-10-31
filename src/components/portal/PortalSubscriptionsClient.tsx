@@ -199,6 +199,7 @@ export default function PortalSubscriptionsClient({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by subscription number or plan..."
+            suppressHydrationWarning
             className="block w-full pl-9 pr-3 py-2 text-sm bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-secondary focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
         </div>
@@ -215,8 +216,10 @@ export default function PortalSubscriptionsClient({
             ] as const
           ).map((tab) => (
             <button
+              type="button"
               key={tab.key}
               onClick={() => setFilter(tab.key)}
+              suppressHydrationWarning
               className={`px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
                 filter === tab.key
                   ? "bg-surface-container-lowest text-primary shadow-xs"
@@ -337,6 +340,7 @@ export default function PortalSubscriptionsClient({
                               subNumber: sub.number,
                             })
                           }
+                          suppressHydrationWarning
                           className="py-2 px-3 rounded-lg bg-tertiary text-on-tertiary text-xs font-semibold hover:bg-tertiary-container transition-colors disabled:opacity-50"
                         >
                           Resume
@@ -352,6 +356,7 @@ export default function PortalSubscriptionsClient({
                               subNumber: sub.number,
                             })
                           }
+                          suppressHydrationWarning
                           className="py-2 px-3 rounded-lg border border-outline-variant hover:bg-surface-container-low text-xs font-semibold text-secondary transition-colors disabled:opacity-50"
                         >
                           Pause
@@ -371,6 +376,7 @@ export default function PortalSubscriptionsClient({
                             subNumber: sub.number,
                           })
                         }
+                        suppressHydrationWarning
                         className="py-2 px-3 rounded-lg bg-primary-container text-on-primary text-xs font-semibold hover:bg-primary transition-colors disabled:opacity-50"
                       >
                         Renew
@@ -390,6 +396,7 @@ export default function PortalSubscriptionsClient({
                           subNumber: sub.number,
                         })
                       }
+                      suppressHydrationWarning
                       className="w-full text-center py-1.5 text-xs text-error hover:underline transition-colors disabled:opacity-50"
                     >
                       Cancel Subscription

@@ -104,6 +104,7 @@ export default function PortalInvoicesClient({
               key={chip.key}
               type="button"
               onClick={() => setFilter(chip.key)}
+              suppressHydrationWarning
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                 filter === chip.key
                   ? "bg-primary-container text-on-primary shadow-xs"
@@ -125,6 +126,7 @@ export default function PortalInvoicesClient({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search invoice or contract..."
+            suppressHydrationWarning
             className="w-full pl-9 pr-3 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-xs text-on-surface placeholder:text-secondary focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
           />
         </div>

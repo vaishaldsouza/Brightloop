@@ -185,6 +185,7 @@ export default function PortalAccountClient({
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. +91 98765 43210"
+              suppressHydrationWarning
               className="w-full px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-xs text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
             />
           </div>
@@ -211,6 +212,7 @@ export default function PortalAccountClient({
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               placeholder="e.g. Acme Tech Solutions Pvt Ltd"
+              suppressHydrationWarning
               className="w-full px-3 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-xs text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
             />
           </div>
