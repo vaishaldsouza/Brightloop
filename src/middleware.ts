@@ -51,6 +51,8 @@ export default auth((req) => {
       pathname.startsWith("/dashboard") ||
       pathname.startsWith("/subscriptions") ||
       pathname.startsWith("/invoices") ||
+      pathname.startsWith("/payments") ||
+      pathname.startsWith("/reports") ||
       pathname.startsWith("/products") ||
       pathname.startsWith("/plans") ||
       pathname.startsWith("/quotation-templates") ||
