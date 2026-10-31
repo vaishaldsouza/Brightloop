@@ -1,0 +1,468 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  STAFF
+  CUSTOMER
+}
+
+enum BillingPeriod {
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
+}
+
+enum PaymentTerms {
+  DUE_ON_RECEIPT
+  NET_15
+  NET_30
+}
+
+enum PaymentMethod {
+  CARD
+  BANK_TRANSFER
+  CASH
+  UPI
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CLOSED
+  PENDING
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  VOID
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum DiscountScope {
+  SUBSCRIPTION
+  LINE_ITEM
+}
+
+enum TaxType {
+  CGST
+  SGST
+  IGST
+  OTHER
+}
+
+// ─────────────────────────────────────────────
+// User & Auth
+// ─────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String   // bcrypt hash
+  role      Role     @default(CUSTOMER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Customer link (nullable – admin/staff have no customer record)
+  customer Customer?
+
+  passwordResetTokens PasswordResetToken[]
+  auditLogs           AuditLog[]
+
+  @@map("users")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
+}
+
+// ─────────────────────────────────────────────
+// Customer
+// ─────────────────────────────────────────────
+
+model Customer {
+  id               String  @id @default(cuid())
+  userId           String  @unique
+  companyName      String
+  gstin            String?
+  gstState         String? // e.g. "Maharashtra"
+  gstStateCode     String? // e.g. "27"
+  billingAddress   String?
+  phone            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+
+  @@map("customers")
+}
+
+// ─────────────────────────────────────────────
+// Product & Variant
+// ─────────────────────────────────────────────
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  variants ProductVariant[]
+  plans    Plan[]
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id          String   @id @default(cuid())
+  productId   String
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product               Product                @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quotationTemplateLines QuotationTemplateLine[]
+  subscriptionLines      SubscriptionLine[]
+  invoiceLines           InvoiceLine[]
+
+  @@map("product_variants")
+}
+
+// ─────────────────────────────────────────────
+// Plan
+// ─────────────────────────────────────────────
+
+model Plan {
+  id              String        @id @default(cuid())
+  productId       String
+  name            String
+  description     String?
+  billingPeriod   BillingPeriod
+  paymentTerms    PaymentTerms  @default(DUE_ON_RECEIPT)
+  isActive        Boolean       @default(true)
+
+  // Feature flags
+  isPausable      Boolean @default(false)
+  isRenewable     Boolean @default(true)
+  isClosableEarly Boolean @default(true)
+  autoClose       Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product            Product             @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quotationTemplates QuotationTemplate[]
+  subscriptions      Subscription[]
+
+  @@map("plans")
+}
+
+// ─────────────────────────────────────────────
+// Quotation Template
+// ─────────────────────────────────────────────
+
+model QuotationTemplate {
+  id          String   @id @default(cuid())
+  planId      String
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  plan  Plan                    @relation(fields: [planId], references: [id], onDelete: Restrict)
+  lines QuotationTemplateLine[]
+
+  @@map("quotation_templates")
+}
+
+model QuotationTemplateLine {
+  id                  String   @id @default(cuid())
+  quotationTemplateId String
+  productVariantId    String
+  description         String?
+  quantity            Int      @default(1)
+  unitPricePaise      Int      // stored in paise (integer)
+  sortOrder           Int      @default(0)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  quotationTemplate QuotationTemplate @relation(fields: [quotationTemplateId], references: [id], onDelete: Cascade)
+  productVariant    ProductVariant    @relation(fields: [productVariantId], references: [id], onDelete: Restrict)
+
+  @@map("quotation_template_lines")
+}
+
+// ─────────────────────────────────────────────
+// Tax
+// ─────────────────────────────────────────────
+
+model Tax {
+  id          String   @id @default(cuid())
+  name        String
+  taxType     TaxType
+  rate        Int      // basis points, e.g. 900 = 9%
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  invoiceTaxes InvoiceTax[]
+
+  @@map("taxes")
+}
+
+// ─────────────────────────────────────────────
+// Discount
+// ─────────────────────────────────────────────
+
+model Discount {
+  id            String        @id @default(cuid())
+  code          String        @unique
+  description   String?
+  discountType  DiscountType
+  scope         DiscountScope
+  // For PERCENTAGE: value in basis points (e.g. 1000 = 10%)
+  // For FIXED: value in paise
+  value         Int
+  maxUses       Int?
+  usedCount     Int           @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  usages DiscountUsage[]
+
+  @@map("discounts")
+}
+
+model DiscountUsage {
+  id             String   @id @default(cuid())
+  discountId     String
+  subscriptionId String
+  usedAt         DateTime @default(now())
+
+  discount     Discount     @relation(fields: [discountId], references: [id], onDelete: Restrict)
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+
+  @@unique([discountId, subscriptionId])
+  @@map("discount_usages")
+}
+
+// ─────────────────────────────────────────────
+// Subscription
+// ─────────────────────────────────────────────
+
+model Subscription {
+  id         String @id @default(cuid())
+  number     String @unique // SUB-XXXXX
+  customerId String
+  planId     String
+
+  // Snapshotted plan flags at creation time (plan edits must not affect existing subs)
+  billingPeriod        BillingPeriod
+  paymentTerms         PaymentTerms
+  isPausable           Boolean
+  isRenewable          Boolean
+  isClosableEarly      Boolean
+  autoClose            Boolean
+
+  status               SubscriptionStatus @default(ACTIVE)
+  startDate            DateTime
+  endDate              DateTime?
+  nextBillingDate      DateTime?
+  pausedAt             DateTime?
+  closedAt             DateTime?
+
+  // Discount applied at subscription level
+  discountId           String?
+  discountAmountPaise  Int? // snapshot of discount applied
+
+  notes                String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  customer         Customer          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  plan             Plan              @relation(fields: [planId], references: [id], onDelete: Restrict)
+  lines            SubscriptionLine[]
+  invoices         Invoice[]
+  discountUsages   DiscountUsage[]
+
+  @@map("subscriptions")
+}
+
+model SubscriptionLine {
+  id               String  @id @default(cuid())
+  subscriptionId   String
+  productVariantId String
+  description      String?
+  quantity         Int
+  unitPricePaise   Int     // paise
+  sortOrder        Int     @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  subscription   Subscription   @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Restrict)
+
+  @@map("subscription_lines")
+}
+
+// ─────────────────────────────────────────────
+// Invoice
+// ─────────────────────────────────────────────
+
+model Invoice {
+  id                 String        @id @default(cuid())
+  number             String        @unique // INV-XXXXX
+  subscriptionId     String
+  status             InvoiceStatus @default(DRAFT)
+
+  billingPeriodStart DateTime
+  billingPeriodEnd   DateTime
+  dueDate            DateTime
+
+  subtotalPaise      Int
+  discountPaise      Int           @default(0)
+  taxPaise           Int           @default(0)
+  totalPaise         Int
+  paidPaise          Int           @default(0)
+
+  notes              String?
+  sentAt             DateTime?
+  paidAt             DateTime?
+  cancelledAt        DateTime?     // Partial unique index enforced via raw SQL migration
+
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  lines        InvoiceLine[]
+  taxes        InvoiceTax[]
+  payments     Payment[]
+
+  // NOTE: The partial unique index on (subscriptionId, billingPeriodStart) WHERE cancelledAt IS NULL
+  // is created via a raw SQL migration — not expressible in schema.prisma syntax.
+
+  @@map("invoices")
+}
+
+model InvoiceLine {
+  id               String  @id @default(cuid())
+  invoiceId        String
+  productVariantId String
+  description      String?
+  quantity         Int
+  unitPricePaise   Int     // paise
+  subtotalPaise    Int     // quantity * unitPricePaise
+  sortOrder        Int     @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  invoice        Invoice        @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id], onDelete: Restrict)
+
+  @@map("invoice_lines")
+}
+
+model InvoiceTax {
+  id          String @id @default(cuid())
+  invoiceId   String
+  taxId       String
+  taxName     String // snapshotted at invoice creation
+  taxType     TaxType
+  rateBps     Int    // snapshotted rate in basis points
+  amountPaise Int    // computed amount in paise
+  createdAt   DateTime @default(now())
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  tax     Tax     @relation(fields: [taxId], references: [id], onDelete: Restrict)
+
+  @@map("invoice_taxes")
+}
+
+// ─────────────────────────────────────────────
+// Payment
+// ─────────────────────────────────────────────
+
+model Payment {
+  id            String        @id @default(cuid())
+  invoiceId     String
+  amountPaise   Int           // paise
+  paymentMethod PaymentMethod
+  paidAt        DateTime
+  reference     String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
+
+  @@map("payments")
+}
+
+// ─────────────────────────────────────────────
+// Audit Log
+// ─────────────────────────────────────────────
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String   // e.g. "subscription.created", "invoice.sent"
+  entityType String   // e.g. "Subscription", "Invoice"
+  entityId   String
+  meta       Json?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────────
+// Sequence Counters (for SUB-XXXXX / INV-XXXXX)
+// ─────────────────────────────────────────────
+
+model Sequence {
+  id      String @id // e.g. "SUB", "INV"
+  current Int    @default(0)
+
+  @@map("sequences")
+}

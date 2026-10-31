@@ -1,0 +1,47 @@
+import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { prisma } from "@/lib/prisma";
+import { resetPasswordSchema } from "@/lib/validations/auth";
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const parsed = resetPasswordSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid data", details: parsed.error.flatten() }, { status: 400 });
+    }
+
+    const { token, password } = parsed.data;
+
+    const resetToken = await prisma.passwordResetToken.findUnique({
+      where: { token },
+      include: { user: true },
+    });
+
+    if (!resetToken || resetToken.usedAt || resetToken.expiresAt < new Date()) {
+      return NextResponse.json(
+        { error: "This password reset link is invalid or has expired" },
+        { status: 400 }
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: resetToken.userId },
+        data: { password: hashedPassword },
+      }),
+      prisma.passwordResetToken.update({
+        where: { id: resetToken.id },
+        data: { usedAt: new Date() },
+      }),
+    ]);
+
+    return NextResponse.json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    return NextResponse.json({ error: "Failed to reset password" }, { status: 500 });
+  }
+}
