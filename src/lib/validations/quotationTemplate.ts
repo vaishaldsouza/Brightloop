@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const DEFAULT_QUOTATION_VALIDITY_DAYS = 30;
+
 export const quotationTemplateLineSchema = z.object({
   id: z.string().optional(),
   productVariantId: z
@@ -86,4 +88,30 @@ export function calculateTemplateTotalPaise(
         : 0;
     return acc + qty * price;
   }, 0);
+}
+
+/**
+ * Calculates the exact expiration date for a quotation generated from a template.
+ * Offsets calendar days cleanly using UTC timestamps to prevent timezone drift and off-by-one errors.
+ */
+export function calculateQuotationExpiryDate(
+  validityDays: number,
+  startDate: Date = new Date()
+): Date {
+  const safeDays =
+    Number.isInteger(validityDays) && validityDays >= 1
+      ? validityDays
+      : DEFAULT_QUOTATION_VALIDITY_DAYS;
+
+  const expiry = new Date(startDate.getTime());
+  expiry.setUTCDate(expiry.getUTCDate() + safeDays);
+  return expiry;
+}
+
+/**
+ * Evaluates whether a quotation template is selectable for generating new quotations.
+ * Inactive/archived templates cannot be selected for new proposals (PRD §4.4).
+ */
+export function isTemplateSelectable(template: { isActive: boolean }): boolean {
+  return Boolean(template.isActive);
 }

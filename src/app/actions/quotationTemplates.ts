@@ -3,7 +3,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { Role } from "@prisma/client";
+import { Role, Prisma } from "@prisma/client";
 import {
   quotationTemplateSchema,
   QuotationTemplateFormValues,
@@ -301,6 +301,16 @@ export async function deleteQuotationTemplateAction(
       success: true,
     };
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return {
+        success: false,
+        error: "Quotation template not found or already deleted.",
+      };
+    }
+
     console.error("Failed to delete quotation template:", error);
     return {
       success: false,
