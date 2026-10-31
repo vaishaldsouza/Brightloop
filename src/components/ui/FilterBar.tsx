@@ -26,6 +26,7 @@ export function FilterBar({
             <button
               type="button"
               onClick={onReset}
+              suppressHydrationWarning
               className="px-2.5 py-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 font-body-sm text-body-sm flex items-center gap-1 transition"
             >
               <span className="material-symbols-outlined text-[16px]">filter_alt_off</span>

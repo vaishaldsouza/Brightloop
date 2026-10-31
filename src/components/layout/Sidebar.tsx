@@ -117,7 +117,9 @@ export function Sidebar({
             </div>
           </Link>
           <button
+            type="button"
             onClick={onCloseMobile}
+            suppressHydrationWarning
             className="p-1 rounded-lg text-slate-400 hover:text-slate-600 lg:hidden"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>

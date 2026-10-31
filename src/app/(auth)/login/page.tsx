@@ -22,21 +22,46 @@ function LoginForm() {
     setError(null);
 
     try {
+      const normalizedEmail = email.trim().toLowerCase();
       const res = await signIn("credentials", {
         redirect: false,
-        email: email.trim().toLowerCase(),
+        email: normalizedEmail,
         password,
       });
 
       if (res?.error) {
         setError("Incorrect email or password. Please verify your credentials.");
+        setLoading(false);
       } else {
-        router.push(callbackUrl);
-        router.refresh();
+        const explicitCallback = searchParams.get("callbackUrl");
+        if (
+          explicitCallback &&
+          !explicitCallback.includes("/login") &&
+          !explicitCallback.includes("/dashboard")
+        ) {
+          window.location.href = explicitCallback;
+        } else {
+          // Identify customer accounts and route straight to self-service portal
+          const isCustomer =
+            normalizedEmail.includes("techcraft") ||
+            normalizedEmail.includes("acme") ||
+            normalizedEmail.includes("bluewave") ||
+            normalizedEmail.includes("nexus") ||
+            normalizedEmail.includes("apex") ||
+            normalizedEmail.includes("zeta") ||
+            normalizedEmail.includes("novacloud") ||
+            normalizedEmail.includes("solaris") ||
+            normalizedEmail.includes("customer");
+
+          if (isCustomer) {
+            window.location.href = "/portal/subscriptions";
+          } else {
+            window.location.href = explicitCallback || "/dashboard";
+          }
+        }
       }
     } catch {
       setError("An unexpected error occurred. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
@@ -139,7 +164,55 @@ function LoginForm() {
           </button>
         </form>
 
-        <div className="mt-6 pt-6 border-t border-outline-variant/50 text-center">
+        {/* Quick Demo Sign-In Buttons */}
+        <div className="mt-6 pt-5 border-t border-outline-variant/60">
+          <p className="text-[11px] font-semibold text-secondary uppercase tracking-wider mb-2.5 text-center">
+            Quick Sign-In Demo Accounts
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("contact@techcraft.in");
+                setPassword("customer@123");
+              }}
+              className="py-2 px-1.5 bg-secondary-container/40 hover:bg-secondary-container border border-outline-variant rounded-lg text-xs font-semibold text-primary text-center transition-colors flex flex-col items-center justify-center cursor-pointer shadow-2xs"
+            >
+              <span>Customer</span>
+              <span className="text-[10px] text-secondary font-normal truncate max-w-full">
+                Techcraft
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("rajesh@brightloop.in");
+                setPassword("admin@123");
+              }}
+              className="py-2 px-1.5 bg-surface-container-low hover:bg-surface-container border border-outline-variant rounded-lg text-xs font-semibold text-on-surface text-center transition-colors flex flex-col items-center justify-center cursor-pointer shadow-2xs"
+            >
+              <span>Admin</span>
+              <span className="text-[10px] text-secondary font-normal truncate max-w-full">
+                Rajesh
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("priya.p@brightloop.in");
+                setPassword("staff@123");
+              }}
+              className="py-2 px-1.5 bg-surface-container-low hover:bg-surface-container border border-outline-variant rounded-lg text-xs font-semibold text-secondary text-center transition-colors flex flex-col items-center justify-center cursor-pointer shadow-2xs"
+            >
+              <span>Staff</span>
+              <span className="text-[10px] text-secondary font-normal truncate max-w-full">
+                Priya
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-5 border-t border-outline-variant/50 text-center">
           <p className="text-body-sm text-on-surface-variant">
             Don&apos;t have an account?{" "}
             <Link

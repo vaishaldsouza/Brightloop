@@ -127,7 +127,9 @@ export function TopBar({ user, onOpenMobileMenu }: TopBarProps) {
       {/* Mobile Menu Button + Search Input with Command Palette */}
       <div className="flex items-center gap-3 w-full max-w-xl">
         <button
+          type="button"
           onClick={onOpenMobileMenu}
+          suppressHydrationWarning
           className="p-1.5 -ml-1 text-secondary hover:text-on-surface hover:bg-slate-100 rounded-lg lg:hidden"
           title="Toggle Navigation"
         >
@@ -145,6 +147,7 @@ export function TopBar({ user, onOpenMobileMenu }: TopBarProps) {
             onFocus={() => setSearchFocused(true)}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search or jump to module (e.g. Subscriptions, Invoices)..."
+            suppressHydrationWarning
             className="w-full pl-9 pr-14 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg text-body-md font-body-md text-on-surface placeholder:text-slate-400 focus:bg-white focus:border-primary-container focus:ring-2 focus:ring-primary-container/15 transition-all outline-none"
           />
           <div className="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
@@ -206,7 +209,9 @@ export function TopBar({ user, onOpenMobileMenu }: TopBarProps) {
         {/* Notifications Popover */}
         <div className="relative" ref={notifMenuRef}>
           <button
+            type="button"
             onClick={() => setNotificationsOpen(!notificationsOpen)}
+            suppressHydrationWarning
             className="p-2 text-secondary hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors"
             title="Notifications"
           >
@@ -237,7 +242,9 @@ export function TopBar({ user, onOpenMobileMenu }: TopBarProps) {
         {/* User Profile Menu */}
         <div className="relative" ref={profileMenuRef}>
           <button
+            type="button"
             onClick={() => setProfileOpen(!profileOpen)}
+            suppressHydrationWarning
             className="flex items-center gap-2.5 p-1 rounded-lg hover:bg-surface-container-low transition-colors"
           >
             <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-on-primary-fixed text-xs ring-1 ring-primary-container/20">
@@ -280,7 +287,9 @@ export function TopBar({ user, onOpenMobileMenu }: TopBarProps) {
 
               <div className="py-1">
                 <button
+                  type="button"
                   onClick={handleSignOut}
+                  suppressHydrationWarning
                   className="w-full flex items-center gap-2.5 px-4 py-2 text-body-sm text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-colors text-left"
                 >
                   <span className="material-symbols-outlined text-[18px]">logout</span>

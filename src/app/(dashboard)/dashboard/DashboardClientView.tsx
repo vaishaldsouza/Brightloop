@@ -480,7 +480,7 @@ export function DashboardClientView({
     {
       header: "Due / Next Billing",
       cell: (item) => (
-        <span className="text-xs font-mono text-slate-700">
+        <span suppressHydrationWarning className="text-xs font-mono text-slate-700">
           {new Date(item.date).toLocaleDateString("en-IN")}
         </span>
       ),
@@ -553,7 +553,9 @@ export function DashboardClientView({
         description="Recurring revenue, real-time subscriber cohorts & ledger recovery metrics."
         actions={
           <button
+            type="button"
             onClick={handleExportReport}
+            suppressHydrationWarning
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-primary-container text-white font-body-md text-body-md font-medium hover:bg-primary transition-all shadow-xs"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
@@ -569,7 +571,9 @@ export function DashboardClientView({
           /* Segmented View Toggle Buttons matching dashboard.html lines 487-496 */
           <div className="flex items-center bg-[#F1F5F9] p-0.5 rounded-lg shrink-0 self-start md:self-auto border border-[#E2E8F0]">
             <button
+              type="button"
               onClick={() => setViewMode("summary")}
+              suppressHydrationWarning
               className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold transition-all ${
                 viewMode === "summary"
                   ? "bg-white text-on-surface shadow-xs"
@@ -581,7 +585,9 @@ export function DashboardClientView({
               <span>Summary View</span>
             </button>
             <button
+              type="button"
               onClick={() => setViewMode("detailed")}
+              suppressHydrationWarning
               className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-semibold transition-all ${
                 viewMode === "detailed"
                   ? "bg-white text-on-surface shadow-xs"
@@ -600,6 +606,7 @@ export function DashboardClientView({
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
+            suppressHydrationWarning
             className="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer"
           >
             <option value="all">Billing Cycle: All Time</option>
@@ -617,6 +624,7 @@ export function DashboardClientView({
           <select
             value={selectedPlan}
             onChange={(e) => setSelectedPlan(e.target.value)}
+            suppressHydrationWarning
             className="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer"
           >
             <option value="all">All Plans</option>
@@ -636,6 +644,7 @@ export function DashboardClientView({
           <select
             value={selectedCustomer}
             onChange={(e) => setSelectedCustomer(e.target.value)}
+            suppressHydrationWarning
             className="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer"
           >
             <option value="all">All Customers</option>
@@ -655,6 +664,7 @@ export function DashboardClientView({
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
+            suppressHydrationWarning
             className="appearance-none pl-3 pr-8 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg font-body-sm text-body-sm font-medium text-slate-700 hover:border-slate-400 focus:ring-2 focus:ring-primary-container/20 focus:border-primary-container outline-none transition cursor-pointer"
           >
             <option value="all">All Statuses</option>
@@ -735,7 +745,9 @@ export function DashboardClientView({
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => setViewMode("detailed")}
+                suppressHydrationWarning
                 className="text-body-sm font-semibold text-primary hover:underline"
               >
                 View all ({filteredInvoices.length})
@@ -761,7 +773,9 @@ export function DashboardClientView({
                 </h3>
               </div>
               <button
+                type="button"
                 onClick={() => setViewMode("detailed")}
+                suppressHydrationWarning
                 className="text-body-sm font-semibold text-primary hover:underline"
               >
                 View all ({filteredSubscriptions.length})
@@ -795,7 +809,9 @@ export function DashboardClientView({
             </div>
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={() => setSelectedStatus(selectedStatus === "OVERDUE" ? "all" : "OVERDUE")}
+                suppressHydrationWarning
                 className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-body-md font-medium transition shadow-xs ${
                   selectedStatus === "OVERDUE"
                     ? "bg-rose-50 border-rose-300 text-rose-700 font-semibold"
