@@ -7,7 +7,11 @@ import {
   createProductAction,
   updateProductAction,
 } from "@/app/actions/products";
-import { ProductFormValues } from "@/lib/validations/product";
+import {
+  ProductFormValues,
+  PRODUCT_TYPES,
+  ProductType,
+} from "@/lib/validations/product";
 
 export interface VariantFormData {
   id?: string;
@@ -34,16 +38,6 @@ interface ProductModalProps {
   onSuccess?: (productId?: string) => void;
 }
 
-const COMMON_PRODUCT_TYPES = [
-  "Software",
-  "Service",
-  "Digital License",
-  "Recurring Service",
-  "Add-on Module",
-  "Hardware",
-  "Consumable",
-];
-
 export function ProductModal({
   isOpen,
   onClose,
@@ -53,8 +47,7 @@ export function ProductModal({
   const isEdit = !!initialData?.id;
 
   const [name, setName] = useState("");
-  const [type, setType] = useState("Software");
-  const [customType, setCustomType] = useState("");
+  const [type, setType] = useState<ProductType>("Recurring Service");
   const [notes, setNotes] = useState("");
   const [salesPriceRupees, setSalesPriceRupees] = useState("0");
   const [costPriceRupees, setCostPriceRupees] = useState("");
@@ -75,12 +68,10 @@ export function ProductModal({
   useEffect(() => {
     if (initialData) {
       setName(initialData.name || "");
-      if (COMMON_PRODUCT_TYPES.includes(initialData.type)) {
-        setType(initialData.type);
-        setCustomType("");
+      if (PRODUCT_TYPES.includes(initialData.type as ProductType)) {
+        setType(initialData.type as ProductType);
       } else {
-        setType("Other");
-        setCustomType(initialData.type || "");
+        setType("Recurring Service");
       }
       setNotes(initialData.notes || initialData.description || "");
       setSalesPriceRupees((initialData.salesPricePaise / 100).toString());
@@ -99,8 +90,7 @@ export function ProductModal({
       );
     } else {
       setName("");
-      setType("Software");
-      setCustomType("");
+      setType("Recurring Service");
       setNotes("");
       setSalesPriceRupees("0");
       setCostPriceRupees("");
@@ -148,8 +138,6 @@ export function ProductModal({
     setErrorMsg(null);
     setFieldErrors({});
 
-    const selectedType = type === "Other" ? customType.trim() : type;
-
     const parsedSalesPricePaise = Math.round(
       (parseFloat(salesPriceRupees) || 0) * 100
     );
@@ -172,7 +160,7 @@ export function ProductModal({
     const payload: ProductFormValues = {
       id: initialData?.id,
       name: name.trim(),
-      type: selectedType,
+      type,
       description: notes.trim() || null,
       notes: notes.trim() || null,
       salesPricePaise: parsedSalesPricePaise,
@@ -284,34 +272,24 @@ export function ProductModal({
 
               {/* Product Type */}
               <div className="space-y-1">
-                <label className="block text-body-sm font-semibold text-slate-700">
+                <label
+                  htmlFor="product-type-select"
+                  className="block text-body-sm font-semibold text-slate-700"
+                >
                   Product Type <span className="text-rose-500">*</span>
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <select
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-[#CBD5E1] rounded-lg text-body-md text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
-                  >
-                    {COMMON_PRODUCT_TYPES.map((t) => (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    ))}
-                    <option value="Other">Other (Custom Type)</option>
-                  </select>
-
-                  {type === "Other" && (
-                    <input
-                      type="text"
-                      required
-                      value={customType}
-                      onChange={(e) => setCustomType(e.target.value)}
-                      placeholder="Specify product type"
-                      className="w-full px-3 py-2 bg-white border border-[#CBD5E1] rounded-lg text-body-md text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
-                    />
-                  )}
-                </div>
+                <select
+                  id="product-type-select"
+                  value={type}
+                  onChange={(e) => setType(e.target.value as ProductType)}
+                  className="w-full px-3 py-2 bg-white border border-[#CBD5E1] rounded-lg text-body-md text-on-surface focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
+                >
+                  {PRODUCT_TYPES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
                 {fieldErrors.type && (
                   <p className="text-xs text-rose-600">{fieldErrors.type}</p>
                 )}

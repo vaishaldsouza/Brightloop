@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useTransition, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PageHeader from "@/components/ui/PageHeader";
@@ -8,6 +8,7 @@ import FilterBar from "@/components/ui/FilterBar";
 import DataTable, { Column } from "@/components/ui/DataTable";
 import MoneyText from "@/components/ui/MoneyText";
 import ProductModal, { ProductFormData } from "@/components/products/ProductModal";
+import { PRODUCT_TYPES } from "@/lib/validations/product";
 
 export interface SerializedVariant {
   id: string;
@@ -32,23 +33,81 @@ export interface SerializedProduct {
 
 interface ProductListClientProps {
   initialProducts: SerializedProduct[];
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
+  initialSearch?: string;
+  initialType?: string;
   isAdmin: boolean;
 }
 
 export default function ProductListClient({
   initialProducts,
+  totalCount,
+  currentPage,
+  pageSize,
+  initialSearch = "",
+  initialType = "ALL",
   isAdmin,
 }: ProductListClientProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState("ALL");
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [typeFilter, setTypeFilter] = useState(initialType);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<ProductFormData | null>(null);
+
+  // Synchronize when initialSearch/initialType changes from server
+  useEffect(() => {
+    setSearchQuery(initialSearch);
+  }, [initialSearch]);
+
+  useEffect(() => {
+    setTypeFilter(initialType);
+  }, [initialType]);
+
+  const updateServerParams = useCallback(
+    (newQ: string, newType: string, newPage: number) => {
+      startTransition(() => {
+        const params = new URLSearchParams();
+        if (newQ.trim()) params.set("q", newQ.trim());
+        if (newType && newType !== "ALL") params.set("type", newType);
+        if (newPage > 1) params.set("page", newPage.toString());
+        const query = params.toString();
+        router.push(`/products${query ? `?${query}` : ""}`);
+      });
+    },
+    [router]
+  );
+
+  // Debounced search query sync to server
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (searchQuery !== initialSearch) {
+        updateServerParams(searchQuery, typeFilter, 1);
+      }
+    }, 350);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery, initialSearch, typeFilter, updateServerParams]);
+
+  const handleTypeChange = (newType: string) => {
+    setTypeFilter(newType);
+    updateServerParams(searchQuery, newType, 1);
+  };
+
+  const handleResetFilters = () => {
+    setSearchQuery("");
+    setTypeFilter("ALL");
+    updateServerParams("", "ALL", 1);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    updateServerParams(searchQuery, typeFilter, newPage);
+  };
 
   const handleOpenCreateModal = () => {
     setEditingProduct(null);
@@ -60,7 +119,7 @@ export default function ProductListClient({
     setEditingProduct({
       id: p.id,
       name: p.name,
-      type: p.type || "Software",
+      type: p.type || "Recurring Service",
       description: p.description,
       notes: p.notes,
       salesPricePaise: p.salesPricePaise,
@@ -82,56 +141,8 @@ export default function ProductListClient({
     }
   };
 
-  // Distinct types for filter dropdown
-  const availableTypes = useMemo(() => {
-    const set = new Set<string>();
-    initialProducts.forEach((p) => {
-      if (p.type) set.add(p.type);
-    });
-    return Array.from(set).sort();
-  }, [initialProducts]);
-
-  // Filtering
-  const filteredProducts = useMemo(() => {
-    return initialProducts.filter((p) => {
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase().trim();
-        const matchesName = p.name.toLowerCase().includes(query);
-        const matchesType = p.type ? p.type.toLowerCase().includes(query) : false;
-        const matchesNotes = p.notes ? p.notes.toLowerCase().includes(query) : false;
-        const matchesVariant = p.variants.some(
-          (v) =>
-            v.name.toLowerCase().includes(query) ||
-            (v.attributeValue && v.attributeValue.toLowerCase().includes(query))
-        );
-
-        if (!matchesName && !matchesType && !matchesNotes && !matchesVariant) {
-          return false;
-        }
-      }
-
-      if (typeFilter !== "ALL") {
-        if (p.type !== typeFilter) return false;
-      }
-
-      return true;
-    });
-  }, [initialProducts, searchQuery, typeFilter]);
-
-  // Pagination
-  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
-  const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return filteredProducts.slice(start, start + pageSize);
-  }, [filteredProducts, currentPage, pageSize]);
-
+  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
   const hasActiveFilters = searchQuery.trim() !== "" || typeFilter !== "ALL";
-
-  const handleResetFilters = () => {
-    setSearchQuery("");
-    setTypeFilter("ALL");
-    setCurrentPage(1);
-  };
 
   const columns: Column<SerializedProduct>[] = [
     {
@@ -158,45 +169,57 @@ export default function ProductListClient({
               <span className="text-xs text-secondary line-clamp-1 max-w-xs">
                 {p.description}
               </span>
-            ) : (
-              <span className="text-xs text-slate-400 italic">No description</span>
-            )}
+            ) : null}
           </div>
         </div>
       ),
-      className: "min-w-[220px]",
     },
     {
-      header: "Type",
-      accessor: (p) => (
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container-high text-on-surface border border-[#E2E8F0]">
-          {p.type || "Software"}
-        </span>
-      ),
+      header: "Product Type",
+      accessor: "type",
+      cell: (p) => {
+        let badgeStyle = "bg-slate-100 text-slate-700 border-slate-200";
+        if (p.type === "Recurring Service") {
+          badgeStyle = "bg-blue-50 text-blue-700 border-blue-200";
+        } else if (p.type === "Digital License") {
+          badgeStyle = "bg-purple-50 text-purple-700 border-purple-200";
+        } else if (p.type === "Hardware") {
+          badgeStyle = "bg-amber-50 text-amber-800 border-amber-200";
+        } else if (p.type === "Consumable") {
+          badgeStyle = "bg-emerald-50 text-emerald-800 border-emerald-200";
+        }
+
+        return (
+          <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border ${badgeStyle}`}
+          >
+            {p.type || "General"}
+          </span>
+        );
+      },
     },
     {
       header: "Sales Price",
       align: "right",
-      accessor: (p) => (
-        <MoneyText
-          amountPaise={p.salesPricePaise}
-          className="font-currency-table font-semibold text-on-surface"
-        />
+      accessor: "salesPricePaise",
+      cell: (p) => (
+        <span className="font-semibold text-on-surface font-mono">
+          <MoneyText paise={p.salesPricePaise} />
+        </span>
       ),
     },
     {
       header: "Cost Price",
       align: "right",
-      accessor: (p) => (
+      accessor: "costPricePaise",
+      cell: (p) =>
         p.costPricePaise != null ? (
-          <MoneyText
-            amountPaise={p.costPricePaise}
-            className="font-currency-table text-secondary"
-          />
+          <span className="text-secondary font-mono text-body-sm">
+            <MoneyText paise={p.costPricePaise} />
+          </span>
         ) : (
-          <span className="text-xs text-slate-400 italic">—</span>
-        )
-      ),
+          <span className="text-slate-400 text-xs">—</span>
+        ),
     },
     {
       header: "Variants",
@@ -206,12 +229,12 @@ export default function ProductListClient({
             p.variants.map((v) => (
               <span
                 key={v.id}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-slate-100 text-slate-700 border border-slate-200"
+                className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#F1F5F9] text-slate-700 rounded text-xs border border-slate-200/60"
               >
                 <span>{v.attributeValue || v.name}</span>
                 {v.priceExtraPaise > 0 && (
-                  <span className="text-primary font-semibold text-[11px]">
-                    +<MoneyText amountPaise={v.priceExtraPaise} showDecimals={false} />
+                  <span className="text-primary font-medium">
+                    +<MoneyText paise={v.priceExtraPaise} />
                   </span>
                 )}
               </span>
@@ -220,6 +243,15 @@ export default function ProductListClient({
             <span className="text-xs text-slate-400 italic">No variants</span>
           )}
         </div>
+      ),
+    },
+    {
+      header: "Plans",
+      align: "center",
+      accessor: (p) => (
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+          {p.plansCount} {p.plansCount === 1 ? "plan" : "plans"}
+        </span>
       ),
     },
     {
@@ -232,20 +264,23 @@ export default function ProductListClient({
         >
           <Link
             href={`/products/${p.id}`}
-            className="px-2.5 py-1 text-xs font-medium rounded-lg text-primary hover:bg-primary/5 transition inline-flex items-center gap-1"
+            className="p-1.5 text-slate-500 hover:text-primary hover:bg-slate-100 rounded-lg transition"
+            title="View Details"
           >
-            <span className="material-symbols-outlined text-[16px]">visibility</span>
-            <span>View</span>
+            <span className="material-symbols-outlined text-[18px]">
+              visibility
+            </span>
           </Link>
-
           {isAdmin && (
             <button
               type="button"
               onClick={(e) => handleOpenEditModal(p, e)}
-              className="px-2.5 py-1 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition inline-flex items-center gap-1"
+              className="p-1.5 text-slate-500 hover:text-primary hover:bg-slate-100 rounded-lg transition"
+              title="Edit Product"
             >
-              <span className="material-symbols-outlined text-[16px]">edit</span>
-              <span>Edit</span>
+              <span className="material-symbols-outlined text-[18px]">
+                edit
+              </span>
             </button>
           )}
         </div>
@@ -299,10 +334,7 @@ export default function ProductListClient({
             type="text"
             placeholder="Search product name, type, variant..."
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-3 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg text-body-sm text-on-surface focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
           />
         </div>
@@ -311,14 +343,11 @@ export default function ProductListClient({
           <span className="text-body-sm text-secondary font-medium">Type:</span>
           <select
             value={typeFilter}
-            onChange={(e) => {
-              setTypeFilter(e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(e) => handleTypeChange(e.target.value)}
             className="px-3 py-1.5 bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg text-body-sm text-on-surface focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
           >
             <option value="ALL">All Types</option>
-            {availableTypes.map((t) => (
+            {PRODUCT_TYPES.map((t) => (
               <option key={t} value={t}>
                 {t}
               </option>
@@ -327,64 +356,66 @@ export default function ProductListClient({
         </div>
       </FilterBar>
 
-      {/* Data Table */}
-      <DataTable
-        columns={columns}
-        data={paginatedProducts}
-        keyExtractor={(p) => p.id}
-        onRowClick={(p) => router.push(`/products/${p.id}`)}
-        emptyIcon="inventory_2"
-        emptyMessage={
-          hasActiveFilters
-            ? "No products match your active search and filter criteria."
-            : "No products configured in catalog. Click 'New Product' to add one."
-        }
-      />
+      {/* Product Data Table */}
+      <div className="space-y-4">
+        <DataTable
+          columns={columns}
+          data={initialProducts}
+          keyExtractor={(p) => p.id}
+          isLoading={isPending}
+          emptyMessage={
+            hasActiveFilters
+              ? "No products found matching your search or filters."
+              : "No products configured in catalog."
+          }
+          onRowClick={(p) => router.push(`/products/${p.id}`)}
+        />
 
-      {/* Pagination Footer */}
-      {filteredProducts.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-body-sm text-secondary px-1">
-          <div>
-            Showing{" "}
-            <span className="font-semibold text-on-surface">
-              {(currentPage - 1) * pageSize + 1}
-            </span>{" "}
-            to{" "}
-            <span className="font-semibold text-on-surface">
-              {Math.min(currentPage * pageSize, filteredProducts.length)}
-            </span>{" "}
-            of{" "}
-            <span className="font-semibold text-on-surface">
-              {filteredProducts.length}
-            </span>{" "}
-            products
-          </div>
+        {/* Server-Side Pagination Bar */}
+        {totalCount > 0 && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-body-sm text-secondary px-1">
+            <div>
+              Showing{" "}
+              <span className="font-semibold text-on-surface">
+                {(currentPage - 1) * pageSize + 1}
+              </span>{" "}
+              to{" "}
+              <span className="font-semibold text-on-surface">
+                {Math.min(currentPage * pageSize, totalCount)}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-on-surface">
+                {totalCount}
+              </span>{" "}
+              products
+            </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              disabled={currentPage <= 1}
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              className="px-3 py-1.5 border border-[#CBD5E1] rounded-lg text-slate-700 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1 font-medium"
-            >
-              <span className="material-symbols-outlined text-[16px]">chevron_left</span>
-              <span>Previous</span>
-            </button>
-            <span className="text-body-sm font-medium px-2">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              type="button"
-              disabled={currentPage >= totalPages}
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              className="px-3 py-1.5 border border-[#CBD5E1] rounded-lg text-slate-700 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1 font-medium"
-            >
-              <span>Next</span>
-              <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={currentPage <= 1 || isPending}
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                className="px-3 py-1.5 border border-[#CBD5E1] rounded-lg text-slate-700 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1 font-medium"
+              >
+                <span className="material-symbols-outlined text-[16px]">chevron_left</span>
+                <span>Previous</span>
+              </button>
+              <span className="text-body-sm font-medium px-2">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                type="button"
+                disabled={currentPage >= totalPages || isPending}
+                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                className="px-3 py-1.5 border border-[#CBD5E1] rounded-lg text-slate-700 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1 font-medium"
+              >
+                <span>Next</span>
+                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Product Create / Edit Modal (Admin only) */}
       {isAdmin && (

@@ -1,5 +1,15 @@
 import { z } from "zod";
 
+export const PRODUCT_TYPES = [
+  "Recurring Service",
+  "Digital License",
+  "Consumable",
+  "Hardware",
+  "Software",
+] as const;
+
+export type ProductType = (typeof PRODUCT_TYPES)[number];
+
 export const productVariantSchema = z.object({
   id: z.string().optional(),
   attributeName: z
@@ -28,11 +38,11 @@ export const productSchema = z
       .trim()
       .min(2, "Product name must be at least 2 characters")
       .max(100, "Product name cannot exceed 100 characters"),
-    type: z
-      .string()
-      .trim()
-      .min(1, "Product type is required (e.g. 'Software', 'Service', 'Consumable')")
-      .max(50, "Product type is too long"),
+    type: z.enum(PRODUCT_TYPES, {
+      errorMap: () => ({
+        message: `Product type must be one of: ${PRODUCT_TYPES.join(", ")}`,
+      }),
+    }),
     description: z.string().trim().max(500, "Description is too long").optional().nullable(),
     notes: z.string().trim().max(1000, "Notes cannot exceed 1000 characters").optional().nullable(),
     salesPricePaise: z

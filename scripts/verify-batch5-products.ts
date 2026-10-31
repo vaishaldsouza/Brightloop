@@ -42,6 +42,14 @@ async function runBatch5Verification() {
     });
     assert(!invalidEmptyType.success, "Invalid product: Empty type is rejected");
 
+    // Invalid product type (not in canonical PRODUCT_TYPES)
+    const invalidType = productSchema.safeParse({
+      name: "Enterprise Suite",
+      type: "CustomInvalidCategory",
+      salesPricePaise: 10000,
+    });
+    assert(!invalidType.success, "Invalid product: Arbitrary/invented product category is rejected");
+
     // Negative sales price
     const invalidNegativeSales = productSchema.safeParse({
       name: "Enterprise Suite",
@@ -62,7 +70,7 @@ async function runBatch5Verification() {
     // Duplicate variant combination
     const duplicateVariantsPayload = {
       name: "Cloud Server",
-      type: "Infrastructure",
+      type: "Recurring Service",
       salesPricePaise: 100000,
       variants: [
         { attributeName: "Region", attributeValue: "Mumbai", priceExtraPaise: 0 },
@@ -75,7 +83,7 @@ async function runBatch5Verification() {
     // Valid product with distinct variants
     const validVariantsPayload = {
       name: "Cloud Server Pro",
-      type: "Infrastructure",
+      type: "Recurring Service",
       salesPricePaise: 120000, // ₹1,200.00
       costPricePaise: 80000,   // ₹800.00
       description: "High performance cloud server",

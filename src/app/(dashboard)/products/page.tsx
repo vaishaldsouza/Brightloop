@@ -11,7 +11,16 @@ export const metadata = {
   title: "Products & Variants — Brightloop Subscriptions",
 };
 
-export default async function ProductsPage() {
+interface ProductsPageProps {
+  searchParams?: Promise<{
+    q?: string;
+    type?: string;
+    page?: string;
+    pageSize?: string;
+  }>;
+}
+
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const session = await auth();
 
   // Strict role check: Customers cannot access internal product catalog
@@ -27,17 +36,49 @@ export default async function ProductsPage() {
     );
   }
 
-  const products = await prisma.product.findMany({
-    include: {
-      variants: {
-        orderBy: { priceExtraPaise: "asc" },
+  const resolvedParams = searchParams ? await searchParams : {};
+  const q = resolvedParams.q?.trim() || "";
+  const type = resolvedParams.type?.trim() || "ALL";
+  const currentPage = Math.max(1, parseInt(resolvedParams.page || "1", 10) || 1);
+  const pageSize = Math.min(100, Math.max(1, parseInt(resolvedParams.pageSize || "10", 10) || 10));
+  const skip = (currentPage - 1) * pageSize;
+
+  // Server-side filtering across the entire product database
+  const where: any = {};
+
+  if (q) {
+    where.OR = [
+      { name: { contains: q, mode: "insensitive" } },
+      { description: { contains: q, mode: "insensitive" } },
+      { notes: { contains: q, mode: "insensitive" } },
+      { type: { contains: q, mode: "insensitive" } },
+      { variants: { some: { name: { contains: q, mode: "insensitive" } } } },
+      { variants: { some: { attributeValue: { contains: q, mode: "insensitive" } } } },
+    ];
+  }
+
+  if (type !== "ALL") {
+    where.type = type;
+  }
+
+  // Server-side pagination query: does not load the complete catalogue unnecessarily
+  const [totalCount, products] = await Promise.all([
+    prisma.product.count({ where }),
+    prisma.product.findMany({
+      where,
+      include: {
+        variants: {
+          orderBy: { priceExtraPaise: "asc" },
+        },
+        plans: {
+          select: { id: true },
+        },
       },
-      plans: {
-        select: { id: true },
-      },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: pageSize,
+    }),
+  ]);
 
   const serializedProducts: SerializedProduct[] = products.map((p) => ({
     id: p.id,
@@ -61,6 +102,11 @@ export default async function ProductsPage() {
   return (
     <ProductListClient
       initialProducts={serializedProducts}
+      totalCount={totalCount}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      initialSearch={q}
+      initialType={type}
       isAdmin={session.user.role === Role.ADMIN}
     />
   );
