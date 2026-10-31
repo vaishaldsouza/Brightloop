@@ -1,71 +1,67 @@
 import React from "react";
-import PageHeader from "@/components/ui/PageHeader";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { Role, SubscriptionStatus } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import DataTable, { Column } from "@/components/ui/DataTable";
+import CustomerListClient, {
+  SerializedCustomer,
+} from "@/components/customers/CustomerListClient";
 
 export const metadata = {
   title: "Customers — Brightloop Subscriptions",
 };
 
 export default async function CustomersPage() {
+  const session = await auth();
+
+  // Strict role check: Customers cannot view internal customer management
+  if (!session?.user || (session.user.role !== Role.ADMIN && session.user.role !== Role.STAFF)) {
+    redirect(session?.user?.role === Role.CUSTOMER ? "/portal/subscriptions" : "/login");
+  }
+
   const customers = await prisma.customer.findMany({
     include: {
-      user: { select: { name: true, email: true } },
-      subscriptions: { select: { id: true } },
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+      subscriptions: {
+        select: {
+          id: true,
+          status: true,
+        },
+      },
     },
     orderBy: { createdAt: "desc" },
   });
 
-  const columns: Column<(typeof customers)[0]>[] = [
-    {
-      header: "Company Name",
-      accessor: "companyName",
-      className: "font-medium text-on-surface",
+  const serializedCustomers: SerializedCustomer[] = customers.map((c) => ({
+    id: c.id,
+    companyName: c.companyName,
+    gstin: c.gstin,
+    gstState: c.gstState,
+    gstStateCode: c.gstStateCode,
+    phone: c.phone,
+    billingAddress: c.billingAddress,
+    createdAt: c.createdAt.toISOString(),
+    user: {
+      id: c.user.id,
+      name: c.user.name,
+      email: c.user.email,
     },
-    {
-      header: "Contact Person",
-      accessor: (c) => c.user.name,
-      className: "text-on-surface-variant",
-    },
-    {
-      header: "Email",
-      accessor: (c) => c.user.email,
-      className: "text-on-surface-variant font-mono text-xs",
-    },
-    {
-      header: "GSTIN",
-      accessor: (c) => c.gstin || "Unregistered",
-      className: "font-mono text-xs text-on-surface-variant",
-    },
-    {
-      header: "Jurisdiction",
-      accessor: (c) =>
-        c.gstStateCode ? `${c.gstState || ""} (${c.gstStateCode})` : "—",
-      className: "text-on-surface-variant text-xs",
-    },
-    {
-      header: "Active Subscriptions",
-      accessor: (c) => c.subscriptions.length.toString(),
-      className: "text-right font-medium",
-    },
-  ];
+    activeSubscriptionsCount: c.subscriptions.filter(
+      (s) => s.status === SubscriptionStatus.ACTIVE
+    ).length,
+    totalSubscriptionsCount: c.subscriptions.length,
+  }));
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Customers"
-        subtitle="Manage client accounts, GST profiles, and billing information"
-        breadcrumbs={[{ label: "Customers" }]}
-      />
-
-      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-6">
-        <DataTable
-          columns={columns}
-          data={customers}
-          keyExtractor={(c) => c.id}
-          emptyMessage="No customers found in system."
-        />
-      </div>
-    </div>
+    <CustomerListClient
+      initialCustomers={serializedCustomers}
+      isAdmin={session.user.role === Role.ADMIN}
+    />
   );
 }
