@@ -1,100 +1,159 @@
 import React from "react";
-import PageHeader from "@/components/ui/PageHeader";
 import prisma from "@/lib/prisma";
-import MoneyText from "@/components/ui/MoneyText";
-import KpiCard from "@/components/ui/KpiCard";
 import { InvoiceStatus, SubscriptionStatus } from "@prisma/client";
+import ReportsClient, {
+  ReportPaymentItem,
+  ReportInvoiceItem,
+  ReportSubscriptionItem,
+  ReportCustomerSummary,
+} from "@/components/reports/ReportsClient";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Reports — Brightloop Subscriptions",
+  title: "Reports & Financial Analytics — Brightloop",
 };
 
 export default async function ReportsPage() {
-  const [activeSubs, allInvoices, allPayments] = await Promise.all([
-    prisma.subscription.findMany({
-      where: { status: SubscriptionStatus.ACTIVE },
-      include: { plan: true, lines: true },
+  const now = new Date();
+
+  const [dbPayments, dbInvoices, dbSubscriptions, dbCustomers] = await Promise.all([
+    prisma.payment.findMany({
+      include: {
+        invoice: {
+          include: {
+            subscription: {
+              include: { customer: true },
+            },
+          },
+        },
+      },
+      orderBy: { paidAt: "desc" },
     }),
     prisma.invoice.findMany({
-      include: { subscription: true },
+      include: {
+        subscription: {
+          include: { customer: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
     }),
-    prisma.payment.findMany(),
+    prisma.subscription.findMany({
+      include: {
+        customer: true,
+        plan: true,
+        lines: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.customer.findMany({
+      include: {
+        subscriptions: {
+          include: {
+            invoices: true,
+          },
+        },
+      },
+      orderBy: { companyName: "asc" },
+    }),
   ]);
 
-  const totalCollectedPaise = allPayments.reduce(
-    (sum, p) => sum + p.amountPaise,
-    0
-  );
+  const payments: ReportPaymentItem[] = dbPayments.map((p) => ({
+    id: p.id,
+    amountPaise: p.amountPaise,
+    paymentMethod: p.paymentMethod,
+    paidAt: p.paidAt.toISOString(),
+    reference: p.reference,
+    customerName: p.invoice.subscription.customer.companyName,
+    invoiceNumber: p.invoice.number,
+  }));
 
-  const totalInvoicedPaise = allInvoices
-    .filter((i) => !i.cancelledAt)
-    .reduce((sum, i) => sum + i.totalPaise, 0);
+  const invoices: ReportInvoiceItem[] = dbInvoices.map((inv) => {
+    const duePaise = Math.max(0, inv.totalPaise - inv.paidPaise);
+    const dueDate = new Date(inv.dueDate);
+    const isOverdue =
+      inv.status === InvoiceStatus.CONFIRMED &&
+      !inv.cancelledAt &&
+      dueDate < now &&
+      duePaise > 0;
+    const overdueDays = isOverdue
+      ? Math.max(0, Math.floor((now.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)))
+      : 0;
 
-  const outstandingPaise = allInvoices
-    .filter((i) => i.status === InvoiceStatus.CONFIRMED && !i.cancelledAt)
-    .reduce((sum, i) => sum + (i.totalPaise - i.paidPaise), 0);
+    return {
+      id: inv.id,
+      number: inv.number,
+      customerName: inv.subscription.customer.companyName,
+      customerState: inv.subscription.customer.gstState,
+      status: inv.status,
+      dueDate: inv.dueDate.toISOString(),
+      createdAt: inv.createdAt.toISOString(),
+      cancelledAt: inv.cancelledAt ? inv.cancelledAt.toISOString() : null,
+      totalPaise: inv.totalPaise,
+      paidPaise: inv.paidPaise,
+      duePaise,
+      isOverdue,
+      overdueDays,
+    };
+  });
+
+  const subscriptions: ReportSubscriptionItem[] = dbSubscriptions.map((sub) => {
+    const totalPaise = sub.lines.reduce(
+      (acc, l) => acc + l.unitPricePaise * l.quantity,
+      0
+    );
+
+    return {
+      id: sub.id,
+      number: sub.number,
+      customerName: sub.customer.companyName,
+      planName: sub.plan.name,
+      billingPeriod: sub.billingPeriod,
+      status: sub.status,
+      isPaused: sub.isPaused,
+      startDate: sub.startDate.toISOString(),
+      nextBillingDate: sub.nextBillingDate ? sub.nextBillingDate.toISOString() : null,
+      totalPaise,
+    };
+  });
+
+  const customers: ReportCustomerSummary[] = dbCustomers.map((c) => {
+    const activeSubs = c.subscriptions.filter(
+      (s) => s.status === SubscriptionStatus.ACTIVE
+    );
+    const allCustInvoices = c.subscriptions.flatMap((s) => s.invoices);
+
+    const totalInvoicedPaise = allCustInvoices
+      .filter((i) => !i.cancelledAt)
+      .reduce((sum, i) => sum + i.totalPaise, 0);
+
+    const totalPaidPaise = allCustInvoices.reduce(
+      (sum, i) => sum + i.paidPaise,
+      0
+    );
+
+    const outstandingPaise = allCustInvoices
+      .filter((i) => i.status === InvoiceStatus.CONFIRMED && !i.cancelledAt)
+      .reduce((sum, i) => sum + Math.max(0, i.totalPaise - i.paidPaise), 0);
+
+    return {
+      id: c.id,
+      companyName: c.companyName,
+      gstin: c.gstin,
+      state: c.gstState,
+      activeSubscriptionsCount: activeSubs.length,
+      totalInvoicedPaise,
+      totalPaidPaise,
+      outstandingPaise,
+    };
+  });
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Financial & Subscription Reports"
-        subtitle="Aggregate accounting reports and portfolio revenue analytics"
-        breadcrumbs={[{ label: "Reports" }]}
-      />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <KpiCard
-          title="Total Collections"
-          value={<MoneyText paise={totalCollectedPaise} />}
-          icon="payments"
-          variant="success"
-          helperText="All-time recorded client remittances"
-        />
-        <KpiCard
-          title="Total Billed"
-          value={<MoneyText paise={totalInvoicedPaise} />}
-          icon="receipt_long"
-          variant="primary"
-          helperText="Gross active invoice billings"
-        />
-        <KpiCard
-          title="Pending Receivables"
-          value={<MoneyText paise={outstandingPaise} />}
-          icon="account_balance_wallet"
-          variant="warning"
-          helperText="Uncollected confirmed balances"
-        />
-      </div>
-
-      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-6 space-y-4">
-        <h3 className="font-headline-md font-bold text-on-surface">
-          Active Subscription Portfolio Breakdown
-        </h3>
-        <p className="text-sm text-on-surface-variant">
-          Currently managing {activeSubs.length} active recurring contracts.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          {activeSubs.map((sub) => (
-            <div
-              key={sub.id}
-              className="border border-outline-variant rounded-lg p-4 flex items-center justify-between"
-            >
-              <div>
-                <div className="font-semibold text-sm text-on-surface">
-                  {sub.number}
-                </div>
-                <div className="text-xs text-on-surface-variant">
-                  {sub.plan.name} ({sub.billingPeriod})
-                </div>
-              </div>
-              <MoneyText
-                paise={sub.lines.reduce((acc, l) => acc + l.unitPricePaise * l.quantity, 0)}
-                className="font-bold text-primary"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <ReportsClient
+      payments={payments}
+      invoices={invoices}
+      subscriptions={subscriptions}
+      customers={customers}
+    />
   );
 }

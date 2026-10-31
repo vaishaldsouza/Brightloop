@@ -1,91 +1,65 @@
 import React from "react";
-import PageHeader from "@/components/ui/PageHeader";
 import prisma from "@/lib/prisma";
-import DataTable, { Column } from "@/components/ui/DataTable";
 import { auth } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
-import MoneyText from "@/components/ui/MoneyText";
+import DiscountsListClient from "@/components/discounts/DiscountsListClient";
+import { DiscountItem, ProductOption } from "@/components/discounts/DiscountModal";
 
 export const metadata = {
-  title: "Discounts & Vouchers (Admin) — Brightloop Subscriptions",
+  title: "Discounts & Vouchers — Brightloop Subscriptions",
+  description: "Promotional codes, customer retention rebates, and recurring contract discounts.",
 };
 
 export default async function DiscountsPage() {
   const session = await auth();
-  if (session?.user?.role !== Role.ADMIN) {
-    redirect("/dashboard");
+
+  if (!session?.user) {
+    redirect("/login");
   }
 
-  const discounts = await prisma.discount.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  if (session.user.role === Role.CUSTOMER) {
+    redirect("/portal/subscriptions");
+  }
 
-  const columns: Column<(typeof discounts)[0]>[] = [
-    {
-      header: "Promo Code",
-      accessor: "code",
-      cell: (d) => (
-        <span className="font-mono text-xs font-bold px-2 py-1 rounded bg-secondary-fixed text-on-secondary-fixed-variant">
-          {d.code}
-        </span>
-      ),
-    },
-    {
-      header: "Type",
-      accessor: "discountType",
-      className: "font-mono text-xs uppercase text-on-surface",
-    },
-    {
-      header: "Value / Rate",
-      accessor: "value",
-      cell: (d) =>
-        d.discountType === "PERCENTAGE" ? (
-          <span className="font-semibold text-primary">{(d.value / 100).toFixed(0)}%</span>
-        ) : (
-          <MoneyText paise={d.value} className="font-semibold text-primary" />
-        ),
-    },
-    {
-      header: "Validity",
-      accessor: "id",
-      cell: (d) => (
-        <span className="text-xs text-on-surface-variant font-mono">
-          {d.startDate ? d.startDate.toLocaleDateString("en-IN") : "Immediate"} — {d.expiresAt ? d.expiresAt.toLocaleDateString("en-IN") : "Indefinite"}
-        </span>
-      ),
-    },
-    {
-      header: "Status",
-      accessor: (d) => (d.isActive ? "Active" : "Disabled"),
-      cell: (d) => (
-        <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-            d.isActive ? "bg-emerald-50 text-emerald-700" : "bg-neutral-100 text-neutral-500"
-          }`}
-        >
-          {d.isActive ? "Active" : "Disabled"}
-        </span>
-      ),
-    },
-  ];
+  const [discountsData, productsData] = await Promise.all([
+    prisma.discount.findMany({
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.product.findMany({
+      where: { isActive: true },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+  ]);
+
+  const discounts: DiscountItem[] = discountsData.map((d) => ({
+    id: d.id,
+    code: d.code,
+    description: d.description,
+    discountType: d.discountType,
+    scope: d.scope,
+    value: d.value,
+    minQuantity: d.minQuantity,
+    minPurchasePaise: d.minPurchasePaise,
+    productId: d.productId,
+    maxUses: d.maxUses,
+    usedCount: d.usedCount,
+    startDate: d.startDate?.toISOString() || null,
+    expiresAt: d.expiresAt?.toISOString() || null,
+    isActive: d.isActive,
+  }));
+
+  const products: ProductOption[] = productsData.map((p) => ({
+    id: p.id,
+    name: p.name,
+  }));
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Discounts & Vouchers"
-        subtitle="Manage promotional discount codes, percentage vouchers, and fixed deductions (Admin Only)"
-        breadcrumbs={[{ label: "Discounts" }]}
-      />
-
-      <div className="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-6">
-        <DataTable
-          columns={columns}
-          data={discounts}
-          keyExtractor={(d) => d.id}
-          emptyMessage="No discount codes configured."
-        />
-      </div>
-    </div>
+    <DiscountsListClient
+      discounts={discounts}
+      products={products}
+      isAdmin={session.user.role === Role.ADMIN}
+    />
   );
 }

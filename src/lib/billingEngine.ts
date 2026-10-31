@@ -6,6 +6,7 @@ import {
   InvoiceStatus,
   TaxType,
   Role,
+  Prisma,
 } from "@prisma/client";
 import { calculateOrderTax, calculateLineTax } from "@/lib/tax";
 
@@ -35,27 +36,29 @@ export function addDays(date: Date, days: number): Date {
   return result;
 }
 
-export function addMonths(date: Date, months: number): Date {
+export function addMonths(date: Date, months: number, anchorDay?: number): Date {
   const result = new Date(date);
-  const targetDay = result.getDate();
+  const targetDay = anchorDay ?? result.getDate();
+  result.setDate(1); // Set to 1st to prevent rollover when advancing month
   result.setMonth(result.getMonth() + months);
 
-  // If the day changed due to overflow past month end, roll back to last day of previous month
-  if (result.getDate() !== targetDay) {
-    result.setDate(0);
-  }
+  // Calculate max days in target month
+  const maxDays = new Date(result.getFullYear(), result.getMonth() + 1, 0).getDate();
+  result.setDate(Math.min(targetDay, maxDays));
   return result;
 }
 
-export function addYears(date: Date, years: number): Date {
+export function addYears(date: Date, years: number, anchorDay?: number): Date {
   const result = new Date(date);
-  const targetDay = result.getDate();
+  const targetDay = anchorDay ?? result.getDate();
+  const targetMonth = result.getMonth();
+  result.setDate(1); // Set to 1st to prevent rollover when changing year
   result.setFullYear(result.getFullYear() + years);
+  result.setMonth(targetMonth);
 
-  // Handle Feb 29 in leap years -> Feb 28 in non-leap years
-  if (result.getDate() !== targetDay) {
-    result.setDate(0);
-  }
+  // Handle Feb 29 in leap years -> Feb 28 in non-leap years or anchor day
+  const maxDays = new Date(result.getFullYear(), targetMonth + 1, 0).getDate();
+  result.setDate(Math.min(targetDay, maxDays));
   return result;
 }
 
@@ -71,7 +74,8 @@ export function addYears(date: Date, years: number): Date {
  */
 export function computeBillingPeriodSpan(
   periodStart: Date,
-  billingPeriod: BillingPeriod
+  billingPeriod: BillingPeriod,
+  anchorDay?: number
 ): BillingPeriodSpan {
   const start = new Date(periodStart);
   let nextBillingDate: Date;
@@ -89,12 +93,12 @@ export function computeBillingPeriodSpan(
       break;
 
     case BillingPeriod.MONTHLY:
-      nextBillingDate = addMonths(start, 1);
+      nextBillingDate = addMonths(start, 1, anchorDay);
       end = addDays(nextBillingDate, -1);
       break;
 
     case BillingPeriod.YEARLY:
-      nextBillingDate = addYears(start, 1);
+      nextBillingDate = addYears(start, 1, anchorDay);
       end = addDays(nextBillingDate, -1);
       break;
 
@@ -233,7 +237,8 @@ export async function generateInvoiceForSubscription(params: {
     }
 
     // 3. Compute billing span and due date
-    const span = computeBillingPeriodSpan(billingPeriodStart, sub.billingPeriod);
+    const anchorDay = sub.startDate ? new Date(sub.startDate).getDate() : undefined;
+    const span = computeBillingPeriodSpan(billingPeriodStart, sub.billingPeriod, anchorDay);
     const now = new Date();
     const dueDate = calculateDueDate(now, sub.paymentTerms);
 
@@ -243,7 +248,70 @@ export async function generateInvoiceForSubscription(params: {
       unitPricePaise: l.unitPricePaise,
     }));
 
+    // Evaluate eligible discounts (PRD §4.8)
+    let appliedDiscount: { id: string; code: string; discountPaise: number } | null = null;
+    let discountPaise = 0;
+
+    if (sub.discountId) {
+      const discount = await tx.discount.findUnique({
+        where: { id: sub.discountId },
+      });
+
+      if (discount && discount.isActive) {
+        const isWithinDates =
+          (!discount.startDate || discount.startDate <= now) &&
+          (!discount.expiresAt || discount.expiresAt >= now);
+        const hasRemainingUses =
+          discount.maxUses === null || discount.usedCount < discount.maxUses;
+        const totalQty = sub.lines.reduce((acc, l) => acc + l.quantity, 0);
+        const meetsMinQty = totalQty >= discount.minQuantity;
+
+        const baseSubtotal = lineInputs.reduce(
+          (acc, l) => acc + l.quantity * l.unitPricePaise,
+          0
+        );
+        const meetsMinPurchase =
+          !discount.minPurchasePaise || baseSubtotal >= discount.minPurchasePaise;
+
+        if (isWithinDates && hasRemainingUses && meetsMinQty && meetsMinPurchase) {
+          if (discount.discountType === "PERCENTAGE") {
+            discountPaise = Math.round((baseSubtotal * discount.value) / 10000);
+          } else {
+            discountPaise = Math.min(discount.value, baseSubtotal);
+          }
+
+          // Atomically enforce usage limit under concurrency
+          const usageCondition: Prisma.DiscountWhereInput[] = [{ maxUses: null }];
+          if (discount.maxUses !== null && discount.maxUses !== undefined) {
+            usageCondition.push({ usedCount: { lt: discount.maxUses } });
+          }
+
+          const updateResult = await tx.discount.updateMany({
+            where: {
+              id: discount.id,
+              isActive: true,
+              OR: usageCondition,
+            },
+            data: {
+              usedCount: { increment: 1 },
+            },
+          });
+
+          if (updateResult.count === 1) {
+            appliedDiscount = {
+              id: discount.id,
+              code: discount.code,
+              discountPaise,
+            };
+          } else {
+            discountPaise = 0;
+          }
+        }
+      }
+    }
+
     const taxCalculation = calculateOrderTax(lineInputs, sub.customerGstStateCode);
+    const finalTotalPaise = Math.max(0, taxCalculation.totalPaise - discountPaise);
 
     // 5. Monotonic invoice number allocation (INV-XXXXX)
     const seq = await tx.sequence.upsert({
@@ -263,9 +331,10 @@ export async function generateInvoiceForSubscription(params: {
         billingPeriodEnd: span.end,
         dueDate,
         subtotalPaise: taxCalculation.subtotalPaise,
-        discountPaise: 0,
+        discountId: appliedDiscount?.id || null,
+        discountPaise,
         taxPaise: taxCalculation.taxPaise,
-        totalPaise: taxCalculation.totalPaise,
+        totalPaise: finalTotalPaise,
         paidPaise: 0,
         lines: {
           create: sub.lines.map((sl, idx) => ({
@@ -321,13 +390,39 @@ export async function generateInvoiceForSubscription(params: {
       }
     }
 
-    // 8. Advance subscription nextBillingDate to next span
-    await tx.subscription.update({
-      where: { id: sub.id },
-      data: {
-        nextBillingDate: span.nextBillingDate,
-      },
-    });
+    // 7.1 Record Discount Usage if discount applied (PRD §4.8)
+    if (appliedDiscount) {
+      await tx.discountUsage.upsert({
+        where: {
+          discountId_subscriptionId: {
+            discountId: appliedDiscount.id,
+            subscriptionId: sub.id,
+          },
+        },
+        create: {
+          discountId: appliedDiscount.id,
+          subscriptionId: sub.id,
+          invoiceId: invoice.id,
+          amountPaise: appliedDiscount.discountPaise,
+        },
+        update: {
+          invoiceId: invoice.id,
+          amountPaise: appliedDiscount.discountPaise,
+          usedAt: new Date(),
+        },
+      });
+    }
+
+    // 8. Advance subscription nextBillingDate to next span, ONLY if it moves forward
+    // (Prevent re-billing of historical cancelled invoices from rewinding nextBillingDate)
+    if (!sub.nextBillingDate || span.nextBillingDate > new Date(sub.nextBillingDate)) {
+      await tx.subscription.update({
+        where: { id: sub.id },
+        data: {
+          nextBillingDate: span.nextBillingDate,
+        },
+      });
+    }
 
     // 9. Record audit log
     if (actorId) {
@@ -411,6 +506,7 @@ export async function evaluateAutomatedBilling(options?: {
 
   // 3. Process each due subscription
   for (const sub of dueSubscriptions) {
+    const anchorDay = sub.startDate ? new Date(sub.startDate).getDate() : undefined;
     let currentBillingStart = sub.nextBillingDate ? new Date(sub.nextBillingDate) : new Date(sub.startDate);
     let iterations = 0;
 
@@ -435,18 +531,20 @@ export async function evaluateAutomatedBilling(options?: {
           generatedInvoiceNumbers.push(result.invoiceNumber);
 
           // Advance currentBillingStart to next period for catch-up loop
-          const span = computeBillingPeriodSpan(currentBillingStart, sub.billingPeriod);
+          const span = computeBillingPeriodSpan(currentBillingStart, sub.billingPeriod, anchorDay);
           currentBillingStart = span.nextBillingDate;
         } else if (result.reason === "ALREADY_BILLED" || result.reason === "PERIOD_CANCELLED") {
           // Advance currentBillingStart to next period to continue catch-up
-          const span = computeBillingPeriodSpan(currentBillingStart, sub.billingPeriod);
+          const span = computeBillingPeriodSpan(currentBillingStart, sub.billingPeriod, anchorDay);
           currentBillingStart = span.nextBillingDate;
 
           // Sync database subscription nextBillingDate if it lagged behind
-          await prisma.subscription.update({
-            where: { id: sub.id },
-            data: { nextBillingDate: span.nextBillingDate },
-          });
+          if (!sub.nextBillingDate || span.nextBillingDate > new Date(sub.nextBillingDate)) {
+            await prisma.subscription.update({
+              where: { id: sub.id },
+              data: { nextBillingDate: span.nextBillingDate },
+            });
+          }
         } else {
           // Error or unhandled condition
           if (result.error) {

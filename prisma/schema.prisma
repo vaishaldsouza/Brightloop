@@ -148,6 +148,7 @@ model Product {
 
   variants ProductVariant[]
   plans    Plan[]
+  discounts Discount[]
 
   @@map("products")
 }
@@ -265,24 +266,28 @@ model Tax {
 // ─────────────────────────────────────────────
 
 model Discount {
-  id            String        @id @default(cuid())
-  code          String        @unique
-  description   String?
-  discountType  DiscountType
-  scope         DiscountScope
+  id               String        @id @default(cuid())
+  code             String        @unique
+  description      String?
+  discountType     DiscountType
+  scope            DiscountScope
   // For PERCENTAGE: value in basis points (e.g. 1000 = 10%)
   // For FIXED: value in paise
-  value         Int
-  minQuantity   Int           @default(1)
-  maxUses       Int?
-  usedCount     Int           @default(0)
-  startDate     DateTime?
-  expiresAt     DateTime?
-  isActive      Boolean       @default(true)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  value            Int
+  minQuantity      Int           @default(1)
+  minPurchasePaise Int?          // in paise
+  productId        String?       // for LINE_ITEM specific product scope
+  maxUses          Int?
+  usedCount        Int           @default(0)
+  startDate        DateTime?
+  expiresAt        DateTime?
+  isActive         Boolean       @default(true)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
-  usages DiscountUsage[]
+  product  Product?        @relation(fields: [productId], references: [id], onDelete: SetNull)
+  usages   DiscountUsage[]
+  invoices Invoice[]
 
   @@map("discounts")
 }
@@ -291,6 +296,8 @@ model DiscountUsage {
   id             String   @id @default(cuid())
   discountId     String
   subscriptionId String
+  invoiceId      String?
+  amountPaise    Int?     // amount discounted on this invoice in paise
   usedAt         DateTime @default(now())
 
   discount     Discount     @relation(fields: [discountId], references: [id], onDelete: Restrict)
@@ -408,6 +415,7 @@ model Invoice {
   dueDate            DateTime
 
   subtotalPaise      Int
+  discountId         String?
   discountPaise      Int           @default(0)
   taxPaise           Int           @default(0)
   totalPaise         Int
@@ -422,6 +430,7 @@ model Invoice {
   updatedAt          DateTime      @updatedAt
 
   subscription Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  discount     Discount?     @relation(fields: [discountId], references: [id], onDelete: SetNull)
   lines        InvoiceLine[]
   taxes        InvoiceTax[]
   payments     Payment[]
@@ -484,6 +493,9 @@ model Payment {
 
   invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Restrict)
 
+  @@index([invoiceId])
+  @@index([paidAt])
+  @@index([paymentMethod])
   @@map("payments")
 }
 

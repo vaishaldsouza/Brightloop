@@ -11,6 +11,7 @@ import {
 } from "@/lib/validations/subscription";
 import { calculateOrderTax, calculateLineTax } from "@/lib/tax";
 import { calculateQuotationExpiryDate } from "@/lib/validations/quotationTemplate";
+import { computeBillingPeriodSpan } from "@/lib/billingEngine";
 import { revalidatePath } from "next/cache";
 
 export interface SubscriptionActionResult {
@@ -981,30 +982,33 @@ export async function renewSubscriptionAction(
 
   const now = new Date();
   const baseDate = sub.endDate && new Date(sub.endDate) > now ? new Date(sub.endDate) : now;
-  const newEndDate = new Date(baseDate);
-
-  if (sub.billingPeriod === BillingPeriod.DAILY) {
-    newEndDate.setDate(newEndDate.getDate() + 1);
-  } else if (sub.billingPeriod === BillingPeriod.WEEKLY) {
-    newEndDate.setDate(newEndDate.getDate() + 7);
-  } else if (sub.billingPeriod === BillingPeriod.MONTHLY) {
-    newEndDate.setMonth(newEndDate.getMonth() + 1);
-  } else if (sub.billingPeriod === BillingPeriod.YEARLY) {
-    newEndDate.setFullYear(newEndDate.getFullYear() + 1);
-  }
+  const anchorDay = sub.startDate ? new Date(sub.startDate).getDate() : undefined;
+  const span = computeBillingPeriodSpan(baseDate, sub.billingPeriod, anchorDay);
+  const newEndDate = span.nextBillingDate;
 
   // Invoicing for the renewal cycle begins at the start of the renewal term (baseDate)
   const renewalBillingDate = baseDate;
 
   try {
     await prisma.$transaction(async (tx) => {
-      await tx.subscription.update({
-        where: { id },
+      // Optimistic concurrency locking: ensure endDate has not been modified concurrently
+      const updateResult = await tx.subscription.updateMany({
+        where: {
+          id,
+          status: SubscriptionStatus.ACTIVE,
+          endDate: sub.endDate,
+        },
         data: {
           endDate: newEndDate,
           nextBillingDate: renewalBillingDate,
         },
       });
+
+      if (updateResult.count !== 1) {
+        throw new Error(
+          "Concurrent renewal conflict detected. Subscription was modified by another request."
+        );
+      }
 
       await tx.auditLog.create({
         data: {

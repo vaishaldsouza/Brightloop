@@ -140,12 +140,32 @@ export async function cancelInvoiceAction(
     const cancelledAt = new Date();
 
     await prisma.$transaction(async (tx) => {
-      await tx.invoice.update({
-        where: { id },
+      // Concurrency protection: verify no payments exist inside the transaction
+      const paymentCount = await tx.payment.count({
+        where: { invoiceId: id },
+      });
+      if (paymentCount > 0) {
+        throw new Error(
+          "Cannot cancel an invoice with recorded payments. PRD §4.6 strictly forbids cancellation after payments are made."
+        );
+      }
+
+      const updateResult = await tx.invoice.updateMany({
+        where: {
+          id,
+          cancelledAt: null,
+          paidPaise: 0,
+        },
         data: {
           cancelledAt,
         },
       });
+
+      if (updateResult.count !== 1) {
+        throw new Error(
+          "Invoice cancellation failed. Invoice may have already been cancelled or received payments concurrently."
+        );
+      }
 
       await tx.auditLog.create({
         data: {
@@ -272,13 +292,10 @@ export async function rebillCancelledPeriodAction(
 ): Promise<InvoiceActionResult> {
   const session = await auth();
 
-  if (
-    !session?.user ||
-    (session.user.role !== Role.ADMIN && session.user.role !== Role.STAFF)
-  ) {
+  if (!session?.user || session.user.role !== Role.ADMIN) {
     return {
       success: false,
-      error: "Unauthorized: Only Staff and Administrators can trigger re-billing.",
+      error: "Unauthorized: Only Administrators can trigger re-billing.",
     };
   }
 

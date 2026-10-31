@@ -12,6 +12,7 @@ import {
   cancelInvoiceAction,
   sendInvoiceAction,
 } from "@/app/actions/invoices";
+import RecordPaymentModal from "@/components/payments/RecordPaymentModal";
 
 export interface InvoiceDetailProps {
   invoice: {
@@ -104,6 +105,7 @@ export default function InvoiceDetailClient({
 }: InvoiceDetailProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [isRecordPaymentOpen, setIsRecordPaymentOpen] = useState(false);
   const [actionMessage, setActionMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -258,6 +260,21 @@ export default function InvoiceDetailClient({
               <span>{invoice.status === InvoiceStatus.PAID ? "Fully Paid" : "Confirmed"}</span>
             </div>
           )}
+
+          {/* Record Payment Button */}
+          {invoice.status === InvoiceStatus.CONFIRMED &&
+            invoice.duePaise > 0 &&
+            !invoice.isCancelled &&
+            (isAdmin || isStaff) && (
+              <button
+                type="button"
+                onClick={() => setIsRecordPaymentOpen(true)}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-emerald-600 text-white font-medium text-sm hover:bg-emerald-700 transition-colors shadow-sm"
+              >
+                <span className="material-symbols-outlined text-[18px]">payments</span>
+                <span>Record Payment</span>
+              </button>
+            )}
 
           {/* Send Email Button */}
           {!invoice.isCancelled && (isAdmin || isStaff) && (
@@ -657,6 +674,35 @@ export default function InvoiceDetailClient({
           </div>
         </div>
       </div>
+
+      {isRecordPaymentOpen && (
+        <RecordPaymentModal
+          invoiceId={invoice.id}
+          isOpen={true}
+          onClose={() => setIsRecordPaymentOpen(false)}
+          onSuccess={() => {
+            setActionMessage({
+              type: "success",
+              text: "Payment recorded successfully.",
+            });
+            router.refresh();
+          }}
+          initialContext={{
+            id: invoice.id,
+            number: invoice.number,
+            customerName: invoice.subscription.customer.companyName,
+            customerGstin: invoice.subscription.customer.gstin,
+            status: invoice.status,
+            cancelledAt: invoice.cancelledAt ? new Date(invoice.cancelledAt) : null,
+            totalPaise: invoice.totalPaise,
+            paidPaise: invoice.paidPaise,
+            amountDuePaise: invoice.duePaise,
+            isFullyPaid: invoice.status === InvoiceStatus.PAID,
+            isPartiallyPaid: invoice.isPartiallyPaid,
+            isOverdue: invoice.isOverdue,
+          }}
+        />
+      )}
     </div>
   );
 }
