@@ -6,6 +6,7 @@ import { INDIAN_GST_STATES, COMPANY_GST_STATE_CODE } from "@/lib/gstStates";
 import {
   createCustomerAction,
   updateCustomerAction,
+  SetupInvitation,
 } from "@/app/actions/customers";
 
 export interface CustomerFormData {
@@ -48,6 +49,11 @@ export function CustomerModal({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
+  // Invitation handoff state (shown once upon creation)
+  const [setupInvitation, setSetupInvitation] = useState<SetupInvitation | null>(null);
+  const [createdCustomerId, setCreatedCustomerId] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
     if (initialData) {
       setCompanyName(initialData.companyName || "");
@@ -70,6 +76,9 @@ export function CustomerModal({
     }
     setErrorMsg(null);
     setFieldErrors({});
+    setSetupInvitation(null);
+    setCreatedCustomerId(null);
+    setCopied(false);
   }, [initialData, isOpen]);
 
   const handleStateChange = (stateName: string) => {
@@ -77,6 +86,24 @@ export function CustomerModal({
     const found = INDIAN_GST_STATES.find((s) => s.name === stateName);
     if (found) {
       setGstStateCode(found.code);
+    }
+  };
+
+  const handleCopyLink = () => {
+    if (!setupInvitation) return;
+    const fullUrl = `${window.location.origin}${setupInvitation.setupUrl}`;
+    navigator.clipboard.writeText(fullUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
+  };
+
+  const handleFinishInvitation = () => {
+    const id = createdCustomerId;
+    setSetupInvitation(null);
+    setCreatedCustomerId(null);
+    onClose();
+    if (onSuccess && id) {
+      onSuccess(id);
     }
   };
 
@@ -98,14 +125,21 @@ export function CustomerModal({
     };
 
     try {
-      const res = isEdit && initialData?.id
-        ? await updateCustomerAction(initialData.id, payload)
-        : await createCustomerAction(payload);
+      const res =
+        isEdit && initialData?.id
+          ? await updateCustomerAction(initialData.id, payload)
+          : await createCustomerAction(payload);
 
       if (res.success) {
-        onClose();
-        if (onSuccess) {
-          onSuccess(res.customerId);
+        if (res.setupInvitation) {
+          // Show invitation link handoff to creator
+          setSetupInvitation(res.setupInvitation);
+          setCreatedCustomerId(res.customerId || null);
+        } else {
+          onClose();
+          if (onSuccess) {
+            onSuccess(res.customerId);
+          }
         }
       } else {
         setErrorMsg(res.error || "Operation failed.");
@@ -113,7 +147,7 @@ export function CustomerModal({
           setFieldErrors(res.fieldErrors);
         }
       }
-    } catch (err: unknown) {
+    } catch {
       setErrorMsg("An unexpected system error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -122,6 +156,92 @@ export function CustomerModal({
 
   const isIntra = gstStateCode === COMPANY_GST_STATE_CODE;
 
+  // View: Invitation Handoff (after creation)
+  if (setupInvitation) {
+    const fullUrl = typeof window !== "undefined" ? `${window.location.origin}${setupInvitation.setupUrl}` : setupInvitation.setupUrl;
+
+    return (
+      <Modal
+        isOpen={isOpen}
+        onClose={handleFinishInvitation}
+        title="Customer Created — Setup Invitation Ready"
+        size="lg"
+        footer={
+          <div className="flex items-center justify-end gap-3 w-full">
+            <button
+              type="button"
+              onClick={handleFinishInvitation}
+              className="px-5 py-2 rounded-lg bg-primary text-white text-body-md font-semibold hover:bg-primary-container transition"
+            >
+              Done & View Customer
+            </button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-start gap-3">
+            <span className="material-symbols-outlined text-emerald-600 text-[24px] shrink-0 mt-0.5">
+              check_circle
+            </span>
+            <div>
+              <div className="font-semibold text-body-md">
+                Customer Account Created Successfully
+              </div>
+              <p className="text-body-sm text-emerald-800 mt-0.5">
+                Account registered for <strong>{setupInvitation.customerName}</strong> ({setupInvitation.customerEmail}). No default shared password was assigned.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-body-sm font-semibold text-slate-700">
+              Account Activation Setup Link
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                readOnly
+                value={fullUrl}
+                className="w-full px-3 py-2 bg-slate-50 border border-[#CBD5E1] rounded-lg text-body-sm font-mono text-slate-700 select-all outline-none"
+              />
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className={`shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-body-sm font-semibold transition ${
+                  copied
+                    ? "bg-emerald-600 text-white"
+                    : "bg-primary text-white hover:bg-primary-container"
+                }`}
+              >
+                <span className="material-symbols-outlined text-[18px]">
+                  {copied ? "done" : "content_copy"}
+                </span>
+                <span>{copied ? "Copied" : "Copy"}</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-body-sm space-y-1">
+            <div className="flex items-center gap-1.5 font-semibold text-amber-950">
+              <span className="material-symbols-outlined text-[18px] text-amber-700">
+                mail
+              </span>
+              <span>Invitation Handoff Required</span>
+            </div>
+            <p className="text-body-sm text-amber-900">
+              Automated email delivery is not configured. Please securely deliver this setup link to <strong>{setupInvitation.customerEmail}</strong> to allow them to configure their initial password.
+            </p>
+            <p className="text-xs text-amber-800 mt-1">
+              • Valid for <strong>24 hours</strong>. Single-use only.<br />
+              • The raw token is not stored in the database and cannot be retrieved again after closing this window.
+            </p>
+          </div>
+        </div>
+      </Modal>
+    );
+  }
+
+  // View: Create / Edit Form
   return (
     <Modal
       isOpen={isOpen}

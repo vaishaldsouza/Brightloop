@@ -26,7 +26,7 @@ export default function SignupPage() {
   const passwordChecks = useMemo(() => {
     const pwd = formData.password;
     return {
-      length: pwd.length >= 8,
+      length: pwd.length > 8,
       upper: /[A-Z]/.test(pwd),
       lower: /[a-z]/.test(pwd),
       special: /[!@#$%^&*(),.?":{}|<>]/.test(pwd),
@@ -333,7 +333,7 @@ export default function SignupPage() {
                         <span className="material-symbols-outlined text-[16px]">
                           {passwordChecks.length ? "check_circle" : "radio_button_unchecked"}
                         </span>
-                        <span className="text-label-sm">8 or more characters</span>
+                        <span className="text-label-sm">More than 8 characters (9+)</span>
                       </div>
                       <div className={`flex items-center gap-1.5 ${passwordChecks.upper ? "text-tertiary" : "text-outline"}`}>
                         <span className="material-symbols-outlined text-[16px]">

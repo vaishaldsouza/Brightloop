@@ -18,7 +18,7 @@ function ResetPasswordForm() {
 
   const passwordChecks = useMemo(() => {
     return {
-      length: password.length >= 8,
+      length: password.length > 8,
       upper: /[A-Z]/.test(password),
       lower: /[a-z]/.test(password),
       special: /[!@#$%^&*(),.?":{}|<>]/.test(password),
@@ -136,7 +136,7 @@ function ResetPasswordForm() {
                   <span className="material-symbols-outlined text-[16px]">
                     {passwordChecks.length ? "check_circle" : "radio_button_unchecked"}
                   </span>
-                  <span className="text-label-sm">8+ characters</span>
+                  <span className="text-label-sm">More than 8 characters (9+)</span>
                 </div>
                 <div className={`flex items-center gap-1.5 ${passwordChecks.upper ? "text-tertiary" : "text-outline"}`}>
                   <span className="material-symbols-outlined text-[16px]">

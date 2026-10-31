@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { forgotPasswordSchema } from "@/lib/validations/auth";
+import { generateSecureToken, hashToken } from "@/lib/tokens";
 
 export async function POST(req: Request) {
   try {
@@ -24,23 +24,22 @@ export async function POST(req: Request) {
       });
     }
 
-    const token = crypto.randomBytes(32).toString("hex");
+    const rawToken = generateSecureToken();
+    const hashedToken = hashToken(rawToken);
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
+    // Store only the SHA-256 hash in database; raw token is never persisted
     await prisma.passwordResetToken.create({
       data: {
         userId: user.id,
-        token,
+        token: hashedToken,
         expiresAt,
       },
     });
 
-    // In local development, we return the reset link or log it
-    console.log(`[RESET LINK] http://localhost:3000/reset-password?token=${token}`);
-
     return NextResponse.json({
       message: "If an account exists, a password reset link has been dispatched.",
-      resetUrl: process.env.NODE_ENV === "development" ? `/reset-password?token=${token}` : undefined,
+      resetUrl: process.env.NODE_ENV === "development" ? `/reset-password?token=${rawToken}` : undefined,
     });
   } catch (error) {
     console.error("Forgot password error:", error);

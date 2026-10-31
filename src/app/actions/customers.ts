@@ -5,16 +5,23 @@ import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { Role } from "@prisma/client";
 import { customerSchema, CustomerFormValues } from "@/lib/validations/customer";
+import { generateSecureToken, hashToken } from "@/lib/tokens";
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import { revalidatePath } from "next/cache";
+
+export interface SetupInvitation {
+  setupUrl: string;
+  expiresAt: string;
+  customerEmail: string;
+  customerName: string;
+}
 
 export interface ActionResult {
   success: boolean;
   error?: string;
   fieldErrors?: Record<string, string>;
   customerId?: string;
-  onboardingToken?: string;
+  setupInvitation?: SetupInvitation;
 }
 
 export async function createCustomerAction(
@@ -82,25 +89,31 @@ export async function createCustomerAction(
   }
 
   try {
-    const defaultPasswordHash = await bcrypt.hash("Customer@123", 12);
-    const onboardingToken = crypto.randomBytes(32).toString("hex");
-    const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours valid for initial setup
+    // Generate an unguessable unique random secret for the account (bcrypt 12 rounds)
+    // No two accounts ever share the same initial password; the secret is never saved in plaintext
+    const initialSecret = generateSecureToken();
+    const initialPasswordHash = await bcrypt.hash(initialSecret, 12);
+
+    // Cryptographically secure, single-use account setup token (raw token is never saved in database)
+    const rawSetupToken = generateSecureToken();
+    const hashedSetupToken = hashToken(rawSetupToken);
+    const tokenExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours validity
 
     const newCustomer = await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
         data: {
           name: contactName,
           email,
-          password: defaultPasswordHash,
+          password: initialPasswordHash,
           role: Role.CUSTOMER,
         },
       });
 
-      // Generate initial onboarding password-reset token for immediate account setup
+      // Store only the SHA-256 cryptographic hash of the setup token
       await tx.passwordResetToken.create({
         data: {
           userId: user.id,
-          token: onboardingToken,
+          token: hashedSetupToken,
           expiresAt: tokenExpiry,
         },
       });
@@ -126,7 +139,12 @@ export async function createCustomerAction(
     return {
       success: true,
       customerId: newCustomer.id,
-      onboardingToken,
+      setupInvitation: {
+        setupUrl: `/reset-password?token=${rawSetupToken}`,
+        expiresAt: tokenExpiry.toISOString(),
+        customerEmail: email,
+        customerName: contactName,
+      },
     };
   } catch (err: unknown) {
     console.error("Error creating customer:", err);
